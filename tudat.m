@@ -21,12 +21,12 @@ classdef tudat
         end
         
         function path = bin(path)
-            if exist(tudat.fileContainingBinPath,'file') ~= 2
-                error(['Could not find Tudat binary.\n'...
-                    'Call tudat.locate(''binaryPath'') from the Command Window before running simulations.\n'...
-                    'You will NOT need to do this again the next time you launch MATLAB.'],'');
-            end
             if nargin == 0  % get bin path
+                if exist(tudat.fileContainingBinPath,'file') ~= 2
+                    error(['Could not find Tudat binary.\n'...
+                        'Call tudat.locate(''binaryPath'') from the Command Window before running simulations.\n'...
+                        'You will NOT need to do this again the next time you launch MATLAB.'],'');
+                end
                 path = fileread(tudat.fileContainingBinPath);
             end
             if exist(path,'file') ~= 2
