@@ -1,0 +1,9 @@
+function [epoch,semiMajorAxis,eccentricity,inclination,argumentOfPeriapsis,longitudeOfAscendingNode,trueAnomaly] = epochKeplerianElements(statesHistory)
+epoch = statesHistory(:,1);
+keplerian = convert.cartesianToKeplerian(statesHistory(:,2:7));
+semiMajorAxis = keplerian(:,1);
+eccentricity = keplerian(:,2);
+inclination = keplerian(:,3);
+argumentOfPeriapsis = keplerian(:,4);
+longitudeOfAscendingNode = keplerian(:,5);
+trueAnomaly = keplerian(:,6);

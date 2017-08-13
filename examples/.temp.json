@@ -1,0 +1,113 @@
+{
+  "startEpoch": 0,
+  "endEpoch": 1.2096E+6,
+  "globalFrameOrigin": "SSB",
+  "globalFrameOrientation": "ECLIPJ2000",
+  "spice": {
+    "kernels": [
+      "${SPICE_KERNELS_PATH}\/pck00009.tpc",
+      "${SPICE_KERNELS_PATH}\/de-403-masses.tpc",
+      "${SPICE_KERNELS_PATH}\/de421.bsp"
+    ],
+    "preloadKernels": false
+  },
+  "bodies": {
+    "Sun": {
+      "useDefaultSettings": true
+    },
+    "Earth": {
+      "useDefaultSettings": true
+    },
+    "Moon": {
+      "useDefaultSettings": true
+    },
+    "Vehicle": {
+      "mass": 5000
+    }
+  },
+  "propagation": {
+    "integratedStateType": "hybrid",
+    "propagators": [
+      {
+        "integratedStateType": "translational",
+        "initialStates": [
+          8.0E+6,
+          0,
+          0,
+          7500,
+          0,
+          0
+        ],
+        "centralBodies": [
+          "Earth"
+        ],
+        "bodiesToPropagate": [
+          "Vehicle"
+        ],
+        "accelerations": {
+          "Vehicle": {
+            "Earth": [
+              {
+                "type": "pointMassGravity"
+              }
+            ],
+            "Sun": [
+              {
+                "type": "pointMassGravity"
+              }
+            ],
+            "Moon": [
+              {
+                "type": "pointMassGravity"
+              }
+            ],
+            "Vehicle": [
+              {
+                "type": "thrust",
+                "direction": {
+                  "type": "colinearWithStateSegment",
+                  "relativeBody": "Earth",
+                  "colinearWithVelocity": true,
+                  "towardsRelativeBody": false
+                },
+                "magnitude": {
+                  "type": "constant",
+                  "constantMagnitude": 25,
+                  "specificImpulse": 5000
+                }
+              }
+            ]
+          }
+        }
+      },
+      {
+        "integratedStateType": "mass",
+        "initialStates": 5000,
+        "bodiesToPropagate": [
+          "Earth"
+        ],
+        "massRates": [
+          ""
+        ]
+      }
+    ]
+  },
+  "integrator": {
+    "type": "rungeKutta4",
+    "stepSize": 30
+  },
+  "export": [
+    {
+      "variables": [
+        {
+          "type": "state"
+        }
+      ],
+      "epochsInFirstColumn": true,
+      "file": ".numericalSolution.txt"
+    }
+  ],
+  "options": {
+    "populatedFile": ".temp.populated.json"
+  }
+}
