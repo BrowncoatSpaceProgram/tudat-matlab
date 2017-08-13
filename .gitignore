@@ -7,3 +7,13 @@
 *.autosave
 *.~?~
 *.save
+
+#
+# JSON files in examples directory
+#
+examples/*.json
+
+#
+# File containing user's Tudat binary path
+#
+.tudatbinpath
