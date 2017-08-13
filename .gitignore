@@ -1,0 +1,10 @@
+#
+# Editor related
+#
+*~
+*#
+.#*
+*.autosave
+*.~?~
+*.save
+examples/

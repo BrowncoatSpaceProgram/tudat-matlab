@@ -5,15 +5,15 @@ classdef tudat
     
     methods(Static)
         function load()
-            tudatSourceDir = fullfile(fileparts(mfilename('fullpath')),'tudat-matlab/src');
-            addpath(tudatSourceDir);
-            addpath(fullfile(tudatSourceDir,'Acceleration'));
-            addpath(fullfile(tudatSourceDir,'Body'));
-            addpath(fullfile(tudatSourceDir,'Integrator'));
-            addpath(fullfile(tudatSourceDir,'Spice'));
-            addpath(fullfile(tudatSourceDir,'Propagator'));
-            addpath(fullfile(tudatSourceDir,'Result'));
-            addpath(fullfile(tudatSourceDir,'Variable'));
+            sourceDir = fullfile(fileparts(mfilename('fullpath')),'src');
+            addpath(sourceDir);
+            addpath(fullfile(sourceDir,'Acceleration'));
+            addpath(fullfile(sourceDir,'Body'));
+            addpath(fullfile(sourceDir,'Integrator'));
+            addpath(fullfile(sourceDir,'Spice'));
+            addpath(fullfile(sourceDir,'Propagator'));
+            addpath(fullfile(sourceDir,'Result'));
+            addpath(fullfile(sourceDir,'Variable'));
         end
         
         function locate(binPath)
