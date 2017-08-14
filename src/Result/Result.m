@@ -1,4 +1,4 @@
-classdef Result
+classdef Result < handle
     properties
         variables
         epochsInFirstColumn = false

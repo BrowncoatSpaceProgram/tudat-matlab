@@ -1,13 +1,11 @@
-classdef Propagator
+classdef Propagator < handle
     properties
         integratedStateType
+        bodiesToPropagate
         initialStates
         termination
         computeVariables
         printInterval
-    end
-    properties (Dependent)
-        initialState
     end
     
     methods
@@ -15,22 +13,14 @@ classdef Propagator
             obj.integratedStateType = integratedStateType;
         end
         
-        function obj = set.integratedStateType(obj,value)
+        function set.integratedStateType(obj,value)
             if ~isa(value,'IntegratedStates')
                 value = IntegratedStates(value);
             end
             obj.integratedStateType = char(value);
         end
         
-        function value = get.initialState(obj)
-            value = obj.initialStates;
-        end
-        
-        function obj = set.initialState(obj,value)
-            obj.initialStates = value;
-        end
-        
-        function obj = set.computeVariables(obj,variables)
+        function set.computeVariables(obj,variables)
             obj.computeVariables = {};
             if ~iscell(variables)
                 variables = { variables };
@@ -43,12 +33,13 @@ classdef Propagator
         function s = struct(obj)
             s = [];
             s = json.update(s,obj,'integratedStateType');
+            s = json.update(s,obj,'bodiesToPropagate',obj.integratedStateType ~= IntegratedStates.hybrid);
             s = json.update(s,obj,'initialStates',false);
             s = json.update(s,obj,'termination',false);
             s = json.update(s,obj,'computeVariables',false);
             s = json.update(s,obj,'printInterval',false);
         end
-
+        
     end
     
 end

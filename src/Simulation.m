@@ -61,7 +61,14 @@ classdef Simulation < handle
             end
             for i = 1:N/2
                 [file,result] = getIDresult(i,varargin);
-                obj.export{end+1} = Export(file,result);
+                J = length(obj.export) + 1;
+                for j = i:length(obj.export)
+                    if strcmp(obj.export{j}.file,file)
+                        J = j;
+                        break;
+                    end
+                end
+                obj.export{J} = Export(file,result);
             end
         end
         
@@ -72,8 +79,15 @@ classdef Simulation < handle
             end
             for i = 1:N/2
                 [name,result] = getIDresult(i,varargin);
-                obj.import{end+1} = Import(name,result);
-                obj.export{end+1} = Export(['.' name '.txt'],result);
+                J = length(obj.import) + 1;
+                for j = i:length(obj.import)
+                    if strcmp(obj.import{j}.name,name)
+                        J = j;
+                        break;
+                    end
+                end
+                obj.import{J} = Import(name,result);
+                obj.addResultsToExport(['.' name '.txt'],result);
             end
         end
         

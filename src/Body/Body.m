@@ -1,4 +1,4 @@
-classdef Body
+classdef Body < handle
     properties
         name
         useDefaultSettings
@@ -22,7 +22,7 @@ classdef Body
             value = obj.aerodynamics.dragCoefficient;
         end
         
-        function obj = set.dragCoefficient(obj,value)
+        function set.dragCoefficient(obj,value)
             obj.aerodynamics.dragCoefficient = value;
         end
         
@@ -30,7 +30,7 @@ classdef Body
             value = obj.radiationPressure.Sun.radiationPressureCoefficient;
         end
         
-        function obj = set.radiationPressureCoefficient(obj,value)
+        function set.radiationPressureCoefficient(obj,value)
             obj.radiationPressure.Sun.radiationPressureCoefficient = value;
         end
         

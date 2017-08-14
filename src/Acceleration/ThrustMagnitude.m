@@ -1,4 +1,4 @@
-classdef ThrustMagnitude
+classdef ThrustMagnitude < handle
     properties
         type
         originID
@@ -9,7 +9,7 @@ classdef ThrustMagnitude
             obj.type = type;
         end
         
-        function obj = set.type(obj,value)
+        function set.type(obj,value)
             if ~isa(value,'ThrustMagnitudes')
                 value = ThrustMagnitudes(value);
             end

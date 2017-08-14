@@ -20,7 +20,7 @@ classdef VariableStepSizeIntegrator < Integrator
             obj.rungeKuttaCoefficientSet = rungeKuttaCoefficientSet;
         end
         
-        function obj = set.rungeKuttaCoefficientSet(obj,value)
+        function set.rungeKuttaCoefficientSet(obj,value)
             if ~isa(value,'RungeKuttaCoefficientSets')
                 value = RungeKuttaCoefficientSets(value);
             end
@@ -31,7 +31,7 @@ classdef VariableStepSizeIntegrator < Integrator
             value = obj.stepSize;
         end
         
-        function obj = set.initialStepSize(obj,value)
+        function set.initialStepSize(obj,value)
             obj.stepSize = value;
         end
         
@@ -43,7 +43,7 @@ classdef VariableStepSizeIntegrator < Integrator
             end
         end
         
-        function obj = set.errorTolerance(obj,value)
+        function set.errorTolerance(obj,value)
             obj.relativeErrorTolerance = value;
             obj.absoluteErrorTolerance = value;
         end

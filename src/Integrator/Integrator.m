@@ -1,4 +1,4 @@
-classdef Integrator
+classdef Integrator < handle
     properties
         type
         stepSize
@@ -17,7 +17,7 @@ classdef Integrator
             end
         end
         
-        function obj = set.type(obj,value)
+        function set.type(obj,value)
             if ~isa(value,'Integrators')
                 value = Integrators(value);
             end

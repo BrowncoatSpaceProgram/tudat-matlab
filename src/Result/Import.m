@@ -1,4 +1,4 @@
-classdef Import
+classdef Import < handle
     properties
         result
         name

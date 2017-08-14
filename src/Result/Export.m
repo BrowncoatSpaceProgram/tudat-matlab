@@ -1,4 +1,4 @@
-classdef Export
+classdef Export < handle
     properties
         result
         file

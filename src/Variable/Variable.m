@@ -1,4 +1,4 @@
-classdef Variable
+classdef Variable < handle
     properties
         type
         body
@@ -46,25 +46,32 @@ classdef Variable
             end
         end
         
-        function obj = set.type(obj,value)
+        function set.type(obj,value)
             if ~isa(value,'Variables')
                 value = Variables(value);
             end
             obj.type = char(value);
         end
         
-        function obj = set.dependentVariableType(obj,value)
+        function set.dependentVariableType(obj,value)
             if ~isa(value,'DependentVariables')
                 value = DependentVariables(value);
             end
             obj.dependentVariableType = char(value);
         end
         
-        function obj = set.accelerationType(obj,value)
+        function set.accelerationType(obj,value)
             if ~isa(value,'Accelerations')
                 value = Accelerations(value);
             end
             obj.accelerationType = char(value);
+        end
+        
+        function set.torqueType(obj,value)
+            if ~isa(value,'Torques')
+                value = Torques(value);
+            end
+            obj.torqueType = char(value);
         end
         
         function s = struct(obj)

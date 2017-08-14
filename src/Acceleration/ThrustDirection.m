@@ -1,4 +1,4 @@
-classdef ThrustDirection
+classdef ThrustDirection < handle
     properties
         type
         relativeBody
@@ -11,7 +11,7 @@ classdef ThrustDirection
             obj.type = type;
         end
         
-        function obj = set.type(obj,value)
+        function set.type(obj,value)
             if ~isa(value,'ThrustDirections')
                 value = ThrustDirections(value);
             end

@@ -1,4 +1,4 @@
-classdef Spice
+classdef Spice < handle
     properties
         kernels
         preloadKernels

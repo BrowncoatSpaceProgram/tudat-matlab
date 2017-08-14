@@ -10,9 +10,11 @@ classdef tudat
             addpath(fullfile(sourceDir,'Acceleration'));
             addpath(fullfile(sourceDir,'Body'));
             addpath(fullfile(sourceDir,'Integrator'));
-            addpath(fullfile(sourceDir,'Spice'));
+            addpath(fullfile(sourceDir,'MassRateModel'));
             addpath(fullfile(sourceDir,'Propagator'));
             addpath(fullfile(sourceDir,'Result'));
+            addpath(fullfile(sourceDir,'Spice'));
+            addpath(fullfile(sourceDir,'Torque'));
             addpath(fullfile(sourceDir,'Variable'));
         end
         
