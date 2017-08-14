@@ -1,15 +1,15 @@
 # tudat-matlab
 MATLAB interface for Tudat
 
-### Installation
+## Installation
 
 1. Clone or download [tudatBundle-json](http://github.com/aleixpinardell/tudatBundle/tree/json) (see [how to to this](http://tudat.tudelft.nl/installation/)).
 2. Compile the target `tudat` with QT Creator.
 3. Clone or download this repository.
 4. Run the MATLAB script `quickinstall.m`.
-5. You will be prompted to provide the path to the `tudat` binary generated in step 2. You can skip this step by typing `ctrl + C` if you are planning to use tudat-matlab only to generate input files (and then run `tudat` from the command line, from QT Creator or on the server). You can specify `tudat` binary path later by calling `tudat.locate('binaryPath')` from MATLAB's Command Window.
+5. You will be prompted to provide the path to the `tudat` binary generated in step 2. You can skip this step by typing `ctrl + C` if you are planning to use tudat-matlab only in IO mode (see [Usage modes](#usage-modes)). You can specify `tudat` binary path later by calling `tudat.locate('binaryPath')` from MATLAB's Command Window.
 
-### Usage
+## Usage
 
 In this section, the steps to simulate the unperturbed motion of a satellite about the Earth will be described.
 
@@ -64,6 +64,10 @@ simulation.integrator = Integrator(Integrators.rungeKutta4,20);
 In this case we use a Runge-Kutta 4 integrator with a fixed step-size of 20 seconds.
 
 Now, the simulation is set up and you can proceed in two different ways.
+
+
+### Usage modes
+
 * **SL mode** (seamless mode). You use tudat-matlab to set up simulations that will be run directly from your MATLAB script. Temporary input and output files will be genereated and deleted by tudat-matlab in the background. When the simulation completes, you will be able to access the results directly in the property `results` of your `Simulation` object. You can use this data to generate plots and eventually consolidate (parts of) it in a text file.
 * **IO mode** (input-output mode). You use tudat-matlab to set up simulations and to generate JSON input files that will then be provided to the `tudat` binary. Then, the generated output files can be opened with your favorite text editor and/or loaded into MATLAB for post-processing and plotting.
 
