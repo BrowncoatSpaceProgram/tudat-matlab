@@ -21,16 +21,16 @@ simulation.addBodies('Sun','Earth','Moon','Mars','Venus',asterix);
 % Accelerations
 accelerationsOfAsterix.Earth = { SphericalHarmonicGravity(5,5), AerodynamicAcceleration() };
 accelerationsOfAsterix.Sun = { PointMassGravity(), RadiationPressureAcceleration() };
-accelerationsOfAsterix.Moon = { PointMassGravity() };
-accelerationsOfAsterix.Mars = { PointMassGravity() };
-accelerationsOfAsterix.Venus = { PointMassGravity() };
+accelerationsOfAsterix.Moon = PointMassGravity();
+accelerationsOfAsterix.Mars = PointMassGravity();
+accelerationsOfAsterix.Venus = PointMassGravity();
 
 % Propagator
 propagator = TranslationalPropagator();
 initialKeplerianState = [7500.0E3 0.1 deg2rad(85.3) deg2rad(235.7) deg2rad(23.4) deg2rad(139.87)];
-propagator.initialState = convert.keplerianToCartesian(initialKeplerianState);
-propagator.centralBody = 'Earth';
-propagator.bodyToPropagate = 'Asterix';
+propagator.initialStates = convert.keplerianToCartesian(initialKeplerianState);
+propagator.centralBodies = 'Earth';
+propagator.bodiesToPropagate = 'Asterix';
 propagator.accelerations.Asterix = accelerationsOfAsterix;
 simulation.propagation = propagator;
 

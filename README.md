@@ -42,18 +42,18 @@ Then, you will create the settings for the propagation. We are going to propagat
 ```
 propagator = TranslationalPropagator();
 initialKeplerianState = [7500.0E3 0.1 deg2rad(85.3) deg2rad(235.7) deg2rad(23.4) deg2rad(139.87)];
-propagator.initialState = convert.keplerianToCartesian(initialKeplerianState);
-propagator.centralBody = 'Earth';
-propagator.bodyToPropagate = 'Satellite';
+propagator.initialStates = convert.keplerianToCartesian(initialKeplerianState);
+propagator.centralBodies = 'Earth';
+propagator.bodiesToPropagate = 'Satellite';
 ```
 
 Note that we always refer to bodies by their names (i.e. we do not provide the `Body` object `satelliteBody` to `propagator.bodyToPropagate`). The only exception is when calling the method `addBodies` of a `Simulation` object.
 
 Also note the usage of tudat-matlab's `convert` package, which includes a few useful function for conversion of units and orbital elements.
 
-Now we need to specify the accelerations acting on 'Satellite'. The only accelerations acting on satellite are those caused by 'Earth', so we need to specify the property `propagator.accelerations.Asterix.Earth`. We assign a list (i.e. a cell array) of `Acceleration` objects. In the case of an unperturbed satellite, the only acceleration it the point-mass gravity of the central body. Since `PointMassGravity` is a derived class of `Acceleration`, we can write:
+Now we need to specify the accelerations acting on 'Satellite'. The only accelerations acting on satellite are those caused by 'Earth', so we need to specify the property `propagator.accelerations.Asterix.Earth`. In the case of an unperturbed satellite, the only acceleration is the point-mass gravity of the central body. Since `PointMassGravity` is a derived class of `Acceleration`, we can write:
 ```
-propagator.accelerations.Asterix.Earth = { PointMassGravity() };
+propagator.accelerations.Asterix.Earth = PointMassGravity();
 ```
 
 Finally, we add the `propagator` to the `simulation` object and define an integrator:
@@ -125,6 +125,3 @@ r = results(:,2:4);
 plot(convert.epochToDate(t),r);
 ```
 Note the usage of the function `epochToDate` from tudat-matlab's `convert` package, which converts seconds from J2000 to a MATLAB `datetime`.
-
-
-

@@ -9,9 +9,10 @@
 *.save
 
 #
-# JSON files in examples directory
+# Input and output files in examples directory
 #
 examples/*.json
+examples/*.txt
 
 #
 # File containing user's Tudat binary path

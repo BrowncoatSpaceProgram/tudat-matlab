@@ -19,10 +19,10 @@ simulation.addBodies(earth,Body('Asterix'));
 % Propagator
 propagator = TranslationalPropagator();
 initialKeplerianState = [7500.0E3 0.1 deg2rad(85.3) deg2rad(235.7) deg2rad(23.4) deg2rad(139.87)];
-propagator.initialState = convert.keplerianToCartesian(initialKeplerianState);
-propagator.centralBody = 'Earth';
-propagator.bodyToPropagate = 'Asterix';
-propagator.accelerations.Asterix.Earth = { PointMassGravity() };
+propagator.initialStates = convert.keplerianToCartesian(initialKeplerianState);
+propagator.centralBodies = 'Earth';
+propagator.bodiesToPropagate = 'Asterix';
+propagator.accelerations.Asterix.Earth = PointMassGravity();
 simulation.propagation = propagator;
 
 % Integrator

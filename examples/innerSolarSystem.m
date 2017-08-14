@@ -17,7 +17,7 @@ simulation.addBodies(bodyNames{:});
 for i = 1:length(bodyNames)
     for j = 1:length(bodyNames)
         if i ~= j
-            accelerations.(bodyNames{j}).(bodyNames{i}) = { PointMassGravity() };
+            accelerations.(bodyNames{j}).(bodyNames{i}) = PointMassGravity();
         end
     end
 end
