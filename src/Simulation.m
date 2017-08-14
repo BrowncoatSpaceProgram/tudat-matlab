@@ -28,9 +28,9 @@ classdef Simulation < handle
     methods
         function obj = Simulation(startEpoch,endEpoch,globalFrameOrigin,globalFrameOrientation)
             obj.startEpoch = startEpoch;
-            if nargin > 2
+            if nargin >= 2
                 obj.endEpoch = endEpoch;
-                if nargin > 3
+                if nargin >= 3
                     obj.globalFrameOrigin = globalFrameOrigin;
                     if nargin >= 4
                         obj.globalFrameOrientation = globalFrameOrientation;
@@ -60,8 +60,8 @@ classdef Simulation < handle
                 error('You must provide an even number of arguments: file1, output1, file2, output2...');
             end
             for i = 1:N/2
-                [file,output] = getIDresult(i,varargin);
-                obj.export{end+1} = Export(file,output);
+                [file,result] = getIDresult(i,varargin);
+                obj.export{end+1} = Export(file,result);
             end
         end
         
@@ -71,9 +71,9 @@ classdef Simulation < handle
                 error('You must provide an even number of arguments: name1, output1, name2, output2...');
             end
             for i = 1:N/2
-                [name,output] = getIDresult(i,varargin);
-                obj.import{end+1} = Import(name,output);
-                obj.export{end+1} = Export(['.' name '.txt'],output);
+                [name,result] = getIDresult(i,varargin);
+                obj.import{end+1} = Import(name,result);
+                obj.export{end+1} = Export(['.' name '.txt'],result);
             end
         end
         
@@ -98,12 +98,12 @@ classdef Simulation < handle
             s = json.update(s,obj,'endEpoch');
             s = json.update(s,obj,'globalFrameOrigin');
             s = json.update(s,obj,'globalFrameOrientation');
-            s = json.update(s,obj,'spice',true);
+            s = json.update(s,obj,'spice',false);
             s = json.update(s,obj,'bodies');
             s = json.update(s,obj,'propagation');
             s = json.update(s,obj,'integrator');
-            s = json.update(s,obj,'export',true);
-            s = json.update(s,obj,'options',true);
+            s = json.update(s,obj,'export',false);
+            s = json.update(s,obj,'options',false);
         end
         
     end
