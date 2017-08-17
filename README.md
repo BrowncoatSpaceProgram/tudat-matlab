@@ -47,11 +47,11 @@ propagator.centralBodies = 'Earth';
 propagator.bodiesToPropagate = 'Satellite';
 ```
 
-Note that we always refer to bodies by their names (i.e. we do not provide the `Body` object `satelliteBody` to `propagator.bodyToPropagate`). The only exception is when calling the method `addBodies` of a `Simulation` object.
+Note that we always refer to bodies by their names (i.e. we do not provide the `Body` object `satelliteBody` to `propagator.bodiesToPropagate`). The only exception is when calling the method `addBodies` of a `Simulation` object, in which both body names and `Body` objects are accepted.
 
 Also note the usage of tudat-matlab's `convert` package, which includes a few useful function for conversion of units and orbital elements.
 
-Now we need to specify the accelerations acting on 'Satellite'. The only accelerations acting on satellite are those caused by 'Earth', so we need to specify the property `propagator.accelerations.Asterix.Earth`. In the case of an unperturbed satellite, the only acceleration is the point-mass gravity of the central body. Since `PointMassGravity` is a derived class of `Acceleration`, we can write:
+Now we need to specify the accelerations acting on 'Satellite'. The only accelerations acting on 'Satellite' are those caused by 'Earth', so we need to specify the property `propagator.accelerations.Asterix.Earth`. In the case of an unperturbed satellite, the only acceleration is the point-mass gravity of the central body:
 ```
 propagator.accelerations.Asterix.Earth = PointMassGravity();
 ```
@@ -81,14 +81,17 @@ After setting up your simulation by following the steps described in [Usage](#us
 simulation.run();
 ```
 
-Now, you are able to access the requested results from the `results` property of your simulation object. In addition to the requested results (in this case no results were requested), you are always able to access the property `results.numericalSolution`, which is a matrix in which each row corresponds to an integration step. The first column contains the value of the independent variable (the epoch in this case) and the other columns contain the state (the Cartesian component of 'Satellite'). You can decompose this matrix into epoch, position and velocity by writing:
+Now, you are able to access the requested results from the `results` property of your simulation object. In addition to the requested results (in this case no results were requested), you are always able to access the property `results.numericalSolution`, which is a matrix in which each row corresponds to an integration step. The first column contains the value of the independent variable (the epoch in this case) and the other columns contain the state (the Cartesian components of 'Satellite'). You can decompose this matrix into epoch, position and velocity by writing:
 ```
 [t,r,v] = compute.epochPositionVelocity(simulation.results.numericalSolution);
 ```
 
 Finally, you can run MATLAB command on your results as usual:
 ```
-plot(convert.epochToDate(t),r);
+plot(convert.epochToDate(t),r/13);
+legend('x','y','z','Location','South','Orientation','Horizontal');
+ylabel('Position [km]');
+grid on;
 ```
 
 
@@ -122,6 +125,9 @@ The files 'unperturbedSatellite-populated.json' and 'results.txt' will be genera
 results = load('results.txt');
 t = results(:,1);
 r = results(:,2:4);
-plot(convert.epochToDate(t),r);
+plot(convert.epochToDate(t),r/13);
+legend('x','y','z','Location','South','Orientation','Horizontal');
+ylabel('Position [km]');
+grid on;
 ```
-Note the usage of the function `epochToDate` from tudat-matlab's `convert` package, which converts seconds from J2000 to a MATLAB `datetime`.
+Note the use of the function `epochToDate` from tudat-matlab's `convert` package, which converts seconds from J2000 to a MATLAB `datetime`.
