@@ -1,15 +1,19 @@
 classdef Simulation < handle
     properties
         startEpoch
-        endEpoch = '2016-12-31 23:59:59'
-        globalFrameOrigin = 'SSB'
-        globalFrameOrientation = 'ECLIPJ2000'
+        endEpoch
+        globalFrameOrigin
+        globalFrameOrientation
         spice
         bodies
-        propagation
+        propagator
+        termination
         integrator
         export
         options
+    end
+    properties (Dependent)
+        propagators
     end
     properties (Access = protected)
         import
@@ -27,13 +31,15 @@ classdef Simulation < handle
     
     methods
         function obj = Simulation(startEpoch,endEpoch,globalFrameOrigin,globalFrameOrientation)
-            obj.startEpoch = startEpoch;
-            if nargin >= 2
-                obj.endEpoch = endEpoch;
-                if nargin >= 3
-                    obj.globalFrameOrigin = globalFrameOrigin;
-                    if nargin >= 4
-                        obj.globalFrameOrientation = globalFrameOrientation;
+            if nargin >= 1
+                obj.startEpoch = startEpoch;
+                if nargin >= 2
+                    obj.endEpoch = endEpoch;
+                    if nargin >= 3
+                        obj.globalFrameOrigin = globalFrameOrigin;
+                        if nargin >= 4
+                            obj.globalFrameOrientation = globalFrameOrientation;
+                        end
                     end
                 end
             end
@@ -52,6 +58,14 @@ classdef Simulation < handle
                     error('Could not add body to simulation.');
                 end
             end
+        end
+        
+        function set.propagators(obj,value)
+            obj.propagator = value;
+        end
+        
+        function value = get.propagators(obj)
+            value = obj.propagator;
         end
         
         function obj = addResultsToExport(obj,varargin)
@@ -96,7 +110,9 @@ classdef Simulation < handle
             result.epochsInFirstColumn = true;
             obj.addResultsToImport('numericalSolution',result);
             mainInputFile = Simulation.defaultInputFileName;
-            obj.options.populatedFile = Simulation.defaultPopulatedInputFileName;
+            if isempty(obj.options) || ( ~isempty(obj.options) && isempty(obj.options.populatedFile) )
+                obj.options.populatedFile = Simulation.defaultPopulatedInputFileName;
+            end
             json.export(obj,mainInputFile);
             if system([tudat.bin ' ' mainInputFile],'-echo') == 0
                 obj.loadAuxiliaryFiles();
@@ -108,13 +124,14 @@ classdef Simulation < handle
         
         function s = struct(obj)
             s = [];
-            s = json.update(s,obj,'startEpoch');
-            s = json.update(s,obj,'endEpoch');
-            s = json.update(s,obj,'globalFrameOrigin');
-            s = json.update(s,obj,'globalFrameOrientation');
+            s = json.update(s,obj,'startEpoch',false);
+            s = json.update(s,obj,'endEpoch',false);
+            s = json.update(s,obj,'globalFrameOrigin',false);
+            s = json.update(s,obj,'globalFrameOrientation',false);
             s = json.update(s,obj,'spice',false);
             s = json.update(s,obj,'bodies');
-            s = json.update(s,obj,'propagation');
+            s = json.update(s,obj,'propagator');
+            s = json.update(s,obj,'termination',false);
             s = json.update(s,obj,'integrator');
             s = json.update(s,obj,'export',false);
             s = json.update(s,obj,'options',false);
@@ -124,7 +141,7 @@ classdef Simulation < handle
     
     methods (Access = protected)
         function obj = loadAuxiliaryFiles(obj)
-            obj.populatedjson = fileread(Simulation.defaultPopulatedInputFileName);
+            obj.populatedjson = fileread(obj.options.populatedFile);
             % obj.numericalSolution = fileread(Simulation.defaultNumericalSolutionFileName);
             for i = 1:length(obj.import)
                 importSettings = obj.import{i};
@@ -136,7 +153,9 @@ classdef Simulation < handle
         
         function obj = deleteAuxiliaryFiles(obj)
             delete(Simulation.defaultInputFileName);
-            delete(Simulation.defaultPopulatedInputFileName);
+            if exist(Simulation.defaultPopulatedInputFileName,'file') == 2
+                delete(Simulation.defaultPopulatedInputFileName);
+            end
             % delete(Simulation.defaultNumericalSolutionFileName);
             for i = 1:length(obj.import)
                 delete(['.' obj.import{i}.name '.txt']);

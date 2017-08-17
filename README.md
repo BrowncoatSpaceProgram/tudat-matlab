@@ -58,7 +58,7 @@ propagator.accelerations.Asterix.Earth = PointMassGravity();
 
 Finally, we add the `propagator` to the `simulation` object and define an integrator:
 ```
-simulation.propagation = propagator;
+simulation.propagator = propagator;
 simulation.integrator = Integrator(Integrators.rungeKutta4,20);
 ```
 In this case we use a Runge-Kutta 4 integrator with a fixed step-size of 20 seconds.

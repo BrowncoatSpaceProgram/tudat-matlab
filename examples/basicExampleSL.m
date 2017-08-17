@@ -10,7 +10,7 @@ propagator.initialStates = convert.keplerianToCartesian(initialKeplerianState);
 propagator.centralBodies = 'Earth';
 propagator.bodiesToPropagate = 'Satellite';
 propagator.accelerations.Satellite.Earth = PointMassGravity();
-simulation.propagation = propagator;
+simulation.propagator = propagator;
 simulation.integrator = Integrator(Integrators.rungeKutta4,20);
 simulation.run();
 [t,r,v] = compute.epochPositionVelocity(simulation.results.numericalSolution);

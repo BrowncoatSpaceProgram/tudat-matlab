@@ -6,7 +6,7 @@ tudat.load();
 
 %% SET UP
 
-simulation = Simulation(0,constants.secondsInOne.julianDay,'SSB','ECLIPJ2000');
+simulation = Simulation(0,constants.secondsInOne.julianDay);
 simulation.spice = Spice('pck00009.tpc','de-403-masses.tpc','de421.bsp');
 
 % Bodies
@@ -23,7 +23,7 @@ propagator.initialStates = convert.keplerianToCartesian(initialKeplerianState);
 propagator.centralBodies = 'Earth';
 propagator.bodiesToPropagate = 'Asterix';
 propagator.accelerations.Asterix.Earth = PointMassGravity();
-simulation.propagation = propagator;
+simulation.propagator = propagator;
 
 % Integrator
 simulation.integrator = Integrator(Integrators.rungeKutta4,10);

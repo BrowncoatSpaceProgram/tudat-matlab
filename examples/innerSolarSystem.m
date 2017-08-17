@@ -6,7 +6,7 @@ tudat.load();
 
 %% SET UP
 
-simulation = Simulation(1e7,1e7+convert.toSI(2,'y'),'SSB','ECLIPJ2000');
+simulation = Simulation(1e7,1e7+convert.toSI(2,'y'));
 simulation.spice = Spice('pck00009.tpc','de-403-masses.tpc','de421.bsp','naif0009.tls');
 
 % Bodies
@@ -27,7 +27,7 @@ propagator = TranslationalPropagator();
 propagator.centralBodies = repmat({'SSB'},size(bodyNames));
 propagator.bodiesToPropagate = bodyNames;
 propagator.accelerations = accelerations;
-simulation.propagation = propagator;
+simulation.propagator = propagator;
 
 % Integrator
 simulation.integrator = Integrator(Integrators.rungeKutta4,'1 h');

@@ -1,6 +1,5 @@
 classdef IntegratedStates
     enumeration
-        hybrid
         translational
         rotational
         mass

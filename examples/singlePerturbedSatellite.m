@@ -10,13 +10,13 @@ simulation = Simulation(0,constants.secondsInOne.julianDay,'SSB','J2000');
 simulation.spice = Spice('pck00009.tpc','de-403-masses.tpc','de421.bsp');
 
 % Bodies
-asterix = Body('Asterix');
-asterix.mass = 400;
-asterix.referenceArea = 4;
-asterix.dragCoefficient = 1.2;
-asterix.radiationPressureCoefficient = 1.2;
-asterix.radiationPressure.Sun.occultingBodies = { 'Earth' };
-simulation.addBodies('Sun','Earth','Moon','Mars','Venus',asterix);
+satellite = Body('Asterix');
+satellite.mass = 400;
+satellite.referenceArea = 4;
+satellite.dragCoefficient = 1.2;
+satellite.radiationPressureCoefficient = 1.2;
+satellite.radiationPressure.Sun.occultingBodies = { 'Earth' };
+simulation.addBodies('Sun','Earth','Moon','Mars','Venus',satellite);
 
 % Accelerations
 accelerationsOfAsterix.Earth = { SphericalHarmonicGravity(5,5), AerodynamicAcceleration() };
@@ -32,7 +32,7 @@ propagator.initialStates = convert.keplerianToCartesian(initialKeplerianState);
 propagator.centralBodies = 'Earth';
 propagator.bodiesToPropagate = 'Asterix';
 propagator.accelerations.Asterix = accelerationsOfAsterix;
-simulation.propagation = propagator;
+simulation.propagator = propagator;
 
 % Integrator
 simulation.integrator = Integrator(Integrators.rungeKutta4,10);
@@ -45,10 +45,26 @@ simulation.run();
 
 %% RESULTS
 
-% Plot Keplerian components history
-plot.keplerianComponentsHistory(simulation.results.numericalSolution);
-
 % Plot altitude
 [t,r,~] = compute.epochPositionVelocity(simulation.results.numericalSolution);
-figure; plot(convert.epochToDate(t),compute.altitude(r)/1e3); grid on; ylabel('Altitude [km]');
+figure;
+plot(convert.epochToDate(t),compute.altitude(r)/1e3);
+grid on;
+ylabel('Altitude [km]');
+
+
+%% RE-RUN SIMULATION FOR A SOLAR SAIL
+
+satellite.mass = 4;
+satellite.referenceArea = 40;
+simulation.run();
+
+
+%% ADD TO PLOT
+
+[t,r,~] = compute.epochPositionVelocity(simulation.results.numericalSolution);
+hold on;
+plot(convert.epochToDate(t),compute.altitude(r)/1e3);
+hold off;
+legend('Asterix stellite','Solar sail','Location','NorthWest');
 

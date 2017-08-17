@@ -1,4 +1,4 @@
-%% Thrust Force Along Velocity Vector
+%% User-defined Thrust Vector
 
 clc; clear variables;
 tudat.load();
@@ -6,6 +6,7 @@ tudat.load();
 
 %% SET UP
 
+% Create Simulation object with Spice
 simulation = Simulation(0,convert.toSI(14,'d'));
 simulation.spice = Spice('pck00009.tpc','de-403-masses.tpc','de421.bsp');
 simulation.spice.preloadKernels = false;
@@ -26,8 +27,11 @@ thrustDirection.relativeBody = 'Earth';
 thrustDirection.colinearWithVelocity = true;
 thrustDirection.towardsRelativeBody = false;
 thrust = Thrust();
-thrust.direction = thrustDirection;
-thrust.magnitude = ConstantThrustMagnitude(25,5000);
+thrust.dataInterpolation.data.file = 'thrustValues.txt';
+thrust.dataInterpolation.interpolator.type = 'linear';
+thrust.specificImpulse = 3000;
+thrust.frame = 'lvlh';
+thrust.centralBody = 'Earth';
 accelerationsOfVehicle.Vehicle = thrust;
 
 % Translational propagator
@@ -44,7 +48,7 @@ massPropagator.initialStates = vehicle.mass;
 massPropagator.massRateModels.Vehicle = FromThrustMassRateModel();
 
 % Hybrid propagator
-simulation.propagators = { translationalPropagator, massPropagator };
+simulation.propagator = { translationalPropagator, massPropagator };
 
 % Integrator
 simulation.integrator = Integrator(Integrators.rungeKutta4,30);
@@ -52,19 +56,12 @@ simulation.integrator = Integrator(Integrators.rungeKutta4,30);
 
 %% RUN
 
-% With thrust
 simulation.run();
-thrustResults = simulation.results.numericalSolution;
-
-% Without thrust
-thrust.magnitude.constantMagnitude = 0;
-simulation.run();
-noThrustResults = simulation.results.numericalSolution;
 
 
 %% RESULTS
 
-[t,r,~] = compute.epochPositionVelocity(noThrustResults);
+[t,r,~] = compute.epochPositionVelocity(simulation.results.numericalSolution);
 dates = convert.epochToDate(t);
 h = compute.altitude(r);
 figure;
@@ -75,14 +72,10 @@ semilogy(dates,h/1e3);
 ylabel('Altitude [km]');
 hold on;
 
-[t,r,~] = compute.epochPositionVelocity(thrustResults);
-dates = convert.epochToDate(t);
-h = compute.altitude(r);
-semilogy(dates,h/1e3);
-legend('No thrust','Constant thrust','Location','NorthWest');
-hold off;
-
-m = thrustResults(:,end);
+m = simulation.results.numericalSolution(:,end);
 yyaxis right;
 plot(dates,m);
 ylabel('Mass [kg]');
+
+fprintf('Final mass: %g kg\n',m(end));
+

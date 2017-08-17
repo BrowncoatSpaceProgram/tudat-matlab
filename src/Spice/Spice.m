@@ -4,11 +4,6 @@ classdef Spice < handle
         preloadKernels
         preloadOffsets
     end
-    properties (Dependent)
-        preloadOffset
-        startPreloadOffset
-        endPreloadOffset
-    end
     
     methods
         function obj = Spice(varargin)

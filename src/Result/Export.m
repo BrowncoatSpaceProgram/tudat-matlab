@@ -12,7 +12,7 @@ classdef Export < handle
         
         function s = struct(obj)
             s = struct(obj.result);
-            s = json.update(s,obj,'file');
+            s = json.update(s,obj,'file',true,'@path(%s)');
         end
         
     end
