@@ -20,13 +20,12 @@ classdef Simulation < handle
     end
     properties (SetAccess = protected)
         populatedjson
-        % numericalSolution
         results
     end
     properties (Constant, Hidden)
-        defaultInputFileName = '.temp.json';
-        defaultPopulatedInputFileName = '.temp.populated.json';
-        % defaultNumericalSolutionFileName = '.numericalSolution.txt';
+        defaultInputFileName = 'temp.json';
+        defaultPopulatedInputFileName = 'temp.populated.json';
+        defaultResultFileName = 'temp.results.%s.txt';
     end
     
     methods
@@ -101,7 +100,7 @@ classdef Simulation < handle
                     end
                 end
                 obj.import{J} = Import(name,result);
-                obj.addResultsToExport(['.' name '.txt'],result);
+                obj.addResultsToExport(sprintf(Simulation.defaultResultFileName,name),result);
             end
         end
         
@@ -114,10 +113,13 @@ classdef Simulation < handle
                 obj.options.populatedFile = Simulation.defaultPopulatedInputFileName;
             end
             json.export(obj,mainInputFile);
-            if system([tudat.bin ' ' mainInputFile],'-echo') == 0
+            
+            exitSuccess = system([tudat.bin ' ' mainInputFile],'-echo') == 0;
+            if exitSuccess
                 obj.loadAuxiliaryFiles();
-                obj.deleteAuxiliaryFiles();
-            else
+            end
+            obj.deleteAuxiliaryFiles();
+            if ~exitSuccess
                 error('Error while running Tudat.');
             end
         end
@@ -142,23 +144,19 @@ classdef Simulation < handle
     methods (Access = protected)
         function obj = loadAuxiliaryFiles(obj)
             obj.populatedjson = fileread(obj.options.populatedFile);
-            % obj.numericalSolution = fileread(Simulation.defaultNumericalSolutionFileName);
             for i = 1:length(obj.import)
                 importSettings = obj.import{i};
                 name = importSettings.name;
-                file = ['.' name '.txt'];
+                file = sprintf(Simulation.defaultResultFileName,name);
                 eval(sprintf('obj.results.%s = load(file);',name));
             end
         end
         
         function obj = deleteAuxiliaryFiles(obj)
-            delete(Simulation.defaultInputFileName);
-            if exist(Simulation.defaultPopulatedInputFileName,'file') == 2
-                delete(Simulation.defaultPopulatedInputFileName);
-            end
-            % delete(Simulation.defaultNumericalSolutionFileName);
+            filesystem.deleteFile(Simulation.defaultInputFileName);
+            filesystem.deleteFile(Simulation.defaultPopulatedInputFileName);
             for i = 1:length(obj.import)
-                delete(['.' obj.import{i}.name '.txt']);
+                filesystem.deleteFile(sprintf(Simulation.defaultResultFileName,obj.import{i}.name));
             end
         end
         
