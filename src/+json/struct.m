@@ -1,5 +1,9 @@
 function s = struct(object)
 
+if isstruct(object) && length(object) > 1
+    object = num2cell(object);
+end
+
 if isstruct(object)  % struct -> std::map
     for key = fieldnames(object)'
         s.(key{1}) = json.struct(object.(key{1}));

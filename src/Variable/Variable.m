@@ -74,6 +74,21 @@ classdef Variable < handle
             obj.torqueType = char(value);
         end
         
+        function condition = lt(obj1,obj2)
+            condition = Condition();
+            if isa(obj1,'Variable')
+                condition.variable = obj1;
+                condition.lowerLimit = obj2;
+            else
+                condition.variable = obj2;
+                condition.upperLimit = obj1;
+            end
+        end
+        
+        function condition = gt(obj1,obj2)
+            condition = obj2 < obj1;
+        end
+        
         function s = struct(obj)
             s = [];
             s = json.update(s,obj,'type',false);
