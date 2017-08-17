@@ -3,8 +3,8 @@ MATLAB interface for Tudat
 
 ## Installation
 
-1. Clone or download [tudatBundle-json](http://github.com/aleixpinardell/tudatBundle/tree/json) (see [how to to this](http://tudat.tudelft.nl/installation/)).
-2. Compile the target `tudat` with QT Creator.
+1. Clone or download [tudatBundle-json](http://github.com/aleixpinardell/tudatBundle/tree/json) ([see how](http://tudat.tudelft.nl/installation/)).
+2. Compile the target `tudat`.
 3. Clone or download this repository.
 4. Run the MATLAB script `quickinstall.m`.
 5. You will be prompted to provide the path to the `tudat` binary generated in step 2. You can skip this step by typing `ctrl + C` if you are planning to use tudat-matlab only in IO mode (see [Usage modes](#usage-modes)). You can specify `tudat` binary path later by calling `tudat.locate('binaryPath')` from MATLAB's Command Window.
@@ -20,7 +20,7 @@ tudat.load();
 
 Now, you can create a `Simulation` object by writing:
 ```
-simulation = Simulation('1992-02-14 07:30','1992-02-15 07:30');
+simulation = Simulation('1992-02-14 06:00','1992-02-14 12:00');
 ```
 
 If you want to load automatically the ephemeris and properties of bodies such as the Sun, Earth, the Moon and other planets, you will need to use Spice. For a simple propagation, you do this by speciying the following Spice kernels:
@@ -41,7 +41,7 @@ simulation.addBodies('Earth',satelliteBody);
 Then, you will create the settings for the propagation. We are going to propagate the translational state of the body 'Satellite' about the 'Earth'. Thus, we will use a `TranslationalPropagator`:
 ```
 propagator = TranslationalPropagator();
-initialKeplerianState = [7500.0E3 0.1 deg2rad(85.3) deg2rad(235.7) deg2rad(23.4) deg2rad(139.87)];
+initialKeplerianState = [7500.0E3 0.1 deg2rad(5) 0 0 0];
 propagator.initialStates = convert.keplerianToCartesian(initialKeplerianState);
 propagator.centralBodies = 'Earth';
 propagator.bodiesToPropagate = 'Satellite';
