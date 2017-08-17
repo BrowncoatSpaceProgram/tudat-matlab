@@ -6,19 +6,22 @@ classdef tudat
     methods(Static)
         function load()
             sourceDir = fullfile(fileparts(mfilename('fullpath')),'src');
-            addpath(sourceDir);
-            addpath(fullfile(sourceDir,'Acceleration'));
-            addpath(fullfile(sourceDir,'Body'));
-            addpath(fullfile(sourceDir,'Integrator'));
-            addpath(fullfile(sourceDir,'Interpolation'));
-            addpath(fullfile(sourceDir,'MassRateModel'));
-            addpath(fullfile(sourceDir,'Options'));
-            addpath(fullfile(sourceDir,'Propagator'));
-            addpath(fullfile(sourceDir,'Result'));
-            addpath(fullfile(sourceDir,'Spice'));
-            addpath(fullfile(sourceDir,'Termination'));
-            addpath(fullfile(sourceDir,'Torque'));
-            addpath(fullfile(sourceDir,'Variable'));
+            loaded = any(strcmp(sourceDir,regexp(path,pathsep,'split')));
+            if ~loaded
+                addpath(sourceDir);
+                addpath(fullfile(sourceDir,'Acceleration'));
+                addpath(fullfile(sourceDir,'Body'));
+                addpath(fullfile(sourceDir,'Integrator'));
+                addpath(fullfile(sourceDir,'Interpolation'));
+                addpath(fullfile(sourceDir,'MassRateModel'));
+                addpath(fullfile(sourceDir,'Options'));
+                addpath(fullfile(sourceDir,'Propagator'));
+                addpath(fullfile(sourceDir,'Result'));
+                addpath(fullfile(sourceDir,'Spice'));
+                addpath(fullfile(sourceDir,'Termination'));
+                addpath(fullfile(sourceDir,'Torque'));
+                addpath(fullfile(sourceDir,'Variable'));
+            end
         end
         
         function locate(binPath)
