@@ -122,7 +122,10 @@ tudatBinaryPath unperturbedSatelliteInputFilePath
 
 The files 'unperturbedSatellite-populated.json' and 'results.txt' will be generated next to your 'unperturbedSatellite.json'. Now, in MATLAB, you can post-process the results as usual:
 ```
-results = load('results.txt');
+[results,failed] = loadResults('results.txt');
+if failed
+    fprintf('Propagation failed: plotting results obtained until propagation failure.\n');
+end
 t = results(:,1);
 r = results(:,2:4);
 plot(convert.epochToDate(t),r/13);
@@ -130,4 +133,4 @@ legend('x','y','z','Location','South','Orientation','Horizontal');
 ylabel('Position [km]');
 grid on;
 ```
-Note the use of the function `epochToDate` from tudat-matlab's `convert` package, which converts seconds from J2000 to a MATLAB `datetime`.
+Note the use of the function `epochToDate` from tudat-matlab's `convert` package, which converts seconds from J2000 to a MATLAB `datetime`; and the function `loadResults`, which returns the results from the specified file and, in addition, a `bool` indicating whether the propagation failed (when the propagation terminates before reaching the termination condition, in this case the end epoch `'1992-02-14 12:00'`, the output files contain in the header line the word `FAILURE` by default, which is detected by the `loadResults` function).

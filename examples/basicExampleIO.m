@@ -24,7 +24,10 @@ json.export(simulation,'unperturbedSatellite.json');
 %% Run "tudat unperturbedSatellite.json" from the command-line
 
 %% Use output
-results = load('results.txt');
+[results,failed] = loadResults('results.txt');
+if failed
+    fprintf('Propagation failed: plotting results obtained until propagation failure.\n');
+end
 t = results(:,1);
 r = results(:,2:4);
 plot(convert.epochToDate(t),r/13);

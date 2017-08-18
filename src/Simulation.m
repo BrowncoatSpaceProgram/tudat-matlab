@@ -10,7 +10,7 @@ classdef Simulation < handle
         termination
         integrator
         export
-        options
+        options = Options()
     end
     properties (Dependent)
         propagators
@@ -109,9 +109,6 @@ classdef Simulation < handle
             result.epochsInFirstColumn = true;
             obj.addResultsToImport('numericalSolution',result);
             mainInputFile = Simulation.defaultInputFileName;
-            if isempty(obj.options)
-                obj.options = Options();
-            end
             obj.options.populatedFile = Simulation.defaultPopulatedInputFileName;
             json.export(obj,mainInputFile);
             
@@ -149,7 +146,7 @@ classdef Simulation < handle
                 importSettings = obj.import{i};
                 name = importSettings.name;
                 file = sprintf(Simulation.defaultResultFileName,name);
-                eval(sprintf('obj.results.%s = load(file);',name));
+                eval(sprintf('obj.results.%s = loadResults(file);',name));
             end
         end
         

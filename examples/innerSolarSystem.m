@@ -8,6 +8,7 @@ tudat.load();
 
 simulation = Simulation(1e7,1e7+convert.toSI(2,'y'));
 simulation.spice = Spice('pck00009.tpc','de-403-masses.tpc','de421.bsp','naif0009.tls');
+simulation.spice.preloadKernels = false;
 
 % Bodies
 bodyNames = {'Sun','Mercury','Venus','Earth','Moon','Mars'};

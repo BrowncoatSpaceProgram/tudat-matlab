@@ -7,6 +7,7 @@ classdef Options < handle
         unusedKey
         unidimensionalArrayInference
         populatedFile
+        tagOutputFilesIfPropagationFails
     end
     
     methods
@@ -50,6 +51,7 @@ classdef Options < handle
             s = json.update(s,obj,'unusedKey',false);
             s = json.update(s,obj,'unidimensionalArrayInference',false);
             s = json.update(s,obj,'populatedFile',false);
+            s = json.update(s,obj,'tagOutputFilesIfPropagationFails',false);
         end
         
     end

@@ -1,6 +1,7 @@
 classdef Result < handle
     properties
         variables
+        header
         epochsInFirstColumn = false
         precision
         onlyInitialStep
@@ -24,6 +25,7 @@ classdef Result < handle
         function s = struct(obj)
             s = [];
             s = json.update(s,obj,'variables');
+            s = json.update(s,obj,'header',false);
             s = json.update(s,obj,'epochsInFirstColumn',false);
             s = json.update(s,obj,'precision',false);
             s = json.update(s,obj,'onlyInitialStep',false);
