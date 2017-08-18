@@ -1,7 +1,9 @@
 % For code comments, see: https://github.com/aleixpinardell/tudat-matlab#usage
 
 %% Create input file
+clc; clear variables;
 tudat.load();
+
 simulation = Simulation('1992-02-14 06:00','1992-02-14 12:00');
 simulation.spice = Spice('pck00009.tpc','de-403-masses.tpc','de421.bsp');
 satelliteBody = Body('Satellite');
@@ -16,6 +18,7 @@ simulation.propagator = propagator;
 simulation.integrator = Integrator(Integrators.rungeKutta4,20);
 simulation.addResultsToExport('results.txt',{'independent','state'});
 simulation.options.populatedFile = 'unperturbedSatellite-populated.json';
+
 json.export(simulation,'unperturbedSatellite.json');
 
 %% Run "tudat unperturbedSatellite.json" from the command-line

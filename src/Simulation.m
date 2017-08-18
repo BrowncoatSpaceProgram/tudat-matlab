@@ -109,9 +109,10 @@ classdef Simulation < handle
             result.epochsInFirstColumn = true;
             obj.addResultsToImport('numericalSolution',result);
             mainInputFile = Simulation.defaultInputFileName;
-            if isempty(obj.options) || ( ~isempty(obj.options) && isempty(obj.options.populatedFile) )
-                obj.options.populatedFile = Simulation.defaultPopulatedInputFileName;
+            if isempty(obj.options)
+                obj.options = Options();
             end
+            obj.options.populatedFile = Simulation.defaultPopulatedInputFileName;
             json.export(obj,mainInputFile);
             
             exitSuccess = system([tudat.bin ' ' mainInputFile],'-echo') == 0;
