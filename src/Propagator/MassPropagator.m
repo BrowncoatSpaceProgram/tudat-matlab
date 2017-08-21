@@ -8,9 +8,9 @@ classdef MassPropagator < Propagator
             obj@Propagator(IntegratedStates.mass);
         end
         
-        function s = struct(obj)
-            s = struct@Propagator(obj);
-            s = json.update(s,obj,'massRateModels');
+        function mp = getMandatoryProperties(obj)
+            mp = getMandatoryProperties@Propagator(obj);
+            mp = horzcat(mp,{'massRateModels'});
         end
 
     end

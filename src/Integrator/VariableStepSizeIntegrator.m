@@ -1,5 +1,6 @@
 classdef VariableStepSizeIntegrator < Integrator
     properties
+        initialStepSize
         rungeKuttaCoefficientSet
         minimumStepSize
         maximumStepSize
@@ -10,14 +11,15 @@ classdef VariableStepSizeIntegrator < Integrator
         minimumFactorDecreaseForNextStepSize
     end
     properties (Dependent)
-        initialStepSize
         errorTolerance
     end
     
     methods
         function obj = VariableStepSizeIntegrator(rungeKuttaCoefficientSet)
             obj@Integrator(Integrators.rungeKuttaVariableStepSize);
-            obj.rungeKuttaCoefficientSet = rungeKuttaCoefficientSet;
+            if nargin >= 1
+                obj.rungeKuttaCoefficientSet = rungeKuttaCoefficientSet;
+            end
         end
         
         function set.rungeKuttaCoefficientSet(obj,value)
@@ -25,14 +27,6 @@ classdef VariableStepSizeIntegrator < Integrator
                 value = RungeKuttaCoefficientSets(value);
             end
             obj.rungeKuttaCoefficientSet = char(value);
-        end
-        
-        function value = get.initialStepSize(obj)
-            value = obj.stepSize;
-        end
-        
-        function set.initialStepSize(obj,value)
-            obj.stepSize = value;
         end
         
         function value = get.errorTolerance(obj)
@@ -47,19 +41,9 @@ classdef VariableStepSizeIntegrator < Integrator
             obj.relativeErrorTolerance = value;
             obj.absoluteErrorTolerance = value;
         end
-        
-        function s = struct(obj)
-            s = struct@Integrator(obj);
-            s = rmfield(s,'stepSize');
-            s = json.update(s,obj,'initialStepSize');
-            s = json.update(s,obj,'rungeKuttaCoefficientSet');
-            s = json.update(s,obj,'minimumStepSize');
-            s = json.update(s,obj,'maximumStepSize');
-            s = json.update(s,obj,'relativeErrorTolerance',false);
-            s = json.update(s,obj,'absoluteErrorTolerance',false);
-            s = json.update(s,obj,'safetyFactorForNextStepSize',false);
-            s = json.update(s,obj,'maximumFactorIncreaseForNextStepSize',false);
-            s = json.update(s,obj,'minimumFactorDecreaseForNextStepSize',false);
+
+        function mp = getMandatoryProperties(obj)
+            mp = {'type','initialStepSize','rungeKuttaCoefficientSet','minimumStepSize','maximumStepSize'};
         end
         
     end

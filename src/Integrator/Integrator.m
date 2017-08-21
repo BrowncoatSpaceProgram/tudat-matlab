@@ -1,4 +1,4 @@
-classdef Integrator < handle
+classdef Integrator < jsonable
     properties
         type
         initialTime
@@ -25,12 +25,8 @@ classdef Integrator < handle
             obj.type = char(value);
         end
         
-        function s = struct(obj)
-            s = [];
-            s = json.update(s,obj,'type');
-            s = json.update(s,obj,'initialTime',false);
-            s = json.update(s,obj,'stepSize');
-            s = json.update(s,obj,'saveFrequency',false);
+        function mp = getMandatoryProperties(obj)
+            mp = {'type','stepSize'};
         end
 
     end

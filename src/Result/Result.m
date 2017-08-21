@@ -1,4 +1,4 @@
-classdef Result < handle
+classdef Result < jsonable
     properties
         variables
         header
@@ -22,14 +22,8 @@ classdef Result < handle
             end
         end
         
-        function s = struct(obj)
-            s = [];
-            s = json.update(s,obj,'variables');
-            s = json.update(s,obj,'header',false);
-            s = json.update(s,obj,'epochsInFirstColumn',false);
-            s = json.update(s,obj,'precision',false);
-            s = json.update(s,obj,'onlyInitialStep',false);
-            s = json.update(s,obj,'onlyFinalStep',false);
+        function mp = getMandatoryProperties(obj)
+            mp = {'variables'};
         end
         
     end

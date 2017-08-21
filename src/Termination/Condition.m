@@ -1,4 +1,4 @@
-classdef Condition < handle
+classdef Condition < jsonable
     properties
         variable
         lowerLimit
@@ -14,11 +14,13 @@ classdef Condition < handle
             termination = Termination(false,obj1,obj2);
         end
         
-        function s = struct(obj)
-            s = [];
-            s = json.update(s,obj,'variable');
-            s = json.update(s,obj,'lowerLimit',isempty(obj.upperLimit));
-            s = json.update(s,obj,'upperLimit',isempty(obj.lowerLimit));
+        function mp = getMandatoryProperties(obj)
+            mp = {'variable'};
+            if isempty(obj.upperLimit)
+                mp{end+1} = 'lowerLimit';
+            else
+                mp{end+1} = 'upperLimit';
+            end
         end
         
     end

@@ -20,11 +20,9 @@ classdef TranslationalPropagator < Propagator
             obj.type = char(value);
         end
         
-        function s = struct(obj)
-            s = struct@Propagator(obj);
-            s = json.update(s,obj,'type',false);
-            s = json.update(s,obj,'centralBodies');
-            s = json.update(s,obj,'accelerations');
+        function mp = getMandatoryProperties(obj)
+            mp = getMandatoryProperties@Propagator(obj);
+            mp = horzcat(mp,{'centralBodies','accelerations'});
         end
 
     end

@@ -1,4 +1,4 @@
-classdef Spice < handle
+classdef Spice < jsonable
     properties
         kernels
         preloadKernels
@@ -21,11 +21,8 @@ classdef Spice < handle
             obj.kernels = varargin;
         end
         
-        function s = struct(obj)
-            s = [];
-            s = json.update(s,obj,'kernels');
-            s = json.update(s,obj,'preloadKernels',false);
-            s = json.update(s,obj,'preloadOffsets',false);
+        function mp = getMandatoryProperties(obj)
+            mp = {'kernels'};
         end
         
     end

@@ -1,4 +1,4 @@
-classdef Export < handle
+classdef Export < jsonable
     properties
         result
         file

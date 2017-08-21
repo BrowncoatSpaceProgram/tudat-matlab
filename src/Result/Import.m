@@ -1,4 +1,4 @@
-classdef Import < handle
+classdef Import < jsonable
     properties
         result
         name
@@ -8,6 +8,10 @@ classdef Import < handle
         function obj = Import(name,varargin)
             obj.result = Result(varargin{:});
             obj.name = name;
+        end
+        
+        function mp = getMandatoryProperties(obj)
+            mp = {'result','name'};
         end
         
     end

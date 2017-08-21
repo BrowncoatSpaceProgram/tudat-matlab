@@ -1,6 +1,5 @@
-classdef Body < handle
+classdef Body < jsonable
     properties
-        name
         useDefaultSettings
         mass
         referenceArea
@@ -8,14 +7,19 @@ classdef Body < handle
         ephemeris
         radiationPressure
     end
-    properties (Dependent)
+    properties (Transient)
+        name
+    end
+    properties (Transient, Dependent)
         dragCoefficient
         radiationPressureCoefficient
     end
     
     methods
         function obj = Body(name)
-            obj.name = name;
+            if nargin >= 1
+                obj.name = name;
+            end
         end
         
         function value = get.dragCoefficient(obj)
@@ -34,16 +38,10 @@ classdef Body < handle
             obj.radiationPressure.Sun.radiationPressureCoefficient = value;
         end
         
-        function s = struct(obj)
-            s = [];
-            s = json.update(s,obj,'useDefaultSettings',false);
-            s = json.update(s,obj,'mass',false);
-            s = json.update(s,obj,'referenceArea',false);
-            s = json.update(s,obj,'aerodynamics',false);
-            s = json.update(s,obj,'ephemeris',false);
-            s = json.update(s,obj,'radiationPressure',false);
-            s = json.update(s,obj,'useDefaultSettings',false);
+        function mp = getMandatoryProperties(obj)
+            mp = {};
         end
+        
     end
     
 end

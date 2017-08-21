@@ -124,7 +124,7 @@ The files 'unperturbedSatellite-populated.json' and 'results.txt' will be genera
 ```
 [results,failed] = loadResults('results.txt');
 if failed
-    fprintf('Propagation failed: plotting results obtained until propagation failure.\n');
+    warning('Propagation failed: plotting results obtained until propagation failure.');
 end
 t = results(:,1);
 r = results(:,2:4);

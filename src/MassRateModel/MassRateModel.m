@@ -1,11 +1,13 @@
-classdef MassRateModel < handle
+classdef MassRateModel < jsonable
     properties
         type
     end
     
     methods
         function obj = MassRateModel(type)
-            obj.type = type;
+            if nargin >= 1
+                obj.type = type;
+            end
         end
         
         function set.type(obj,value)
@@ -15,9 +17,8 @@ classdef MassRateModel < handle
             obj.type = char(value);
         end
         
-        function s = struct(obj)
-            s = [];
-            s = json.update(s,obj,'type');
+        function mp = getMandatoryProperties(obj)
+            mp = {'type'};
         end
         
     end

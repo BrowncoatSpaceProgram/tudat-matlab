@@ -1,4 +1,4 @@
-classdef Options < handle
+classdef Options < jsonable
     properties
         notifyOnPropagationStart
         notifyOnPropagationTermination
@@ -42,16 +42,8 @@ classdef Options < handle
             obj.unidimensionalArrayInference = char(value);
         end
         
-        function s = struct(obj)
-            s = [];
-            s = json.update(s,obj,'notifyOnPropagationStart',false);
-            s = json.update(s,obj,'notifyOnPropagationTermination',false);
-            s = json.update(s,obj,'printInterval',false);
-            s = json.update(s,obj,'defaultValueUsedForMissingKey',false);
-            s = json.update(s,obj,'unusedKey',false);
-            s = json.update(s,obj,'unidimensionalArrayInference',false);
-            s = json.update(s,obj,'populatedFile',false);
-            s = json.update(s,obj,'tagOutputFilesIfPropagationFails',false);
+        function mp = getMandatoryProperties(obj)
+            mp = {};
         end
         
     end

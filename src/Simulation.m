@@ -1,4 +1,4 @@
-classdef Simulation < handle
+classdef Simulation < jsonable
     properties
         startEpoch
         endEpoch
@@ -10,19 +10,19 @@ classdef Simulation < handle
         termination
         integrator
         export
-        options = Options()
+        options = Options
     end
-    properties (Dependent)
+    properties (Transient, Dependent)
         propagators
     end
-    properties (Access = protected)
+    properties (Transient, Access = protected)
         import
     end
-    properties (SetAccess = protected)
+    properties (Transient, SetAccess = protected)
         populatedjson
         results
     end
-    properties (Constant, Hidden)
+    properties (Transient, Constant, Hidden)
         defaultInputFileName = 'temp.json';
         defaultPopulatedInputFileName = 'temp.populated.json';
         defaultResultFileName = 'temp.results.%s.txt';
@@ -122,19 +122,8 @@ classdef Simulation < handle
             end
         end
         
-        function s = struct(obj)
-            s = [];
-            s = json.update(s,obj,'startEpoch',false);
-            s = json.update(s,obj,'endEpoch',false);
-            s = json.update(s,obj,'globalFrameOrigin',false);
-            s = json.update(s,obj,'globalFrameOrientation',false);
-            s = json.update(s,obj,'spice',false);
-            s = json.update(s,obj,'bodies');
-            s = json.update(s,obj,'propagator');
-            s = json.update(s,obj,'termination',false);
-            s = json.update(s,obj,'integrator');
-            s = json.update(s,obj,'export',false);
-            s = json.update(s,obj,'options',false);
+        function mp = getMandatoryProperties(obj)
+            mp = {'bodies','propagator','integrator'};
         end
         
     end

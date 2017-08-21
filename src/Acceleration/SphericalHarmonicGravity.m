@@ -10,13 +10,12 @@ classdef SphericalHarmonicGravity < Acceleration
             obj.maximumDegree = maximumDegree;
             obj.maximumOrder = maximumOrder;
         end
-        
-        function s = struct(obj)
-            s = struct@Acceleration(obj);
-            s = json.update(s,obj,'maximumDegree');
-            s = json.update(s,obj,'maximumOrder');
-        end
 
+        function mp = getMandatoryProperties(obj)
+            mp = getMandatoryProperties@Acceleration(obj);
+            mp = horzcat(mp,{'maximumDegree','maximumOrder'});
+        end
+        
     end
     
 end

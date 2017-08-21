@@ -1,4 +1,4 @@
-classdef Termination < handle
+classdef Termination < jsonable
     properties
         meetAll
         conditions

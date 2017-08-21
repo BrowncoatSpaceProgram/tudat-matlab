@@ -1,7 +1,7 @@
 classdef Thrust < Acceleration
     properties
-        direction
-        magnitude
+        direction = ThrustDirection
+        magnitude = ThrustMagnitude
         dataInterpolation
         specificImpulse
         frame
@@ -13,16 +13,21 @@ classdef Thrust < Acceleration
             obj@Acceleration(Accelerations.thrust);
         end
         
-        function s = struct(obj)
-            s = struct@Acceleration(obj);
+        function p = getProperties(obj)
+            p = getProperties@Acceleration(obj);
             if ~isempty(obj.dataInterpolation)
-                s = json.update(s,obj,'dataInterpolation');
-                s = json.update(s,obj,'specificImpulse');
-                s = json.update(s,obj,'frame');
-                s = json.update(s,obj,'centralBody',false);
+                p = horzcat(p,{'dataInterpolation','specificImpulse','frame','centralBody'});
             else
-                s = json.update(s,obj,'direction');
-                s = json.update(s,obj,'magnitude');
+                p = horzcat(p,{'direction','magnitude'});
+            end
+        end
+
+        function mp = getMandatoryProperties(obj)
+            mp = getMandatoryProperties@Acceleration(obj);
+            if ~isempty(obj.dataInterpolation)
+                mp =  horzcat(mp,{'dataInterpolation','specificImpulse','frame'});
+            else
+                mp =  horzcat(mp,{'direction','magnitude'});
             end
         end
         

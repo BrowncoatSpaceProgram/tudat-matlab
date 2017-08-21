@@ -1,4 +1,4 @@
-classdef ThrustMagnitude < handle
+classdef ThrustMagnitude < jsonable
     properties
         type
         originID
@@ -6,7 +6,9 @@ classdef ThrustMagnitude < handle
     
     methods
         function obj = ThrustMagnitude(type)
-            obj.type = type;
+            if nargin >= 1
+                obj.type = type;
+            end
         end
         
         function set.type(obj,value)
@@ -15,11 +17,12 @@ classdef ThrustMagnitude < handle
             end
             obj.type = char(value);
         end
-
-        function s = struct(obj)
-            s = [];
-            s = json.update(s,obj,'type');
-            s = json.update(s,obj,'originID',obj.type == ThrustMagnitudes.fromEngineProperties);
+        
+        function mp = getMandatoryProperties(obj)
+            mp = {'type','relativeBody'};
+            if obj.type == ThrustMagnitudes.fromEngineProperties
+                mp{end+1} = 'originID';
+            end
         end
         
     end

@@ -1,4 +1,4 @@
-classdef Propagator < handle
+classdef Propagator < jsonable
     properties
         integratedStateType
         bodiesToPropagate
@@ -17,11 +17,9 @@ classdef Propagator < handle
             obj.integratedStateType = char(value);
         end
         
-        function s = struct(obj)
-            s = [];
-            s = json.update(s,obj,'integratedStateType');
-            s = json.update(s,obj,'bodiesToPropagate');
-            s = json.update(s,obj,'initialStates',false);
+        
+        function mp = getMandatoryProperties(obj)
+            mp = {'integratedStateType','bodiesToPropagate'};
         end
         
     end

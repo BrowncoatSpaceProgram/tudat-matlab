@@ -1,4 +1,4 @@
-classdef ThrustDirection < handle
+classdef ThrustDirection < jsonable
     properties
         type
         relativeBody
@@ -8,7 +8,9 @@ classdef ThrustDirection < handle
     
     methods
         function obj = ThrustDirection(type)
-            obj.type = type;
+            if nargin >= 1
+                obj.type = type;
+            end
         end
         
         function set.type(obj,value)
@@ -18,12 +20,11 @@ classdef ThrustDirection < handle
             obj.type = char(value);
         end
         
-        function s = struct(obj)
-            s = [];
-            s = json.update(s,obj,'type');
-            s = json.update(s,obj,'relativeBody');
-            s = json.update(s,obj,'colinearWithVelocity',obj.type == ThrustDirections.colinearWithStateSegment);
-            s = json.update(s,obj,'towardsRelativeBody',obj.type == ThrustDirections.colinearWithStateSegment);
+        function mp = getMandatoryProperties(obj)
+            mp = {'type','relativeBody'};
+            if obj.type == ThrustDirections.colinearWithStateSegment
+                mp = horzcat(mp,'colinearWithVelocity','towardsRelativeBody');
+            end
         end
         
     end

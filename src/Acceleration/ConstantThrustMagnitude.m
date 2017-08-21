@@ -12,11 +12,9 @@ classdef ConstantThrustMagnitude < ThrustMagnitude
             obj.specificImpulse = specificImpulse;
         end
 
-        function s = struct(obj)
-            s = struct@ThrustMagnitude(obj);
-            s = json.update(s,obj,'constantMagnitude');
-            s = json.update(s,obj,'specificImpulse');
-            s = json.update(s,obj,'bodyFixedDirection',false);
+        function mp = getMandatoryProperties(obj)
+            mp = getMandatoryProperties@ThrustMagnitude(obj);
+            mp = horzcat(mp,{'constantMagnitude','specificImpulse'});
         end
         
     end

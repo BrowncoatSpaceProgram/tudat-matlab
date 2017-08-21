@@ -9,10 +9,11 @@ classdef FromThrustMassRateModel < MassRateModel
             obj@MassRateModel(MassRateModels.fromThrust);
         end
         
-        function s = struct(obj)
-            s = struct@MassRateModel(obj);
-            s = json.update(s,obj,'useAllThrustModels',false);
-            s = json.update(s,obj,'associatedThroustSource',~obj.useAllThrustModels);
+        function mp = getMandatoryProperties(obj)
+            mp = getMandatoryProperties@MassRateModel(obj);
+            if ~obj.useAllThrustModels
+                mp{end+1} = 'associatedThroustSource';
+            end
         end
         
     end

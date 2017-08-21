@@ -1,4 +1,4 @@
-classdef Variable < handle
+classdef Variable < jsonable
     properties
         type
         body
@@ -89,16 +89,8 @@ classdef Variable < handle
             condition = obj2 < obj1;
         end
         
-        function s = struct(obj)
-            s = [];
-            s = json.update(s,obj,'type',false);
-            s = json.update(s,obj,'body',false);
-            s = json.update(s,obj,'dependentVariableType',false);
-            s = json.update(s,obj,'relativeToBody',false);
-            s = json.update(s,obj,'bodyExertingAcceleration',false);
-            s = json.update(s,obj,'accelerationType',false);
-            s = json.update(s,obj,'bodyExertingTorque',false);
-            s = json.update(s,obj,'torqueType',false);
+        function mp = getMandatoryProperties(obj)
+            mp = {};
         end
         
     end
