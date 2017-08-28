@@ -3,8 +3,10 @@ classdef Body < jsonable
         useDefaultSettings
         mass
         referenceArea
-        aerodynamics
-        ephemeris
+        aerodynamics = ConstantAerodynamics
+        atmosphere = Atmosphere
+        ephemeris = Ephemeris
+        gravityField
         radiationPressure
     end
     properties (Transient)
@@ -38,6 +40,9 @@ classdef Body < jsonable
             obj.radiationPressure.Sun.radiationPressureCoefficient = value;
         end
         
+    end
+    
+    methods (Hidden)
         function mp = getMandatoryProperties(obj)
             mp = {};
         end

@@ -4,13 +4,19 @@ classdef tudat
     end
     
     methods(Static)
-        function load()
+        function load(forceReload)
+            if nargin < 1
+                forceReload = false;
+            end
             sourceDir = fullfile(fileparts(mfilename('fullpath')),'src');
             loaded = any(strcmp(sourceDir,regexp(path,pathsep,'split')));
-            if ~loaded
+            if ~loaded || forceReload
                 addpath(sourceDir);
                 addpath(fullfile(sourceDir,'Acceleration'));
                 addpath(fullfile(sourceDir,'Body'));
+                addpath(fullfile(sourceDir,'Body','Aerodynamics'));
+                addpath(fullfile(sourceDir,'Body','Atmosphere'));
+                addpath(fullfile(sourceDir,'Body','Ephemeris'));
                 addpath(fullfile(sourceDir,'Integrator'));
                 addpath(fullfile(sourceDir,'Interpolation'));
                 addpath(fullfile(sourceDir,'MassRateModel'));

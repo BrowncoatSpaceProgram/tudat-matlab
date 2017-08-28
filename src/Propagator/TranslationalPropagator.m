@@ -20,11 +20,14 @@ classdef TranslationalPropagator < Propagator
             obj.type = char(value);
         end
         
+    end
+    
+    methods (Hidden)
         function mp = getMandatoryProperties(obj)
             mp = getMandatoryProperties@Propagator(obj);
             mp = horzcat(mp,{'centralBodies','accelerations'});
         end
-
+        
     end
     
 end

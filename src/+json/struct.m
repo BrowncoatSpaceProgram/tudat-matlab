@@ -13,11 +13,25 @@ elseif iscell(object)  % cell -> std::vector
     for i = 1:length(object)
         s{i} = json.struct(object{i});
     end
+elseif isa(object,'containers.Map')  % containers.Map -> std::map
+    keys = object.keys;
+    for i = 1:length(keys)
+        key = keys{i};
+        if strcmp(object.KeyType,'char')
+            s.(key) = json.struct(object(key));
+        else
+            s.(sprintf('CONVERTEDMAPKEY%g',key)) = json.struct(object(key));
+        end
+    end
 else
-    if any(strcmp(methods(object),'struct'))  % classdef -> class
+    try  % classdef -> class
         s = object.struct();
-    else  % primitive -> int, double, bool, std::string OR classdef that can be directly converted to struct
-        s = object;
+    catch ME
+        if strcmp(ME.identifier,'MATLAB:structRefFromNonStruct')  % primitive -> int, double, bool, std::string
+            s = object;
+        else
+            rethrow(ME);
+        end
     end
 end
 

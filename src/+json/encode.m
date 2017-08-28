@@ -9,7 +9,9 @@ try
     object = jsondecode(object);
 catch
 end
-jsonObject = strrep(jsonencode(json.struct(object)),'\','\\');
+jsonObject = jsonencode(json.struct(object));
+jsonObject = strrep(jsonObject,'\','\\');
+jsonObject = strrep(jsonObject,'CONVERTEDMAPKEY','');
 
 % Add indenting
 if tab > 0

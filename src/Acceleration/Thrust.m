@@ -2,7 +2,7 @@ classdef Thrust < Acceleration
     properties
         direction = ThrustDirection
         magnitude = ThrustMagnitude
-        dataInterpolation
+        dataInterpolation = DataInterpolation
         specificImpulse
         frame
         centralBody
@@ -13,6 +13,9 @@ classdef Thrust < Acceleration
             obj@Acceleration(Accelerations.thrust);
         end
         
+    end
+    
+    methods (Hidden)
         function p = getProperties(obj)
             p = getProperties@Acceleration(obj);
             if ~isempty(obj.dataInterpolation)

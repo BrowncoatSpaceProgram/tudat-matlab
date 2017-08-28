@@ -60,6 +60,9 @@ classdef Termination < jsonable
             termination = Termination(false,combinedConditions{:});
         end
         
+    end
+    
+    methods (Hidden)
         function s = struct(obj)
             c = json.struct(obj.conditions);
             if obj.meetAll

@@ -8,6 +8,9 @@ classdef MassPropagator < Propagator
             obj@Propagator(IntegratedStates.mass);
         end
         
+    end
+    
+    methods (Hidden)
         function mp = getMandatoryProperties(obj)
             mp = getMandatoryProperties@Propagator(obj);
             mp = horzcat(mp,{'massRateModels'});

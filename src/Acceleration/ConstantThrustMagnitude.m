@@ -12,6 +12,9 @@ classdef ConstantThrustMagnitude < ThrustMagnitude
             obj.specificImpulse = specificImpulse;
         end
 
+    end
+    
+    methods (Hidden)
         function mp = getMandatoryProperties(obj)
             mp = getMandatoryProperties@ThrustMagnitude(obj);
             mp = horzcat(mp,{'constantMagnitude','specificImpulse'});

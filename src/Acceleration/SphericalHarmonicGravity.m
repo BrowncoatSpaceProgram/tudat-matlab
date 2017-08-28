@@ -11,6 +11,9 @@ classdef SphericalHarmonicGravity < Acceleration
             obj.maximumOrder = maximumOrder;
         end
 
+    end
+    
+    methods (Hidden)
         function mp = getMandatoryProperties(obj)
             mp = getMandatoryProperties@Acceleration(obj);
             mp = horzcat(mp,{'maximumDegree','maximumOrder'});

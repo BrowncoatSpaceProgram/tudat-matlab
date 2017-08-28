@@ -14,6 +14,9 @@ classdef Condition < jsonable
             termination = Termination(false,obj1,obj2);
         end
         
+    end
+    
+    methods (Hidden)
         function mp = getMandatoryProperties(obj)
             mp = {'variable'};
             if isempty(obj.upperLimit)

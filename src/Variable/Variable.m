@@ -89,6 +89,9 @@ classdef Variable < jsonable
             condition = obj2 < obj1;
         end
         
+    end
+    
+    methods (Hidden)
         function mp = getMandatoryProperties(obj)
             mp = {};
         end

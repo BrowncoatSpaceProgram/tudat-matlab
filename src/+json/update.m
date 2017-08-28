@@ -1,10 +1,10 @@
 function s = update(s,obj,name,mandatory,formatSpec)
 
 value = obj.(name);
-if nargin >= 5
-    value = sprintf(formatSpec,value);
-end
 if ~isempty(value)
+    if nargin >= 5 && ~isempty(formatSpec)
+        value = sprintf(formatSpec,value);
+    end
     s.(name) =  json.struct(value);
 else
     if nargin < 4

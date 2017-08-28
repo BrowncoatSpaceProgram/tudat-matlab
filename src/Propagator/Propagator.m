@@ -17,7 +17,9 @@ classdef Propagator < jsonable
             obj.integratedStateType = char(value);
         end
         
-        
+    end
+    
+    methods (Hidden)
         function mp = getMandatoryProperties(obj)
             mp = {'integratedStateType','bodiesToPropagate'};
         end

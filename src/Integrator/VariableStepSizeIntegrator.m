@@ -10,7 +10,7 @@ classdef VariableStepSizeIntegrator < Integrator
         maximumFactorIncreaseForNextStepSize
         minimumFactorDecreaseForNextStepSize
     end
-    properties (Dependent)
+    properties (Transient, Dependent)
         errorTolerance
     end
     
@@ -42,6 +42,9 @@ classdef VariableStepSizeIntegrator < Integrator
             obj.absoluteErrorTolerance = value;
         end
 
+    end
+    
+    methods (Hidden)
         function mp = getMandatoryProperties(obj)
             mp = {'type','initialStepSize','rungeKuttaCoefficientSet','minimumStepSize','maximumStepSize'};
         end

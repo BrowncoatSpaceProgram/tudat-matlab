@@ -4,7 +4,7 @@ classdef Simulation < jsonable
         endEpoch
         globalFrameOrigin
         globalFrameOrientation
-        spice
+        spice = Spice
         bodies
         propagator
         termination
@@ -49,13 +49,20 @@ classdef Simulation < jsonable
                 body = varargin{i};
                 if isa(body,'Body')
                     obj.bodies.(body.name) = body;
-                elseif ischar(body)
-                    newBody = Body(body);
-                    newBody.useDefaultSettings = true;
-                    obj.bodies.(body) = newBody;
-                else
-                    error('Could not add body to simulation.');
+                    continue;
                 end
+                if isa(body,'CelestialBodies')
+                    bodyName = char(body);
+                else
+                    bodyName = body;
+                end
+                if ischar(bodyName)
+                    body = Body(CelestialBodies(bodyName));
+                    body.useDefaultSettings = true;
+                    obj.bodies.(bodyName) = body;
+                    continue;
+                end
+                error('Could not add body to simulation.');
             end
         end
         
@@ -109,7 +116,9 @@ classdef Simulation < jsonable
             result.epochsInFirstColumn = true;
             obj.addResultsToImport('numericalSolution',result);
             mainInputFile = Simulation.defaultInputFileName;
-            obj.options.populatedFile = Simulation.defaultPopulatedInputFileName;
+            if isempty(obj.options.populatedFile)
+                obj.options.populatedFile = Simulation.defaultPopulatedInputFileName;
+            end
             json.export(obj,mainInputFile);
             
             exitSuccess = system([tudat.bin ' ' mainInputFile],'-echo') == 0;
@@ -122,6 +131,9 @@ classdef Simulation < jsonable
             end
         end
         
+    end
+    
+    methods (Hidden)
         function mp = getMandatoryProperties(obj)
             mp = {'bodies','propagator','integrator'};
         end

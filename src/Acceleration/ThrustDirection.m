@@ -20,6 +20,9 @@ classdef ThrustDirection < jsonable
             obj.type = char(value);
         end
         
+    end
+    
+    methods (Hidden)
         function mp = getMandatoryProperties(obj)
             mp = {'type','relativeBody'};
             if obj.type == ThrustDirections.colinearWithStateSegment

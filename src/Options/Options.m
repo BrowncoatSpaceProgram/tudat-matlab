@@ -42,6 +42,9 @@ classdef Options < jsonable
             obj.unidimensionalArrayInference = char(value);
         end
         
+    end
+    
+    methods (Hidden)
         function mp = getMandatoryProperties(obj)
             mp = {};
         end

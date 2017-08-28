@@ -10,6 +10,9 @@ classdef Import < jsonable
             obj.name = name;
         end
         
+    end
+    
+    methods (Hidden)
         function mp = getMandatoryProperties(obj)
             mp = {'result','name'};
         end

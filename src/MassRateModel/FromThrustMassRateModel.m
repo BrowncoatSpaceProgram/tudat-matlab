@@ -9,6 +9,9 @@ classdef FromThrustMassRateModel < MassRateModel
             obj@MassRateModel(MassRateModels.fromThrust);
         end
         
+    end
+    
+    methods (Hidden)
         function mp = getMandatoryProperties(obj)
             mp = getMandatoryProperties@MassRateModel(obj);
             if ~obj.useAllThrustModels

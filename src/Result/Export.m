@@ -1,20 +1,26 @@
-classdef Export < jsonable
+classdef Export < Result
     properties
-        result
         file
     end
     
     methods
         function obj = Export(file,varargin)
-            obj.result = Result(varargin{:});
+            obj@Result(varargin{:});
             obj.file = file;
         end
         
-        function s = struct(obj)
-            s = struct(obj.result);
-            s = json.update(s,obj,'file',true,'@path(%s)');
+    end
+    
+    methods (Hidden)
+        function p = isPath(obj,property)
+            p = strcmp(property,'file');
         end
         
-    end
+        function mp = getMandatoryProperties(obj)
+            mp = getMandatoryProperties@Result(obj);
+            mp = horzcat(mp,{'file'});
+        end
+        
+   end
     
 end

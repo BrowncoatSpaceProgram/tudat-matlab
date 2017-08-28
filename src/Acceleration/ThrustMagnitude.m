@@ -18,6 +18,9 @@ classdef ThrustMagnitude < jsonable
             obj.type = char(value);
         end
         
+    end
+    
+    methods (Hidden)
         function mp = getMandatoryProperties(obj)
             mp = {'type','relativeBody'};
             if obj.type == ThrustMagnitudes.fromEngineProperties

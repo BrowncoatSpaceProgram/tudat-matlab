@@ -25,6 +25,9 @@ classdef Integrator < jsonable
             obj.type = char(value);
         end
         
+    end
+    
+    methods (Hidden)
         function mp = getMandatoryProperties(obj)
             mp = {'type','stepSize'};
         end

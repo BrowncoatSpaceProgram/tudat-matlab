@@ -17,6 +17,9 @@ classdef Acceleration < jsonable
             obj.type = char(value);
         end
         
+    end
+    
+    methods (Hidden)
         function mp = getMandatoryProperties(obj)
             mp = {'type'};
         end
