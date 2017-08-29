@@ -1,4 +1,3 @@
-[tudatmatlabdir,~,~] = fileparts(mfilename('fullpath'));
-addpath(tudatmatlabdir);
+addpath(fileparts(mfilename('fullpath')));
 savepath;
-tudat.locate(input('Specify the path to the Tudat binary: ','s'));
+tudat.find(input('Specify the path to the tudatBundle directory: ','s'));

@@ -123,7 +123,7 @@ classdef Simulation < jsonable
             end
             json.export(obj,mainInputFile);
             
-            exitSuccess = system([tudat.bin ' ' mainInputFile],'-echo') == 0;
+            exitSuccess = system([tudat.binary ' ' mainInputFile],'-echo') == 0;
             if exitSuccess
                 obj.loadAuxiliaryFiles();
             end

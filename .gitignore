@@ -9,9 +9,9 @@
 *.save
 
 #
-# File containing user's Tudat binary path
+# File containing user settings
 #
-.tudatbinpath
+settings.mat
 
 #
 # Input and output files in examples directory
