@@ -3,14 +3,14 @@ classdef Body < jsonable
         useDefaultSettings
         mass
         referenceArea
-        aerodynamics = ConstantAerodynamics
-        atmosphere = Atmosphere
-        ephemeris = Ephemeris
-        gravityField = GravityField
-        gravityFieldVariation = GravityFieldVariation
+        aerodynamics
+        atmosphere
+        ephemeris
+        gravityField
+        gravityFieldVariation
         radiationPressure
-        rotationModel = RotationModel
-        shapeModel = ShapeModel
+        rotationModel
+        shapeModel
     end
     properties (Transient)
         name
@@ -22,6 +22,13 @@ classdef Body < jsonable
     
     methods
         function obj = Body(name)
+            obj.aerodynamics = ConstantAerodynamics();
+            obj.atmosphere = Atmosphere();
+            obj.ephemeris = Ephemeris();
+            obj.gravityField = GravityField();
+            obj.gravityFieldVariation = GravityFieldVariation();
+            obj.rotationModel = RotationModel();
+            obj.shapeModel = ShapeModel();
             if nargin >= 1
                 obj.name = name;
             end
@@ -40,7 +47,9 @@ classdef Body < jsonable
         end
         
         function set.radiationPressureCoefficient(obj,value)
-            obj.radiationPressure.Sun = CannonBallRadiationPressure();
+            if ~isfield(obj.radiationPressure,'Sun')
+                obj.radiationPressure.Sun = CannonBallRadiationPressure();
+            end
             obj.radiationPressure.Sun.radiationPressureCoefficient = value;
         end
         

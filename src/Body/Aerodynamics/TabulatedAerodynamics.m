@@ -5,12 +5,13 @@ classdef TabulatedAerodynamics < Aerodynamics
         independentVariables
         forceCoefficients
         momentCoefficients
-        interpolator = Interpolator
+        interpolator
     end
     
     methods
         function obj = TabulatedAerodynamics()
             obj@Aerodynamics(AerodynamicCoefficients.tabulated);
+            obj.interpolator = Interpolator();
         end
         
         function set.independentVariableName(obj,value)

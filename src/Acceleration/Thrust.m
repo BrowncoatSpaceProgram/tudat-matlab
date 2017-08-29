@@ -1,8 +1,8 @@
 classdef Thrust < Acceleration
     properties
-        direction = ThrustDirection
-        magnitude = ThrustMagnitude
-        dataInterpolation = DataInterpolation
+        direction
+        magnitude
+        dataInterpolation
         specificImpulse
         frame
         centralBody
@@ -11,6 +11,9 @@ classdef Thrust < Acceleration
     methods
         function obj = Thrust()
             obj@Acceleration(Accelerations.thrust);
+            obj.direction = ThrustDirection();
+            obj.magnitude = ThrustMagnitude();
+            obj.dataInterpolation = DataInterpolation();
         end
         
     end

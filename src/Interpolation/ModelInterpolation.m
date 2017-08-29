@@ -3,11 +3,12 @@ classdef ModelInterpolation < jsonable
         initialTime
         finalTime
         timeStep
-        interpolator = Interpolator
+        interpolator
     end
     
     methods
         function obj = ModelInterpolation(initialTime,finalTime,timeStep,interpolator)
+            obj.interpolator = Interpolator();
             if nargin >= 1
                 obj.initialTime = initialTime;
                 if nargin >= 2

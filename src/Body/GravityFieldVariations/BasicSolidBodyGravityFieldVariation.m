@@ -3,12 +3,13 @@ classdef BasicSolidBodyGravityFieldVariation < GravityFieldVariation
         deformingBodies
         loveNumbers
         referenceRadius
-        modelInterpolation = ModelInterpolation
+        modelInterpolation
     end
     
     methods
         function obj = BasicSolidBodyGravityFieldVariation()
             obj@GravityFieldVariation(BodyDeformations.basicSolidBody);
+            obj.modelInterpolation = ModelInterpolation();
         end
         
     end

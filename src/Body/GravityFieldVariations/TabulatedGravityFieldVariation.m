@@ -4,12 +4,13 @@ classdef TabulatedGravityFieldVariation < GravityFieldVariation
         sineCoefficientCorrections
         minimumDegree
         minimumOrder
-        modelInterpolation = ModelInterpolation
+        modelInterpolation
     end
     
     methods
         function obj = TabulatedGravityFieldVariation()
             obj@GravityFieldVariation(BodyDeformations.tabulatedVariation);
+            obj.modelInterpolation = ModelInterpolation();
         end
         
     end

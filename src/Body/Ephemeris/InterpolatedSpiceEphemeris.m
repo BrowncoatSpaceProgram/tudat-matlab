@@ -3,13 +3,14 @@ classdef InterpolatedSpiceEphemeris < Ephemeris
         initialTime
         finalTime
         timeStep
-        interpolator = Interpolator
+        interpolator
         useLongDoubleStates
     end
     
     methods
         function obj = InterpolatedSpiceEphemeris()
             obj@Ephemeris(EphemerisTypes.interpolatedSpice);
+            obj.interpolator = Interpolator();
         end
         
     end

@@ -1,11 +1,13 @@
 classdef DataInterpolation < jsonable
     properties
-        data = DataMap
-        interpolator = Interpolator
+        data
+        interpolator
     end
     
     methods
         function obj = DataInterpolation(data,interpolator)
+            obj.data = DataMap();
+            obj.interpolator = Interpolator();
             if nargin >= 1
                 obj.data = data;
                 if nargin >= 2

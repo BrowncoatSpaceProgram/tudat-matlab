@@ -4,13 +4,13 @@ classdef Simulation < jsonable
         endEpoch
         globalFrameOrigin
         globalFrameOrientation
-        spice = Spice
+        spice
         bodies
         propagator
         termination
         integrator
         export
-        options = Options
+        options
     end
     properties (Transient, Dependent)
         propagators
@@ -30,6 +30,8 @@ classdef Simulation < jsonable
     
     methods
         function obj = Simulation(startEpoch,endEpoch,globalFrameOrigin,globalFrameOrientation)
+            obj.spice = Spice();
+            obj.options = Options();
             if nargin >= 1
                 obj.startEpoch = startEpoch;
                 if nargin >= 2
