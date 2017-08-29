@@ -14,15 +14,16 @@ elseif iscell(object)  % cell -> std::vector
         s{i} = json.struct(object{i});
     end
 elseif isa(object,'containers.Map')  % containers.Map -> std::map
-    keys = object.keys;
-    for i = 1:length(keys)
-        key = keys{i};
-        if strcmp(object.KeyType,'char')
-            s.(key) = json.struct(object(key));
-        else
-            s.(sprintf('CONVERTEDMAPKEY%g',key)) = json.struct(object(key));
+    charMap = object;
+    if ~strcmp(object.KeyType,'char')
+        charMap = containers.Map;
+        keys = object.keys;
+        for i = 1:length(keys)
+            key = keys{i};
+            charMap(sprintf('%g',key)) = json.struct(object(key));
         end
     end
+    s = charMap;
 else
     try  % classdef -> class
         s = object.struct();
