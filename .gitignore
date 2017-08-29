@@ -18,3 +18,5 @@
 #
 # examples/*.json
 # examples/*.txt
+
+tests/
