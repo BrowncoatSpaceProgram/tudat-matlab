@@ -1,32 +1,21 @@
 classdef tudat
-    properties(Constant,Hidden)
+    properties (Constant, Hidden)
         fileContainingBinPath = fullfile(fileparts(mfilename('fullpath')),'.tudatbinpath')
     end
     
-    methods(Static)
+    methods (Static)
         function load(forceReload)
             if nargin < 1
                 forceReload = false;
             end
-            sourceDir = fullfile(fileparts(mfilename('fullpath')),'src');
-            loaded = any(strcmp(sourceDir,regexp(path,pathsep,'split')));
-            if ~loaded || forceReload
-                addpath(sourceDir);
-                addpath(fullfile(sourceDir,'Acceleration'));
-                addpath(fullfile(sourceDir,'Body'));
-                addpath(fullfile(sourceDir,'Body','Aerodynamics'));
-                addpath(fullfile(sourceDir,'Body','Atmosphere'));
-                addpath(fullfile(sourceDir,'Body','Ephemeris'));
-                addpath(fullfile(sourceDir,'Integrator'));
-                addpath(fullfile(sourceDir,'Interpolation'));
-                addpath(fullfile(sourceDir,'MassRateModel'));
-                addpath(fullfile(sourceDir,'Options'));
-                addpath(fullfile(sourceDir,'Propagator'));
-                addpath(fullfile(sourceDir,'Result'));
-                addpath(fullfile(sourceDir,'Spice'));
-                addpath(fullfile(sourceDir,'Termination'));
-                addpath(fullfile(sourceDir,'Torque'));
-                addpath(fullfile(sourceDir,'Variable'));
+            srcdir = fullfile(fileparts(mfilename('fullpath')),'src');
+            dirs = horzcat(srcdir,getNonPackageDirectories(srcdir,true));
+            loadedpaths = regexp(path,pathsep,'split');
+            for i = 1:length(dirs)
+                loaded = any(strcmp(dirs{i},loadedpaths));
+                if ~loaded || forceReload
+                    addpath(dirs{i});
+                end
             end
         end
         
@@ -57,4 +46,26 @@ classdef tudat
         
     end
     
+end
+
+
+function directories = getNonPackageDirectories(directory,recursive)
+
+if nargin < 2
+    recursive = false;
+end
+
+files = dir(directory);
+dirs = files([files.isdir]);
+dirnames = {dirs.name};
+directories = {};
+for i = 1:length(dirnames)
+    if ~any(strcmp(dirnames{i}(1),{'+','.'}))
+        directories{end+1} = fullfile(directory,dirnames{i});
+        if recursive
+            directories = horzcat(directories,getNonPackageDirectories(directories{end},true));
+        end
+    end
+end
+
 end
