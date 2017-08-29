@@ -12,8 +12,7 @@ simulation.spice = Spice('pck00009.tpc','de-403-masses.tpc','de421.bsp');
 % Bodies
 earth = Body('Earth');
 earth.useDefaultSettings = true;
-earth.ephemeris.type = 'constant';
-earth.ephemeris.constantState = zeros(6,1);
+earth.ephemeris = ConstantEphemeris(zeros(6,1));
 simulation.addBodies(earth,Body('Asterix'));
 
 % Propagator
