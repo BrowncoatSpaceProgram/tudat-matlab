@@ -6,8 +6,11 @@ classdef Body < jsonable
         aerodynamics = ConstantAerodynamics
         atmosphere = Atmosphere
         ephemeris = Ephemeris
-        gravityField
+        gravityField = GravityField
+        gravityFieldVariation = GravityFieldVariation
         radiationPressure
+        rotationModel = RotationModel
+        shapeModel = ShapeModel
     end
     properties (Transient)
         name
@@ -37,6 +40,7 @@ classdef Body < jsonable
         end
         
         function set.radiationPressureCoefficient(obj,value)
+            obj.radiationPressure.Sun = CannonBallRadiationPressure();
             obj.radiationPressure.Sun.radiationPressureCoefficient = value;
         end
         
