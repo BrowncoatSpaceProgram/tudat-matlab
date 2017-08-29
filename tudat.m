@@ -5,10 +5,12 @@ classdef tudat
         settingsfile = fullfile(tudat.rootdir,'settings.mat')
         
         binaryPathKey = 'binaryPath'
-        testsDirectoryPathKey = 'testsDirectoryPath'
+        testsSourcesDirectoryPathKey = 'testsSourcesDirectoryPath'
+        testsBinariesDirectoryPathKey = 'testsBinariesDirectoryPath'
         
         defaultBinaryPath = fullfile('tudatExampleApplications','satellitePropagatorExamples','bin','applications','tudat')
-        defaultTestsDirectoryPath = fullfile('tudat','Tudat','External','JsonInterface','UnitTests')
+        defaultTestsSourcesPath = fullfile('tudat','Tudat','External','JsonInterface','UnitTests')
+        defaultTestsBinariesPath = fullfile('tudat','bin','unit_tests')
     end
     
     methods (Static)
@@ -28,19 +30,13 @@ classdef tudat
         end
         
         function find(bundlePath)
-            tudat.findBinary(fullfile(bundlePath,tudat.defaultBinaryPath));
-            tudat.findTests(fullfile(bundlePath,tudat.defaultTestsDirectoryPath));
-        end
-        
-        function findBinary(binaryPath)
-            tudat.binary(binaryPath);
-        end
-        
-        function findTests(testsDirectoryPath)
-            tudat.testsDirectory(testsDirectoryPath);
+            tudat.binary(fullfile(bundlePath,tudat.defaultBinaryPath));
+            tudat.testsSourcesDirectory(fullfile(bundlePath,tudat.defaultTestsSourcesPath));
+            tudat.testsBinariesDirectory(fullfile(bundlePath,tudat.defaultTestsBinariesPath));
         end
         
         function test(varargin)
+            t0 = tic;
             clc;
             n = length(varargin);
             if n == 0  % run all tests
@@ -72,33 +68,36 @@ classdef tudat
                     tic;
                     evalc(sprintf('failures = %s',testName));
                     if failures
-                        result = sprintf('*** FAILED (%i errors) ***',failures);
+                        result = sprintf('*** FAILED (%i errors)',failures);
                     else
                         result = 'PASSED';
                         passed{end+1} = testName;
                     end
                 catch
-                    result = '*** ERROR ***';
+                    result = '*** ERROR';
                 end
-                fprintf('%-25s   [ %.3f s ]\n',result,toc);
+                fprintf('%-22s  [ %.3f s ]\n',result,toc);
             end
             fprintf([separator '\n\n']);
             p = length(passed);
-            fprintf('%i of %i tests (%g%%) passed.\n',p,n,p/n*100);
-            if p < n
-                fprintf('%i tests failed:\n',n-p);
+            fprintf('Total elapsed time: %g s.\n%i of %i tests (%g%%) passed.\n',toc(t0),p,n,p/n*100);
+            f = n - p;
+            if f > 0
+                if f == 1
+                    ts = '';
+                else
+                    ts = 's';
+                end
+                fprintf('%i test%s failed:\n',f,ts);
                 for i = 1:n
                     if ~any(strcmp(testNames{i},passed))
-                        fprintf('   %s\n',testNames{i});
+                        fprintf('   *** %s\n',testNames{i});
                     end
                 end
             end
             fprintf('\n');
         end
         
-    end
-    
-    methods (Static, Hidden)
         function s = settings
             s = load(tudat.settingsfile);
         end
@@ -109,12 +108,12 @@ classdef tudat
                     path = tudat.settings.(tudat.binaryPathKey);
                 catch
                     error(['Could not find Tudat binary.\n'...
-                        'Call tudat.find(''tudatBundlePath'') or tudat.findBinary(''tudatBinaryPath'') from the Command Window before running simulations.\n'...
+                        'Call tudat.find(''tudatBundlePath'') or tudat.binary(''tudatBinaryPath'') from the Command Window before running simulations.\n'...
                         'You will NOT need to do this again the next time you launch MATLAB.'],'');
                 end
                 if exist(path,'file') ~= 2
                     error(['Tudat binary was not found at the specified path: "%s"\n'...
-                        'Call tudat.find(''tudatBundlePath'') or tudat.findBinary(''binaryPath'') from the Command Window '...
+                        'Call tudat.find(''tudatBundlePath'') or tudat.binary(''binaryPath'') from the Command Window '...
                         'to update Tudat binary path.'],path);
                 end
             else  % set binary path
@@ -122,22 +121,41 @@ classdef tudat
             end
         end
         
-        function path = testsDirectory(path)
-            if nargin == 0  % get tests directory path
+        function path = testsSourcesDirectory(path)
+            if nargin == 0  % get tests sources directory path
                 try
-                    path = tudat.settings.(tudat.testsDirectoryPathKey);
+                    path = tudat.settings.(tudat.testsSourcesDirectoryPathKey);
                 catch
-                    error(['Could not find Tudat tests directory.\n'...
-                        'Call tudat.find(''tudatBundlePath'') or tudat.findTests(''testsPath'') from the Command Window before running simulations.\n'...
+                    error(['Could not find Tudat tests sources directory.\n'...
+                        'Call tudat.find(''tudatBundlePath'') or tudat.testsSourcesDirectory(''path'') from the Command Window before running simulations.\n'...
                         'You will NOT need to do this again the next time you launch MATLAB.'],'');
                 end
                 if exist(path,'dir') ~= 7
-                    error(['Tudat tests directory was not found at the specified path: "%s"\n'...
-                        'Call tudat.find(''tudatBundlePath'') or tudat.findTests(''testsPath'') from the Command Window '...
-                        'to update Tudat tests directory.'],path);
+                    error(['Tudat tests sources directory was not found at the specified path: "%s"\n'...
+                        'Call tudat.find(''tudatBundlePath'') or tudat.testsSourcesDirectory(''path'') from the Command Window '...
+                        'to update Tudat tests sources directory.'],path);
                 end
-            else  % set tests directory path
-                updateSetting(tudat.testsDirectoryPathKey,path);
+            else  % set tests sources directory path
+                updateSetting(tudat.testsSourcesDirectoryPathKey,path);
+            end
+        end
+        
+        function path = testsBinariesDirectory(path)
+            if nargin == 0  % get tests binaries directory path
+                try
+                    path = tudat.settings.(tudat.testsBinariesDirectoryPathKey);
+                catch
+                    error(['Could not find Tudat tests binaries directory.\n'...
+                        'Call tudat.find(''tudatBundlePath'') or tudat.testsBinariesDirectory(''path'') from the Command Window before running simulations.\n'...
+                        'You will NOT need to do this again the next time you launch MATLAB.'],'');
+                end
+                if exist(path,'dir') ~= 7
+                    error(['Tudat tests binaries directory was not found at the specified path: "%s"\n'...
+                        'Call tudat.find(''tudatBundlePath'') or tudat.testsBinariesDirectory(''path'') from the Command Window '...
+                        'to update Tudat tests binaries directory.'],path);
+                end
+            else  % set tests binaries directory path
+                updateSetting(tudat.testsBinariesDirectoryPathKey,path);
             end
         end
         
