@@ -1,6 +1,6 @@
 %% User-defined Thrust Vector
 
-clc; clear variables;
+clc; clear all;
 tudat.load();
 
 

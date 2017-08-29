@@ -1,6 +1,6 @@
 %% Thrust Force Along Velocity Vector
 
-clc; clear variables;
+clc; clear all;
 tudat.load();
 
 

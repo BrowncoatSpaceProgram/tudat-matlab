@@ -1,6 +1,6 @@
 %% Perturbed Earth-orbiting Satellite
 
-clc; clear variables;
+clc; clear all;
 tudat.load();
 
 

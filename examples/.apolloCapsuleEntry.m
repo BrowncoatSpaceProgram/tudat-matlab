@@ -1,6 +1,6 @@
 %% Un-guided Capsule Entry
 
-clc; clear variables;
+clc; clear all;
 tudat.load();
 
 
