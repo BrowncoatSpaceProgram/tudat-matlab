@@ -1,4 +1,6 @@
-clc; clear;
+function failcount = gravityField
+
+failcount = 0;
 tudat.load();
 
 sat = Body('sat');
@@ -37,4 +39,6 @@ sat.gravityField.referenceRadius = constants.radius.earth;
 sat.gravityField.cosineCoefficients = [1 0; 0 0];
 sat.gravityField.sineCoefficients = [0 0; 0 0];
 fprintf([json.encode(sat) '\n\n']);
+
+% error('falseAlarm');
 

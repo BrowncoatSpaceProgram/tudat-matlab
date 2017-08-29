@@ -1,4 +1,6 @@
-clc; clear;
+function failcount = rotationalModel
+
+failcount = 0;
 tudat.load();
 
 sat = Body('sat');
@@ -19,3 +21,4 @@ sat.rotationModel.initialTime = '2000-01-01 5:00';
 sat.rotationModel.rotationRate = 2e-5;
 sat.rotationModel.initialOrientation = [1 0 0; 0 sqrt(2)/2 -sqrt(2)/2; 0 -sqrt(2)/2 sqrt(2)/2];
 fprintf([json.encode(sat) '\n\n']);
+

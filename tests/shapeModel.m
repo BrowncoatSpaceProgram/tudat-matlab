@@ -1,4 +1,6 @@
-clc; clear;
+function failcount = shapeModel
+
+failcount = 0;
 tudat.load();
 
 sat = Body('sat');

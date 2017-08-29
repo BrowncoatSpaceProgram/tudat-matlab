@@ -1,4 +1,6 @@
-clc; clear;
+function failcount = atmosphere
+
+failcount = 0;
 tudat.load();
 
 sat = Body('sat');

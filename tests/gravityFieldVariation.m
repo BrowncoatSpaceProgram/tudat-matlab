@@ -1,4 +1,6 @@
-clc; clear;
+function failcount = gravityFieldVariation
+
+failcount = 0;
 tudat.load();
 
 sat = Body('sat');

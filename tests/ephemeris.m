@@ -1,4 +1,6 @@
-clc; clear;
+function failcount = ephemeris
+
+failcount = 0;
 tudat.load();
 
 sat = Body('sat');
@@ -33,4 +35,5 @@ sat.ephemeris = TabulatedEphemeris();
 sat.ephemeris.bodyStateHistory = containers.Map({0 1 2},{[1 0 0] [3 0 0] [4 0 0]});
 fprintf([json.encode(sat) '\n\n']);
 
+% failcount = 12;
 
