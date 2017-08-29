@@ -28,6 +28,28 @@ else
         s = object.struct();
     catch ME
         if strcmp(ME.identifier,'MATLAB:structRefFromNonStruct')  % primitive -> int, double, bool, std::string
+            if isnumeric(object)
+                if any(imag(object(:)))  % complex numbers -> "(real,imag")
+                    [m,n] = size(object);
+                    numobject = object;
+                    if m == 1 && n == 1
+                        object = sprintf('(%g,%g)',real(numobject),imag(numobject));
+                    elseif m == 1 || n == 1
+                        p = max(m,n);
+                        object = cell(m,n);
+                        for i = 1:p
+                            object{i} = sprintf('(%g,%g)',real(numobject(i)),imag(numobject(i)));
+                        end
+                    else
+                        object = cell(m,1);
+                        for i = 1:m
+                            for j = 1:n
+                                object{i}{j} = sprintf('(%g,%g)',real(numobject(i,j)),imag(numobject(i,j)));
+                            end
+                        end
+                    end
+                end
+            end
             s = object;
         else
             rethrow(ME);
