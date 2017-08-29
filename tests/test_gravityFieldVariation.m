@@ -1,12 +1,12 @@
-clc; clear all;
+clc; clear;
 tudat.load();
 
 sat = Body('sat');
 sat.mass = 15;
 
-isempty(sat.gravityFieldVariations)
+isempty(sat.gravityFieldVariation)
 fprintf([json.encode(sat) '\n\n']);
 
-sat.gravityFieldVariations = GravityFieldVariations('basicSolidBody');
+sat.gravityFieldVariation = GravityFieldVariation('basicSolidBody');
 fprintf([json.encode(sat) '\n\n']);
 

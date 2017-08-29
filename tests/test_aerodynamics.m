@@ -1,4 +1,4 @@
-clc; clear all;
+clc; clear;
 tudat.load();
 
 sat = Body('sat');
