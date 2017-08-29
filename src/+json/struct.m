@@ -24,6 +24,8 @@ elseif isa(object,'containers.Map')  % containers.Map -> std::map
         end
     end
     s = charMap;
+elseif isenum(object)  % enum -> std::string
+    s = char(object);
 else
     try  % classdef -> class
         s = object.struct();
