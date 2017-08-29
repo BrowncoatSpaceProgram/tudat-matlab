@@ -1,6 +1,6 @@
 % For code comments, see: https://github.com/aleixpinardell/tudat-matlab#usage
 
-clc; clear all;
+clc; clear;
 tudat.load();
 
 simulation = Simulation('1992-02-14 06:00','1992-02-14 12:00');

@@ -1,6 +1,6 @@
 %% Perturbed Earth-orbiting Satellite
 
-clc; clear all;
+clc; clear;
 tudat.load();
 
 
@@ -15,7 +15,7 @@ satellite.mass = 400;
 satellite.referenceArea = 4;
 satellite.dragCoefficient = 1.2;
 satellite.radiationPressureCoefficient = 1.2;
-satellite.radiationPressure.Sun.occultingBodies = { 'Earth' };
+satellite.radiationPressure.Sun.occultingBodies = 'Earth';
 simulation.addBodies('Sun','Earth','Moon','Mars','Venus',satellite);
 
 % Accelerations
@@ -37,6 +37,7 @@ simulation.propagator = propagator;
 % Integrator
 simulation.integrator = Integrator(Integrators.rungeKutta4,10);
 
+json.export(simulation,'sim.json');
 
 %% RUN
 

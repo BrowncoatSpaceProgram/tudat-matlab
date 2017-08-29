@@ -1,21 +1,18 @@
 %% Un-guided Capsule Entry
 
-clc; clear all;
+clc; clear;
 tudat.load();
 
 
 %% SET UP
 
 simulation = Simulation(0,3100,'SSB','J2000');
-spice = Spice('pck00009.tpc','de-403-masses.tpc','de421.bsp');
-spice.preloadOffsets = 10;
-simulation.spice = spice;
+simulation.spice = Spice('pck00009.tpc','de-403-masses.tpc','de421.bsp');
 
 % Bodies
 earth = Body('Earth');
 earth.useDefaultSettings = true;
-earth.ephemeris.type = 'constant';
-earth.ephemeris.constantState = zeros(6,1);
+earth.ephemeris = ConstantEphemeris(zeros(6,1));
 apollo = Body('Apollo');
 apollo.mass = 5e3;
 apolloCoefficientInterface = [];
@@ -24,7 +21,7 @@ simulation.addBodies(earth,apollo);
 
 % Propagator
 propagator = TranslationalPropagator();
-initialSphericalState = [7500.0E3 0.1 deg2rad(85.3) deg2rad(235.7) deg2rad(23.4) deg2rad(139.87)];
+initialSphericalState = [7500.0E3 0.1 deg2rad([85.3 235.7 23.4 139.87])];
 propagator.initialState = convert.sphericalToCartesian(initialSphericalState);
 propagator.centralBody = 'Earth';
 propagator.bodyToPropagate = 'Apollo';

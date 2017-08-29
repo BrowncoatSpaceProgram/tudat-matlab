@@ -1,6 +1,6 @@
 %% Unperturbed Earth-orbiting Satellite
 
-clc; clear all;
+clc; clear;
 tudat.load();
 
 

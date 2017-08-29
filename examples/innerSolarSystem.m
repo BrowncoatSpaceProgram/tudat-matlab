@@ -1,6 +1,6 @@
 %% Inner Solar System Propagation
 
-clc; clear all;
+clc; clear;
 tudat.load();
 
 
