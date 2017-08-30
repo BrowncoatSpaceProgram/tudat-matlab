@@ -6,8 +6,11 @@ classdef DirectSpiceEphemeris < Ephemeris
     end
     
     methods
-        function obj = DirectSpiceEphemeris()
-            obj@Ephemeris(EphemerisTypes.directSpice);
+        function obj = DirectSpiceEphemeris(type)
+            if nargin == 0
+                type = EphemerisTypes.directSpice;
+            end
+            obj@Ephemeris(type);
         end
         
     end

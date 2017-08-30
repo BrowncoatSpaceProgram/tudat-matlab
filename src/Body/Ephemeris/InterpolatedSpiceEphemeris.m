@@ -1,4 +1,4 @@
-classdef InterpolatedSpiceEphemeris < Ephemeris
+classdef InterpolatedSpiceEphemeris < DirectSpiceEphemeris
     properties
         initialTime
         finalTime
@@ -9,7 +9,7 @@ classdef InterpolatedSpiceEphemeris < Ephemeris
     
     methods
         function obj = InterpolatedSpiceEphemeris()
-            obj@Ephemeris(EphemerisTypes.interpolatedSpice);
+            obj@DirectSpiceEphemeris(EphemerisTypes.interpolatedSpice);
             obj.interpolator = Interpolator();
         end
         
@@ -17,7 +17,7 @@ classdef InterpolatedSpiceEphemeris < Ephemeris
     
     methods (Hidden)
         function mp = getMandatoryProperties(obj)
-            mp = getMandatoryProperties@Ephemeris(obj);
+            mp = getMandatoryProperties@DirectSpiceEphemeris(obj);
             mp = horzcat(mp,{'initialTime','finalTime','timeStep'});
         end
         
