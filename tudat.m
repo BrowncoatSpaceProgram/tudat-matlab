@@ -8,9 +8,13 @@ classdef tudat
         testsSourcesDirectoryPathKey = 'testsSourcesDirectoryPath'
         testsBinariesDirectoryPathKey = 'testsBinariesDirectoryPath'
         
-        defaultBinaryPath = fullfile('tudatExampleApplications','satellitePropagatorExamples','bin','applications','tudat')
-        defaultTestsSourcesPath = fullfile('tudat','Tudat','External','JsonInterface','UnitTests')
-        defaultTestsBinariesPath = fullfile('tudat','bin','unit_tests')
+        defaultBinaryPath = fullfile(tudat.rootdir,'bin','tudat')
+        defaultTestsSourcesPath = tudat.testsdir
+        defaultTestsBinariesPath = fullfile(tudat.testsdir,'bin')
+        
+        defaultInBundleBinaryPath = fullfile('tudatExampleApplications','satellitePropagatorExamples','bin','applications','tudat')
+        defaultInBundleTestsSourcesPath = fullfile('tudat','Tudat','External','JsonInterface','UnitTests')
+        defaultInBundleTestsBinariesPath = fullfile('tudat','bin','unit_tests')
     end
     
     methods (Static)
@@ -30,9 +34,17 @@ classdef tudat
         end
         
         function find(bundlePath)
-            tudat.binary(fullfile(bundlePath,tudat.defaultBinaryPath));
-            tudat.testsSourcesDirectory(fullfile(bundlePath,tudat.defaultTestsSourcesPath));
-            tudat.testsBinariesDirectory(fullfile(bundlePath,tudat.defaultTestsBinariesPath));
+            if nargin >= 1
+                if ~isempty(bundlePath)
+                    tudat.binary(fullfile(bundlePath,tudat.defaultInBundleBinaryPath));
+                    tudat.testsSourcesDirectory(fullfile(bundlePath,tudat.defaultInBundleTestsSourcesPath));
+                    tudat.testsBinariesDirectory(fullfile(bundlePath,tudat.defaultInBundleTestsBinariesPath));
+                    return;
+                end
+            end
+            tudat.binary(tudat.defaultBinaryPath);
+            tudat.testsSourcesDirectory(tudat.defaultTestsSourcesPath);
+            tudat.testsBinariesDirectory(tudat.defaultTestsBinariesPath);
         end
         
         function test(varargin)
@@ -78,9 +90,9 @@ classdef tudat
                 end
                 fprintf('%-22s  [ %.3f s ]\n',result,toc);
             end
-            fprintf([separator '\n\n']);
+            fprintf([separator '\n']);
             p = length(passed);
-            fprintf('Total elapsed time: %g s.\n%i of %i tests (%g%%) passed.\n',toc(t0),p,n,p/n*100);
+            fprintf('Total elapsed time: %g s.\n\n%i of %i tests (%g%%) passed.\n',toc(t0),p,n,p/n*100);
             f = n - p;
             if f > 0
                 if f == 1
