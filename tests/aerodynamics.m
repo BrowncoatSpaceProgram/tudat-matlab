@@ -1,24 +1,47 @@
 function failcount = aerodynamics
 
-failcount = 0;
 tudat.load();
 
-sat = Body('sat');
-isempty(sat.aerodynamics)
+% Create input files for tests
 
-sat.dragCoefficient = -2.2;
-sat.aerodynamics.momentCoefficients = [1 2 3];
-sat.aerodynamics.referenceLength = 3;
-sat.aerodynamics.lateralReferenceLength = 4;
-sat.aerodynamics.momentReferencePoint = [0 0 0];
-sat.aerodynamics.areCoefficientsInNegativeAxisDirection = false;
-fprintf([json.encode(sat) '\n\n']);
+% Test 1: aerodynamic coefficients types
+test.createInputForEnum(?AerodynamicCoefficients,[mfilename '_coefficientsTypes']);
 
-sat.aerodynamics = TabulatedAerodynamics();
-sat.aerodynamics.independentVariableName = AerodynamicVariables.angleOfAttack;
-sat.aerodynamics.independentVariables = [1 10];
-sat.aerodynamics.forceCoefficients = [2.2 0 0; 2.5 0 0];
-sat.aerodynamics.interpolator.type = 'linear';
-% sat.aerodynamics.momentCoefficients = [1 2 3; 5 8 7];
-fprintf([json.encode(sat) '\n\n']);
+% Test 2: aerodynamic variables
+test.createInputForEnum(?AerodynamicVariables,[mfilename '_variables']);
 
+% Test 3: constant aerodynamics (only drag coefficient)
+ca = ConstantAerodynamics();
+ca.referenceArea = 10.5;
+ca.dragCoefficient = 2.2;
+test.createInput(ca,[mfilename '_dragCoefficient']);
+
+% Test 4: constant aerodynamics (full)
+ca.referenceLength = 5;
+ca.lateralReferenceLength = 4;
+ca.momentReferencePoint = [0.7 0.8 0.9];
+ca.forceCoefficients = [1 2 3];
+ca.momentCoefficients = [0 1e-3 -0.1];
+ca.areCoefficientsInAerodynamicFrame = true;
+ca.areCoefficientsInNegativeAxisDirection = false;
+test.createInput(ca,[mfilename '_constant']);
+
+% Test 5: tabulated aerodynamics (1 dimension)
+ta = TabulatedAerodynamics();
+ta.independentVariables = 0:3;
+ta.forceCoefficients = [0.7, 0.8, 0.9; 1.7, 1.8, 1.9; 2.7, 2.8, 2.9; 3.7, 3.8, 3.9];
+ta.momentCoefficients = [1.0, 2.0, 3.0; 1.0, 1.0, 1.0; 2.0, 2.0, 2.0; 3.0, 3.0, 3.0];
+ta.referenceLength = 5;
+ta.referenceArea = 10.5;
+ta.lateralReferenceLength = 4;
+ta.momentReferencePoint = [0.7 0.8 0.9];
+ta.independentVariableName = AerodynamicVariables.angleOfSideslip;
+ta.interpolator.type = Interpolators.cubicSpline;
+ta.areCoefficientsInAerodynamicFrame = false;
+ta.areCoefficientsInNegativeAxisDirection = false;
+test.createInput(ta,[mfilename '_tabulated1']);
+
+
+% Run tests
+
+failcount = test.runUnitTest(mfilename);
