@@ -45,3 +45,4 @@ test.createInput(ta,[mfilename '_tabulated1']);
 % Run tests
 
 failcount = test.runUnitTest(mfilename);
+

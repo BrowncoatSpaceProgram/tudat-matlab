@@ -53,3 +53,4 @@ test.createInput(gf,[mfilename '_sphericalHarmonic_direct']);
 % Run tests
 
 failcount = test.runUnitTest(mfilename);
+

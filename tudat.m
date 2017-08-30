@@ -80,15 +80,15 @@ classdef tudat
                     tic;
                     evalc(sprintf('failures = %s',testName));
                     if failures
-                        result = sprintf('*** FAILED (%i errors)',failures);
+                        result = sprintf('<strong>%-22s</strong>',sprintf('*** FAILED (%i errors)',failures));
                     else
-                        result = 'PASSED';
+                        result = sprintf('%-22s','PASSED');
                         passed{end+1} = testName;
                     end
                 catch
-                    result = '*** ERROR';
+                    result = sprintf('<strong>%-22s</strong>','*** ERROR');
                 end
-                fprintf('%-22s  [ %.3f s ]\n',result,toc);
+                fprintf('%s  [ %.3f s ]\n',result,toc);
             end
             fprintf([separator '\n']);
             p = length(passed);
@@ -102,8 +102,9 @@ classdef tudat
                 end
                 fprintf('%i test%s failed:\n',f,ts);
                 for i = 1:n
-                    if ~any(strcmp(testNames{i},passed))
-                        fprintf('   *** %s\n',testNames{i});
+                    testName = testNames{i};
+                    if ~any(strcmp(testName,passed))
+                        fprintf('   * <a href="matlab: open(which(''%s.m''))">%s.m</a>\n',testName,testName);
                     end
                 end
             end
