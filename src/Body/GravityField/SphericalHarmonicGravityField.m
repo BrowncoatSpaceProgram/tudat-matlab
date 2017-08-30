@@ -1,7 +1,7 @@
 classdef SphericalHarmonicGravityField < GravityField
     properties
         model
-
+        
         file
         associatedReferenceFrame
         maximumDegree
@@ -49,6 +49,10 @@ classdef SphericalHarmonicGravityField < GravityField
                 mp = horzcat(mp,{'gravitationalParameter','referenceRadius','cosineCoefficients',...
                     'cosineCoefficients','associatedReferenceFrame'});
             end
+        end
+        
+        function p = isPath(obj,property)
+            p = strcmp(property,'file');
         end
         
     end
