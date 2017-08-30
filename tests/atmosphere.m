@@ -1,27 +1,34 @@
 function failcount = atmosphere
 
-failcount = 0;
 tudat.load();
 
-sat = Body('sat');
-sat.mass = 15;
+% Create input files for tests
 
-isempty(sat.atmosphere)
-fprintf([json.encode(sat) '\n\n']);
+% Test 1: atmosphere models
+test.createInputForEnum(?AtmosphereModels,[mfilename '_models']);
 
-sat.atmosphere = ExponentialAtmosphere();
-sat.atmosphere.densityScaleHeight = 5;
-sat.atmosphere.densityAtZeroAltitude = 1;
-sat.atmosphere.constantTemperature = 290;
-sat.atmosphere.specificGasConstant = 5;
-fprintf([json.encode(sat) '\n\n']);
+% Test 2: exponential atmosphere
+atm = ExponentialAtmosphere();
+atm.densityScaleHeight = 5;
+atm.constantTemperature = 290;
+atm.densityAtZeroAltitude = 1;
+atm.specificGasConstant = 3;
+test.createInput(atm,[mfilename '_exponential']);
 
-sat.atmosphere = TabulatedAtmosphere('tab_atm.txt');
-fprintf([json.encode(sat) '\n\n']);
+% Test 3: tabulated atmosphere
+atm = TabulatedAtmosphere('atmosphereTable.foo');
+test.createInput(atm,[mfilename '_tabulated']);
 
-sat.atmosphere = Atmosphere('nrlmsise00');
-fprintf([json.encode(sat) '\n\n']);
+% Test 4: NRLMSISE00 atmosphere
+atm = Atmosphere('nrlmsise00');
+test.createInput(atm,[mfilename '_nrlmsise00']);
 
-sat.atmosphere = NRLMSISE00Atmosphere('sw.txt');
-fprintf([json.encode(sat) '\n\n']);
+% Test 5: NRLMSISE00 atmosphere (custom space weather file)
+atm = NRLMSISE00Atmosphere('spaceWeatherFile.foo');
+test.createInput(atm,[mfilename '_nrlmsise00_custom']);
+
+
+% Run tests
+
+failcount = test.runUnitTest(mfilename);
 
