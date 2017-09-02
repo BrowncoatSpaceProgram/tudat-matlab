@@ -28,10 +28,13 @@ If you want to load automatically the ephemeris and properties of bodies such as
 simulation.spice = Spice('pck00009.tpc','de-403-masses.tpc','de421.bsp');
 ```
 
-Next, you need to create the bodies. For an unperturbed orbit, the mass of the satellite is irrelevant, so creating an empty body object (named 'Satellite') will suffice;
+Next, you need to create the bodies. For an unperturbed orbit, the mass of the satellite is irrelevant, so we create a body named 'Satellite' with the following initial state:
 ```
-satelliteBody = Body('Satellite');
+satellite = Body('Satellite');
+satellite.cartesianState = convert.keplerianToCartesian([7500.0E3 0.1 deg2rad(5) 0 0 0]);
 ```
+
+Note the use of tudat-matlab's `convert` package, which includes a few useful function for conversion of units and orbital elements.
 
 Now, you add the bodies to the propagation by calling the method `addBodies` of your `simulation` object. You have to provide a list of `Body` objects and or body names. When you provide a body name (i.e. a string), a `Body` object will be created for you and its properties will be retrieved from Spice (if its name is recognizable). Thus, you can simply write:
 ```
@@ -41,25 +44,22 @@ simulation.addBodies('Earth',satelliteBody);
 Then, you will create the settings for the propagation. We are going to propagate the translational state of the body 'Satellite' about the 'Earth'. Thus, we will use a `TranslationalPropagator`:
 ```
 propagator = TranslationalPropagator();
-initialKeplerianState = [7500.0E3 0.1 deg2rad(5) 0 0 0];
-propagator.initialStates = convert.keplerianToCartesian(initialKeplerianState);
 propagator.centralBodies = 'Earth';
 propagator.bodiesToPropagate = 'Satellite';
 ```
 
 Note that we always refer to bodies by their names (i.e. we do not provide the `Body` object `satelliteBody` to `propagator.bodiesToPropagate`). The only exception is when calling the method `addBodies` of a `Simulation` object, in which both body names and `Body` objects are accepted.
 
-Also note the usage of tudat-matlab's `convert` package, which includes a few useful function for conversion of units and orbital elements.
-
 Now we need to specify the accelerations acting on 'Satellite'. The only accelerations acting on 'Satellite' are those caused by 'Earth', so we need to specify the property `propagator.accelerations.Asterix.Earth`. In the case of an unperturbed satellite, the only acceleration is the point-mass gravity of the central body:
 ```
 propagator.accelerations.Asterix.Earth = PointMassGravity();
 ```
 
-Finally, we add the `propagator` to the `simulation` object and define an integrator:
+Finally, we add the `propagator` to the `simulation` object and define the integrator settings:
 ```
 simulation.propagator = propagator;
-simulation.integrator = Integrator(Integrators.rungeKutta4,20);
+simulation.integrator.type = Integrators.rungeKutta4;
+simulation.integrator.stepSize = 20;
 ```
 In this case we use a Runge-Kutta 4 integrator with a fixed step-size of 20 seconds.
 

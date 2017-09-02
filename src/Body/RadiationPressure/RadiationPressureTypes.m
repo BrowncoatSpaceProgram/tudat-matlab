@@ -1,7 +1,5 @@
-classdef GravityFields
+classdef RadiationPressureTypes
     enumeration
-        pointMass
-        pointMassSpice
-        sphericalHarmonic
+        cannonBall
     end
 end

@@ -15,7 +15,7 @@ classdef ThrustMagnitude < jsonable
             if ~isa(value,'ThrustMagnitudes')
                 value = ThrustMagnitudes(value);
             end
-            obj.type = char(value);
+            obj.type = value;
         end
         
     end

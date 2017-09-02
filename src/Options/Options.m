@@ -25,21 +25,21 @@ classdef Options < jsonable
             if ~isa(value,'ExceptionResponses')
                 value = ExceptionResponses(value);
             end
-            obj.defaultValueUsedForMissingKey = char(value);
+            obj.defaultValueUsedForMissingKey = value;
         end
         
         function set.unusedKey(obj,value)
             if ~isa(value,'ExceptionResponses')
                 value = ExceptionResponses(value);
             end
-            obj.unusedKey = char(value);
+            obj.unusedKey = value;
         end
         
         function set.unidimensionalArrayInference(obj,value)
             if ~isa(value,'ExceptionResponses')
                 value = ExceptionResponses(value);
             end
-            obj.unidimensionalArrayInference = char(value);
+            obj.unidimensionalArrayInference = value;
         end
         
     end

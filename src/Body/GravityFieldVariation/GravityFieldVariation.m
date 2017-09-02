@@ -14,7 +14,7 @@ classdef GravityFieldVariation < jsonable
             if ~isa(value,'BodyDeformations')
                 value = BodyDeformations(value);
             end
-            obj.bodyDeformationType = char(value);
+            obj.bodyDeformationType = value;
         end
         
     end

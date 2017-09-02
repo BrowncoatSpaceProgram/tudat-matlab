@@ -14,7 +14,7 @@ classdef Acceleration < jsonable
             if ~isa(value,'Accelerations')
                 value = Accelerations(value);
             end
-            obj.type = char(value);
+            obj.type = value;
         end
         
     end

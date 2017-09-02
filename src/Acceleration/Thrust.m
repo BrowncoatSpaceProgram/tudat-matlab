@@ -16,6 +16,21 @@ classdef Thrust < Acceleration
             obj.dataInterpolation = DataInterpolation();
         end
         
+        function bodyName = get.centralBody(obj)
+            if isa(obj.centralBody,'Body')
+                bodyName = obj.centralBody.name;
+            else
+                bodyName = obj.centralBody;
+            end
+        end
+        
+       function set.frame(obj,value)
+            if ~isa(value,'ThrustFrames')
+                value = ThrustFrames(value);
+            end
+            obj.frame = value;
+       end
+       
     end
     
     methods (Hidden)

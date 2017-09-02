@@ -14,7 +14,20 @@ classdef Propagator < jsonable
             if ~isa(value,'IntegratedStates')
                 value = IntegratedStates(value);
             end
-            obj.integratedStateType = char(value);
+            obj.integratedStateType = value;
+        end
+        
+        function bodyNames = get.bodiesToPropagate(obj)
+            if iscell(obj.bodiesToPropagate)
+                bodyNames = obj.bodiesToPropagate;
+            else
+                bodyNames = { obj.bodiesToPropagate };
+            end
+            for i = 1:length(bodyNames)
+                if isa(bodyNames{i},'Body')
+                    bodyNames{i} = bodyNames{i}.name;
+                end
+            end
         end
         
     end

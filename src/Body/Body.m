@@ -1,7 +1,9 @@
 classdef Body < jsonable
     properties
         useDefaultSettings
+        cartesianState
         mass
+        rotationalState
         referenceArea
         aerodynamics
         atmosphere
@@ -21,7 +23,7 @@ classdef Body < jsonable
     end
     
     methods
-        function obj = Body(name)
+        function obj = Body(name,useDefaultSettings)
             obj.aerodynamics = ConstantAerodynamics();
             obj.atmosphere = Atmosphere();
             obj.ephemeris = Ephemeris();
@@ -31,6 +33,9 @@ classdef Body < jsonable
             obj.shapeModel = ShapeModel();
             if nargin >= 1
                 obj.name = name;
+                if nargin >= 2
+                    obj.useDefaultSettings = useDefaultSettings;
+                end
             end
         end
         

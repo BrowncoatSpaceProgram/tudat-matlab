@@ -11,10 +11,10 @@ simulation.spice = Spice('pck00009.tpc','de-403-masses.tpc','de421.bsp','naif000
 simulation.spice.preloadKernels = false;
 
 % Bodies
-bodyNames = {'Sun','Mercury','Venus','Earth','Moon','Mars'};
-simulation.addBodies(bodyNames{:});
+simulation.addBodies(Sun,Mercury,Venus,Earth,Moon,Mars);
 
 % Accelerations
+bodyNames = fieldnames(simulation.bodies);
 for i = 1:length(bodyNames)
     for j = 1:length(bodyNames)
         if i ~= j
@@ -31,7 +31,8 @@ propagator.accelerations = accelerations;
 simulation.propagator = propagator;
 
 % Integrator
-simulation.integrator = Integrator(Integrators.rungeKutta4,'1 h');
+simulation.integrator.type = Integrators.rungeKutta4;
+simulation.integrator.stepSize = '1 h';
 
 
 %% RUN

@@ -2,7 +2,6 @@ classdef CannonBallRadiationPressure < RadiationPressure
     properties
         referenceArea
         radiationPressureCoefficient
-        occultingBodies
     end
     
     methods

@@ -31,14 +31,14 @@ classdef Variable < jsonable
                     end
                     subparts = split(subparts{1},'@');
                     obj.dependentVariableType = subparts{1};
-                    if any(strcmp(obj.dependentVariableType,...
-                            {char(DependentVariables.acceleration),char(DependentVariables.accelerationNorm)}))
+                    if obj.dependentVariableType == DependentVariables.acceleration ...
+                            || obj.dependentVariableType == DependentVariables.accelerationNorm
                         obj.bodyExertingAcceleration = secondaryBody;
-                        obj.accelerationType = Accelerations(subparts{2});
-                    elseif any(strcmp(obj.dependentVariableType,...
-                            {char(DependentVariables.torque),char(DependentVariables.torqueNorm)}))
+                        obj.accelerationType = subparts{2};
+                    elseif obj.dependentVariableType == DependentVariables.torque ...
+                            || obj.dependentVariableType == DependentVariables.torqueNorm
                         obj.bodyExertingTorque = secondaryBody;
-                        obj.torqueType = Torques(subparts{2});
+                        obj.torqueType = subparts{2};
                     else
                         obj.relativeToBody = secondaryBody;
                     end
@@ -50,28 +50,28 @@ classdef Variable < jsonable
             if ~isa(value,'Variables')
                 value = Variables(value);
             end
-            obj.type = char(value);
+            obj.type = value;
         end
         
         function set.dependentVariableType(obj,value)
             if ~isa(value,'DependentVariables')
                 value = DependentVariables(value);
             end
-            obj.dependentVariableType = char(value);
+            obj.dependentVariableType = value;
         end
         
         function set.accelerationType(obj,value)
             if ~isa(value,'Accelerations')
                 value = Accelerations(value);
             end
-            obj.accelerationType = char(value);
+            obj.accelerationType = value;
         end
         
         function set.torqueType(obj,value)
             if ~isa(value,'Torques')
                 value = Torques(value);
             end
-            obj.torqueType = char(value);
+            obj.torqueType = value;
         end
         
         function condition = lt(obj1,obj2)

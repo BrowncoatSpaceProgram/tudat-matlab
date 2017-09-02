@@ -11,43 +11,44 @@ simulation.spice = Spice('pck00009.tpc','de-403-masses.tpc','de421.bsp');
 simulation.spice.preloadKernels = false;
 
 % Bodies
-vehicle = Body('Vehicle');
+vehicle = Body('vehicle');
+vehicle.cartesianState = [8e6 0 0 0 7.5e3 0];
 vehicle.mass = 5e3;
-simulation.addBodies('Sun','Earth','Moon',vehicle);
+simulation.addBodies(Earth,Sun,Moon,vehicle);
 
 % Gravitational accelerations
-accelerationsOfVehicle.Earth = PointMassGravity();
-accelerationsOfVehicle.Sun = PointMassGravity();
-accelerationsOfVehicle.Moon = PointMassGravity();
+accelerationsOnVehicle.Earth = PointMassGravity();
+accelerationsOnVehicle.Sun = PointMassGravity();
+accelerationsOnVehicle.Moon = PointMassGravity();
 
 % Thrust acceleration
-thrustDirection = ThrustDirection(ThrustDirections.colinearWithStateSegment);
-thrustDirection.relativeBody = 'Earth';
-thrustDirection.colinearWithVelocity = true;
-thrustDirection.towardsRelativeBody = false;
 thrust = Thrust();
-thrust.direction = thrustDirection;
-thrust.magnitude = ConstantThrustMagnitude(25,5000);
-accelerationsOfVehicle.Vehicle = thrust;
+thrust.direction.type = ThrustDirections.colinearWithStateSegment;
+thrust.direction.relativeBody = Earth;
+thrust.direction.colinearWithVelocity = true;
+thrust.direction.towardsRelativeBody = false;
+thrust.magnitude = ConstantThrustMagnitude();
+thrust.magnitude.constantMagnitude = 25;
+thrust.magnitude.specificImpulse = 5000;
+accelerationsOnVehicle.vehicle = thrust;
 
 % Translational propagator
 translationalPropagator = TranslationalPropagator();
-translationalPropagator.centralBodies = 'Earth';
-translationalPropagator.bodiesToPropagate = 'Vehicle';
-translationalPropagator.initialStates = [8e6 0 0 0 7.5e3 0];
-translationalPropagator.accelerations.Vehicle = accelerationsOfVehicle;
+translationalPropagator.centralBodies = Earth;
+translationalPropagator.bodiesToPropagate = vehicle;
+translationalPropagator.accelerations.vehicle = accelerationsOnVehicle;
 
 % Mass propagator
 massPropagator = MassPropagator();
-massPropagator.bodiesToPropagate = 'Vehicle';
-massPropagator.initialStates = vehicle.mass;
-massPropagator.massRateModels.Vehicle = FromThrustMassRateModel();
+massPropagator.bodiesToPropagate = vehicle;
+massPropagator.massRateModels.vehicle = FromThrustMassRateModel();
 
 % Hybrid propagator
-simulation.propagators = { translationalPropagator, massPropagator };
+simulation.propagators = {translationalPropagator, massPropagator};
 
 % Integrator
-simulation.integrator = Integrator(Integrators.rungeKutta4,30);
+simulation.integrator.type = Integrators.rungeKutta4;
+simulation.integrator.stepSize = 30;
 
 
 %% RUN

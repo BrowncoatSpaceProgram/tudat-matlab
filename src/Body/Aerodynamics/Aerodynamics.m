@@ -22,7 +22,7 @@ classdef Aerodynamics < jsonable
             if ~isa(value,'AerodynamicCoefficients')
                 value = AerodynamicCoefficients(value);
             end
-            obj.coefficientsType = char(value);
+            obj.coefficientsType = value;
         end
         
     end

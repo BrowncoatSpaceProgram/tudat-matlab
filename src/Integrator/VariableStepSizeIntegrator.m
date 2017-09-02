@@ -26,7 +26,7 @@ classdef VariableStepSizeIntegrator < Integrator
             if ~isa(value,'RungeKuttaCoefficientSets')
                 value = RungeKuttaCoefficientSets(value);
             end
-            obj.rungeKuttaCoefficientSet = char(value);
+            obj.rungeKuttaCoefficientSet = value;
         end
         
         function value = get.errorTolerance(obj)

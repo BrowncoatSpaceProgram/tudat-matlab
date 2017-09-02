@@ -17,7 +17,15 @@ classdef ThrustDirection < jsonable
             if ~isa(value,'ThrustDirections')
                 value = ThrustDirections(value);
             end
-            obj.type = char(value);
+            obj.type = value;
+        end
+        
+        function bodyName = get.relativeBody(obj)
+            if isa(obj.relativeBody,'Body')
+                bodyName = obj.relativeBody.name;
+            else
+                bodyName = obj.relativeBody;
+            end
         end
         
     end

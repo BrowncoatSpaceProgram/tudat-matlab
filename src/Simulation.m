@@ -30,6 +30,7 @@ classdef Simulation < jsonable
     
     methods
         function obj = Simulation(startEpoch,endEpoch,globalFrameOrigin,globalFrameOrientation)
+            obj.integrator = Integrator();
             obj.spice = Spice();
             obj.options = Options();
             if nargin >= 1
@@ -51,20 +52,9 @@ classdef Simulation < jsonable
                 body = varargin{i};
                 if isa(body,'Body')
                     obj.bodies.(body.name) = body;
-                    continue;
-                end
-                if isa(body,'CelestialBodies')
-                    bodyName = char(body);
                 else
-                    bodyName = body;
+                    error('Could not add body to simulation because it does not derive from class Body');
                 end
-                if ischar(bodyName)
-                    body = Body(CelestialBodies(bodyName));
-                    body.useDefaultSettings = true;
-                    obj.bodies.(bodyName) = body;
-                    continue;
-                end
-                error('Could not add body to simulation.');
             end
         end
         

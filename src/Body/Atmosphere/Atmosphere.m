@@ -14,7 +14,7 @@ classdef Atmosphere < jsonable
             if ~isa(value,'AtmosphereModels')
                 value = AtmosphereModels(value);
             end
-            obj.type = char(value);
+            obj.type = value;
         end
         
     end

@@ -10,34 +10,33 @@ simulation = Simulation(0,constants.secondsInOne.julianDay,'SSB','J2000');
 simulation.spice = Spice('pck00009.tpc','de-403-masses.tpc','de421.bsp');
 
 % Bodies
-satellite = Body('Asterix');
-satellite.mass = 400;
-satellite.referenceArea = 4;
-satellite.dragCoefficient = 1.2;
-satellite.radiationPressureCoefficient = 1.2;
-satellite.radiationPressure.Sun.occultingBodies = 'Earth';
-simulation.addBodies('Sun','Earth','Moon','Mars','Venus',satellite);
+asterix = Body('asterix');
+asterix.cartesianState = convert.keplerianToCartesian([7500.0E3 0.1 deg2rad([85.3 235.7 23.4 139.87])]);
+asterix.mass = 400;
+asterix.referenceArea = 4;
+asterix.dragCoefficient = 1.2;
+asterix.radiationPressureCoefficient = 1.2;
+asterix.radiationPressure.Sun.occultingBodies = 'Earth';
+simulation.addBodies(Sun,Earth,Moon,Mars,Venus,asterix);
 
 % Accelerations
-accelerationsOfAsterix.Earth = { SphericalHarmonicGravity(5,5), AerodynamicAcceleration() };
-accelerationsOfAsterix.Sun = { PointMassGravity(), RadiationPressureAcceleration() };
-accelerationsOfAsterix.Moon = PointMassGravity();
-accelerationsOfAsterix.Mars = PointMassGravity();
-accelerationsOfAsterix.Venus = PointMassGravity();
+accelerationsOfasterix.Earth = {SphericalHarmonicGravity(5,5), AerodynamicAcceleration()};
+accelerationsOfasterix.Sun = {PointMassGravity(), RadiationPressureAcceleration()};
+accelerationsOfasterix.Moon = PointMassGravity();
+accelerationsOfasterix.Mars = PointMassGravity();
+accelerationsOfasterix.Venus = PointMassGravity();
 
 % Propagator
 propagator = TranslationalPropagator();
-initialKeplerianState = [7500.0E3 0.1 deg2rad(85.3) deg2rad(235.7) deg2rad(23.4) deg2rad(139.87)];
-propagator.initialStates = convert.keplerianToCartesian(initialKeplerianState);
 propagator.centralBodies = 'Earth';
-propagator.bodiesToPropagate = 'Asterix';
-propagator.accelerations.Asterix = accelerationsOfAsterix;
+propagator.bodiesToPropagate = asterix;
+propagator.accelerations.asterix = accelerationsOfasterix;
 simulation.propagator = propagator;
 
 % Integrator
-simulation.integrator = Integrator(Integrators.rungeKutta4,10);
+simulation.integrator.type = Integrators.rungeKutta4;
+simulation.integrator.stepSize = 10;
 
-json.export(simulation,'sim.json');
 
 %% RUN
 
@@ -56,8 +55,8 @@ ylabel('Altitude [km]');
 
 %% RE-RUN SIMULATION FOR A SOLAR SAIL
 
-satellite.mass = 4;
-satellite.referenceArea = 40;
+asterix.mass = 4;
+asterix.referenceArea = 40;
 simulation.run();
 
 
@@ -67,5 +66,5 @@ simulation.run();
 hold on;
 plot(convert.epochToDate(t),compute.altitude(r)/1e3);
 hold off;
-legend('Asterix stellite','Solar sail','Location','NorthWest');
+legend('asterix stellite','Solar sail','Location','NorthWest');
 

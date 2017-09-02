@@ -16,7 +16,7 @@ classdef RotationModel < jsonable
             if ~isa(value,'RotationModels')
                 value = RotationModels(value);
             end
-            obj.type = char(value);
+            obj.type = value;
         end
         
     end

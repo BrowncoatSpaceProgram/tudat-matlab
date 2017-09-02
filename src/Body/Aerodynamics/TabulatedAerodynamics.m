@@ -18,7 +18,7 @@ classdef TabulatedAerodynamics < Aerodynamics
             if ~isa(value,'AerodynamicVariables')
                 value = AerodynamicVariables(value);
             end
-            obj.independentVariableName = char(value);
+            obj.independentVariableName = value;
         end
         
     end

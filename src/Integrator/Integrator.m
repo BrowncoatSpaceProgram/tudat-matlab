@@ -13,8 +13,6 @@ classdef Integrator < jsonable
             end
             if nargin >= 1
                 obj.type = integratorType;
-            else
-                obj.type = Integrators.rungeKutta4;
             end
         end
         
@@ -22,7 +20,7 @@ classdef Integrator < jsonable
             if ~isa(value,'Integrators')
                 value = Integrators(value);
             end
-            obj.type = char(value);
+            obj.type = value;
         end
         
     end

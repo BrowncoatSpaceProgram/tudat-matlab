@@ -27,7 +27,7 @@ classdef SphericalHarmonicGravityField < GravityField
             if ~isa(value,'SphericalHarmonicModels')
                 value = SphericalHarmonicModels(value);
             end
-            obj.model = char(value);
+            obj.model = value;
         end
         
     end

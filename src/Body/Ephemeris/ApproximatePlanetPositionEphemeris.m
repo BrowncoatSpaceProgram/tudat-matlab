@@ -19,7 +19,7 @@ classdef ApproximatePlanetPositionEphemeris < Ephemeris
             if ~isa(value,'BodiesWithEphemerisData')
                 value = BodiesWithEphemerisData(value);
             end
-            obj.bodyIdentifier = char(value);
+            obj.bodyIdentifier = value;
         end
         
     end

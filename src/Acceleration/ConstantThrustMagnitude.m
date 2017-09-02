@@ -8,8 +8,12 @@ classdef ConstantThrustMagnitude < ThrustMagnitude
     methods
         function obj = ConstantThrustMagnitude(constantMagnitude,specificImpulse)
             obj@ThrustMagnitude(ThrustMagnitudes.constant);
-            obj.constantMagnitude = constantMagnitude;
-            obj.specificImpulse = specificImpulse;
+            if nargin >= 1
+                obj.constantMagnitude = constantMagnitude;
+                if nargin >= 2
+                    obj.specificImpulse = specificImpulse;
+                end
+            end
         end
 
     end

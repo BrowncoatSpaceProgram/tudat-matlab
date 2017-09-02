@@ -14,7 +14,7 @@ classdef MassRateModel < jsonable
             if ~isa(value,'MassRateModels')
                 value = MassRateModels(value);
             end
-            obj.type = char(value);
+            obj.type = value;
         end
         
     end

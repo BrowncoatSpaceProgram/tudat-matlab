@@ -16,14 +16,14 @@ classdef Interpolator < jsonable
             if ~isa(value,'Interpolators')
                 value = Interpolators(value);
             end
-            obj.type = char(value);
+            obj.type = value;
         end
         
         function set.lookupScheme(obj,value)
             if ~isa(value,'LookupSchemes')
                 value = LookupSchemes(value);
             end
-            obj.lookupScheme = char(value);
+            obj.lookupScheme = value;
         end
         
     end

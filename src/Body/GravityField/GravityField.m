@@ -14,7 +14,7 @@ classdef GravityField < jsonable
             if ~isa(value,'GravityFields')
                 value = GravityFields(value);
             end
-            obj.type = char(value);
+            obj.type = value;
         end
         
     end

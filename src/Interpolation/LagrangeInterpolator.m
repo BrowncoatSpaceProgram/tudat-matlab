@@ -16,7 +16,7 @@ classdef LagrangeInterpolator < Interpolator
             if ~isa(value,'BoundaryHandlings')
                 value = BoundaryHandlings(value);
             end
-            obj.boundaryHandling = char(value);
+            obj.boundaryHandling = value;
         end
         
     end

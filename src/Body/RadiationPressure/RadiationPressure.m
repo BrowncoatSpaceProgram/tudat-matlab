@@ -1,6 +1,8 @@
 classdef RadiationPressure < jsonable
     properties
         type
+        sourceBody
+        occultingBodies
     end
     
     methods
@@ -14,7 +16,7 @@ classdef RadiationPressure < jsonable
             if ~isa(value,'RadiationPressureTypes')
                 value = RadiationPressureTypes(value);
             end
-            obj.type = char(value);
+            obj.type = value;
         end
         
     end

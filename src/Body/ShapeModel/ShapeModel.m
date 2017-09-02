@@ -14,7 +14,7 @@ classdef ShapeModel < jsonable
             if ~isa(value,'ShapeModels')
                 value = ShapeModels(value);
             end
-            obj.type = char(value);
+            obj.type = value;
         end
         
     end

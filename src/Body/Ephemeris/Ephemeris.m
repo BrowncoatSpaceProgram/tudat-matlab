@@ -17,7 +17,7 @@ classdef Ephemeris < jsonable
             if ~isa(value,'EphemerisTypes')
                 value = EphemerisTypes(value);
             end
-            obj.type = char(value);
+            obj.type = value;
         end
         
     end

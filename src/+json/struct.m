@@ -24,13 +24,13 @@ elseif isa(object,'containers.Map')  % containers.Map -> std::map
         end
     end
     s = charMap;
-elseif isenum(object)  % enum -> std::string
-    s = char(object);
 else
     try  % classdef -> class
         s = object.struct();
     catch ME
-        if strcmp(ME.identifier,'MATLAB:structRefFromNonStruct')  % primitive -> int, double, bool, std::string
+        if isenum(object)  % enum -> std::string
+            s = char(object);
+        elseif strcmp(ME.identifier,'MATLAB:structRefFromNonStruct')  % primitive -> int, double, bool, std::string
             if isnumeric(object)
                 if any(imag(object(:)))  % complex numbers -> "(real,imag")
                     [m,n] = size(object);
