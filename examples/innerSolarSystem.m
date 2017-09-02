@@ -42,7 +42,7 @@ simulation.run();
 
 %% RESULTS
 
-% Retrieve states for each body
+% Retrieve posotions for each body
 for i = 1:length(bodyNames)
     fromIndex = 2 + (i-1)*6;
     toIndex = fromIndex + 2;
