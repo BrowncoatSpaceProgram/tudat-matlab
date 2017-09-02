@@ -23,36 +23,34 @@ Now, you can create a `Simulation` object by writing:
 simulation = Simulation('1992-02-14 06:00','1992-02-14 12:00');
 ```
 
-If you want to load automatically the ephemeris and properties of bodies such as the Sun, Earth, the Moon and other planets, you will need to use Spice. For a simple propagation, you do this by speciying the following Spice kernels:
+If you want to load automatically the ephemeris and properties of bodies such as the Sun, Earth, the Moon and other planets, you will need to use Spice. For a simple propagation, you do this by specifying the following Spice kernels:
 ```
 simulation.spice = Spice('pck00009.tpc','de-403-masses.tpc','de421.bsp');
 ```
 
-Next, you need to create the bodies. For an unperturbed orbit, the mass of the satellite is irrelevant, so we create a body named 'Satellite' with the following initial state:
+Next, you need to create the bodies. For an unperturbed orbit, the mass of the satellite is irrelevant, so we create a body named 'satellite' with the following initial state:
 ```
-satellite = Body('Satellite');
+satellite = Body('satellite');
 satellite.cartesianState = convert.keplerianToCartesian([7500.0E3 0.1 deg2rad(5) 0 0 0]);
 ```
 
-Note the use of tudat-matlab's `convert` package, which includes a few useful function for conversion of units and orbital elements.
+Note the use of tudat-matlab's `convert` package, which includes a few useful functions for conversion of units and orbital elements.
 
-Now, you add the bodies to the propagation by calling the method `addBodies` of your `simulation` object. You have to provide a list of `Body` objects and or body names. When you provide a body name (i.e. a string), a `Body` object will be created for you and its properties will be retrieved from Spice (if its name is recognizable). Thus, you can simply write:
+Now, you add the bodies to the simulation by calling the method `addBodies` of your `simulation` object. There exist predefined objects for celestial bodies (namely the Sun, the Moon and the eight planets), so these objects can be added directly without the need to specify their properties:
 ```
-simulation.addBodies('Earth',satelliteBody);
+simulation.addBodies(Earth,satelliteBody);
 ```
 
-Then, you will create the settings for the propagation. We are going to propagate the translational state of the body 'Satellite' about the 'Earth'. Thus, we will use a `TranslationalPropagator`:
+Then, you will create the settings for the propagation. We are going to propagate the translational state of the body `satellite` about `Earth`. Thus, we will use a `TranslationalPropagator`:
 ```
 propagator = TranslationalPropagator();
-propagator.centralBodies = 'Earth';
-propagator.bodiesToPropagate = 'Satellite';
+propagator.centralBodies = Earth;
+propagator.bodiesToPropagate = satellite;
 ```
 
-Note that we always refer to bodies by their names (i.e. we do not provide the `Body` object `satelliteBody` to `propagator.bodiesToPropagate`). The only exception is when calling the method `addBodies` of a `Simulation` object, in which both body names and `Body` objects are accepted.
-
-Now we need to specify the accelerations acting on 'Satellite'. The only accelerations acting on 'Satellite' are those caused by 'Earth', so we need to specify the property `propagator.accelerations.Asterix.Earth`. In the case of an unperturbed satellite, the only acceleration is the point-mass gravity of the central body:
+Now we need to specify the accelerations acting on `satellite`. The only accelerations are those caused by `Earth`, so we need to specify the property `propagator.accelerations.satellite.Earth`, which can be read as "accelerations on satellite caused by Earth". In the case of an unperturbed orbit, the only acceleration is the point-mass gravitational attraction of the central body:
 ```
-propagator.accelerations.Asterix.Earth = PointMassGravity();
+propagator.accelerations.satellite.Earth = PointMassGravity();
 ```
 
 Finally, we add the `propagator` to the `simulation` object and define the integrator settings:
@@ -81,7 +79,7 @@ After setting up your simulation by following the steps described in [Usage](#us
 simulation.run();
 ```
 
-Now, you are able to access the requested results from the `results` property of your simulation object. In addition to the requested results (in this case no results were requested), you are always able to access the property `results.numericalSolution`, which is a matrix in which each row corresponds to an integration step. The first column contains the value of the independent variable (the epoch in this case) and the other columns contain the state (the Cartesian components of 'Satellite'). You can decompose this matrix into epoch, position and velocity by writing:
+Now, you are able to access the requested results at the `results` property of your `simulation` object. In addition to the requested results (in this case no results were requested), you are always able to access the property `results.numericalSolution`, which is a matrix in which each row corresponds to an integration step. The first column contains the value of the independent variable (the epoch in this case) and the other columns contain the state (the Cartesian components of `satellite`). You can decompose this matrix into epoch, position and velocity by writing:
 ```
 [t,r,v] = compute.epochPositionVelocity(simulation.results.numericalSolution);
 ```
@@ -102,7 +100,7 @@ After setting up your simulation by following the steps described in [Usage](#us
 simulation.addResultsToExport('results.txt',{'independent','state'});
 ```
 
-In this case, after the simulation is completed, a text file will be generated, containing a matrix in which each row will correspond to an integration step. The first column will contain the value of the independent variable (the epoch in this case) and the other columns will contain the state (the Cartesian component of 'Satellite').
+In this case, after the simulation is completed, a text file will be generated, containing a matrix in which each row will correspond to an integration step. The first column will contain the value of the independent variable (the epoch in this case) and the other columns will contain the state (the Cartesian components of `satellite`).
 
 Optionally, you can specify to generate an input file containing all the data loaded from Spice and all the default values used for keys that have not been specified, also known as a populated input file (note that this file will be generated when you run `tudat`). You do this by writing:
 
