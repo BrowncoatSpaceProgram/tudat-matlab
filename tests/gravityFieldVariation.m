@@ -1,28 +1,28 @@
 function failcount = gravityFieldVariation
 
-failcount = 0;
 tudat.load();
 
-sat = Body('sat');
-sat.mass = 15;
+% Test 1: body deformation types
+test.createInputForEnum(?BodyDeformations,[mfilename '_bodyDeformationTypes']);
 
-isempty(sat.gravityFieldVariation)
-fprintf([json.encode(sat) '\n\n']);
+% Test 2: basic solid body gravity field variation
+gfv = BasicSolidBodyGravityFieldVariation();
+gfv.deformingBodies = 'Moon';
+gfv.loveNumbers = [[1+2i 2-1i 0.3-5i]; [0.5i 2i 4-2i]; [-3 -5+1i 6+0.5i]];
+gfv.referenceRadius = 6.4e6;
+test.createInput(gfv,[mfilename '_basicSolidBody']);
 
-sat.gravityFieldVariation = BasicSolidBodyGravityFieldVariation();
-sat.gravityFieldVariation.deformingBodies = 'Moon';
-sat.gravityFieldVariation.loveNumbers = [[1+2i 2-1i 3+1e-5i]; [0.5i 2i 4-2i]; [-3 -5+1i 6+0.5i]];
-sat.gravityFieldVariation.referenceRadius = constants.radius.earth;
-fprintf([json.encode(sat) '\n\n']);
+% Test 3: tabulated field variation
+gfv = TabulatedGravityFieldVariation();
+gfv.cosineCoefficientCorrections = containers.Map({0, 1},{[0 1 2], [0 0 -1]});
+gfv.sineCoefficientCorrections = containers.Map({0, 1},{[-1 4 5], [3 2 0.5]});
+gfv.minimumDegree = 4;
+gfv.minimumOrder = 2;
+gfv.modelInterpolation.interpolator.type = 'cubicSpline';
+test.createInput(gfv,[mfilename '_tabulated']);
 
-sat.gravityFieldVariation.modelInterpolation = ModelInterpolation(0,100,10,Interpolator('linear'));
-fprintf([json.encode(sat) '\n\n']);
 
-sat.gravityFieldVariation = TabulatedGravityFieldVariation();
-sat.gravityFieldVariation.cosineCoefficientCorrections = [0 1 2];
-sat.gravityFieldVariation.sineCoefficientCorrections = [-1 4 5];
-sat.gravityFieldVariation.minimumDegree = 4;
-sat.gravityFieldVariation.minimumOrder = 4;
-sat.gravityFieldVariation.modelInterpolation.interpolator.type = 'cubicSpline';
-fprintf([json.encode(sat) '\n\n']);
+% Run tests
+
+failcount = test.runUnitTest(mfilename);
 

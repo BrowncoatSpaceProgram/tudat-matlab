@@ -1,23 +1,27 @@
 function failcount = shapeModel
 
-failcount = 0;
 tudat.load();
 
-sat = Body('sat');
-sat.mass = 15;
+% Test 1: rotation model types
+test.createInputForEnum(?ShapeModels,[mfilename '_types']);
 
-isempty(sat.shapeModel)
-fprintf([json.encode(sat) '\n\n']);
+% Test 2: spherical shape model
+sm = SphericalShapeModel();
+sm.radius = 6.4e6;
+test.createInput(sm,[mfilename '_spherical']);
 
-sat.shapeModel = SphericalShapeModel();
-sat.shapeModel.radius = constants.radius.earth;
-fprintf([json.encode(sat) '\n\n']);
+% Test 3: spherical Spice shape model
+sm = SphericalSpiceShapeModel();
+test.createInput(sm,[mfilename '_sphericalSpice']);
 
-sat.shapeModel = SphericalSpiceShapeModel();
-fprintf([json.encode(sat) '\n\n']);
+% Test 4: oblate spherical shape model
+sm = OblateSphericalShapeModel();
+sm.equatorialRadius = 6.378e6;
+sm.flattening = 0.0034;
+test.createInput(sm,[mfilename '_oblateSpherical']);
 
-sat.shapeModel = OblateSphericalShapeModel();
-sat.shapeModel.equatorialRadius = 6.378e6;
-sat.shapeModel.flattening = 0.0034;
-fprintf([json.encode(sat) '\n\n']);
+
+% Run tests
+
+failcount = test.runUnitTest(mfilename);
 
