@@ -8,7 +8,7 @@ simulation.spice = Spice('pck00009.tpc','de-403-masses.tpc','de421.bsp');
 
 % Bodies
 asterix = Body('asterix');
-asterix.cartesianState = convert.keplerianToCartesian([7500e3 0.1 deg2rad([85.3 235.7 23.4 139.87])]);
+asterix.cartesianState = [7.037484e6 3.238059e6 2.150724e6 -1.465658e3 -0.040958e3 6.622798e3];
 simulation.addBodies(Earth,asterix);
 simulation.bodies.Earth.ephemeris = ConstantEphemeris(zeros(6,1));
 
