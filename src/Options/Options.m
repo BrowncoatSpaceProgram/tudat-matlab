@@ -45,6 +45,10 @@ classdef Options < jsonable
     end
     
     methods (Hidden)
+        function p = isPath(obj,property)
+            p = strcmp(property,{'populatedFile'});
+        end
+        
         function mp = getMandatoryProperties(obj)
             mp = {};
         end
