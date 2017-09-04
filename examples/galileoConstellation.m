@@ -6,7 +6,7 @@ tudat.load();
 
 %% SET UP
 
-simulation = Simulation(0,constants.secondsInOne.julianDay,'SSB','J2000');
+simulation = Simulation(0,convert.toSI(1,'d'),'SSB','J2000');
 simulation.spice = Spice('pck00009.tpc','de-403-masses.tpc','de421.bsp');
 
 % Satellites
@@ -78,7 +78,9 @@ ylabel('Y [km]');
 zlabel('Z [km]');
 
 % Add Earth
-plot3(0,0,0,'.k','MarkerSize',60);
+[x,y,z] = sphere;
+radius = constants.radius.earth/1e3;
+surf(x*radius,y*radius,z*radius);
 
 % Add satellites at final positions
 for i = 1:numberOfSatellites
