@@ -8,6 +8,7 @@ classdef Variable < jsonable
         torqueType
         bodyExertingAcceleration
         bodyExertingTorque
+        componentIndex
     end
     
     methods
@@ -19,6 +20,17 @@ classdef Variable < jsonable
             elseif isa(var,'DependentVariables')
                 obj.dependentVariableType = var;
             else
+                [~,tok] = regexp(var,'(.+?)\((\d+)\)','match','tokens');
+                if ~isempty(tok)
+                    var = tok{1}{1};
+                    obj.componentIndex = str2double(tok{1}{2}) - 1;
+                else
+                    [~,tok] = regexp(var,'(.+?)\[(\d+)\]','match','tokens');
+                    if ~isempty(tok)
+                        var = tok{1}{1};
+                        obj.componentIndex = str2double(tok{1}{2});
+                    end
+                end
                 parts = split(var,'.');
                 if length(parts) == 1
                     obj.type = var;
