@@ -3,7 +3,13 @@ function s = update(s,obj,name,mandatory,formatSpec)
 value = obj.(name);
 if ~isempty(value)
     if nargin >= 5 && ~isempty(formatSpec)
-        value = sprintf(formatSpec,value);
+        if iscell(value)
+            for i = 1:length(value)
+                value{i} = sprintf(formatSpec,value{i});
+            end
+        else
+            value = sprintf(formatSpec,value);
+        end
     end
     s.(name) =  json.struct(value);
 else

@@ -25,6 +25,18 @@ classdef Aerodynamics < jsonable
             obj.coefficientsType = value;
         end
         
+        function set.independentVariableNames(obj,value)
+            if ~iscell(value)
+                value = {value};
+            end
+            for i = 1:length(value)
+                if ~isa(value{i},'AerodynamicVariables')
+                    value{i} = AerodynamicVariables(value{i});
+                end
+                obj.independentVariableNames{i} = value{i};
+            end
+        end
+        
     end
     
     methods (Hidden)

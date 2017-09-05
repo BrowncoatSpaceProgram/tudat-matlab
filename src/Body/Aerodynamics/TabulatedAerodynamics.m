@@ -1,7 +1,6 @@
 classdef TabulatedAerodynamics < Aerodynamics
     properties
         % numberOfDimensions
-        independentVariableName
         independentVariables
         forceCoefficients
         momentCoefficients
@@ -14,21 +13,18 @@ classdef TabulatedAerodynamics < Aerodynamics
             obj.interpolator = Interpolator();
         end
         
-        function set.independentVariableName(obj,value)
-            if ~isa(value,'AerodynamicVariables')
-                value = AerodynamicVariables(value);
-            end
-            obj.independentVariableName = value;
-        end
-        
     end
     
     methods (Hidden)
+        function p = isPath(obj,property)
+            p = strcmp(property,'forceCoefficients') && iscellstr(obj.forceCoefficients) || ...
+                strcmp(property,'momentCoefficients') && iscellstr(obj.momentCoefficients);
+        end
+        
         function mp = getMandatoryProperties(obj)
             mp = getMandatoryProperties@Aerodynamics(obj);
-            mp = horzcat(mp,{'independentVariableName','independentVariables','forceCoefficients',...
-                'interpolator'});
-            if any(compute.normPerRows(obj.momentCoefficients) > 0)  % moments
+            mp = horzcat(mp,{'independentVariableNames','forceCoefficients'});
+            if ~isempty(obj.momentCoefficients)  % moments
                 mp = horzcat(mp,{'momentCoefficients','referenceLength','lateralReferenceLength',...
                     'momentReferencePoint'});
             end

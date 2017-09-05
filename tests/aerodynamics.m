@@ -35,12 +35,24 @@ ta.referenceLength = 5;
 ta.referenceArea = 10.5;
 ta.lateralReferenceLength = 4;
 ta.momentReferencePoint = [0.7 0.8 0.9];
-ta.independentVariableName = AerodynamicVariables.angleOfSideslip;
+ta.independentVariableNames = AerodynamicVariables.angleOfSideslip;
 ta.interpolator.type = Interpolators.cubicSpline;
 ta.areCoefficientsInAerodynamicFrame = false;
 ta.areCoefficientsInNegativeAxisDirection = false;
 test.createInput(ta,[mfilename '_tabulated1']);
 
+% Test 6: tabulated aerodynamics (N dimensions)
+ta = TabulatedAerodynamics();
+ta.forceCoefficients = {'aurora_CD.txt','','aurora_CL.txt'};
+ta.momentCoefficients = {'','aurora_Cm.txt',''};
+ta.referenceLength = 5;
+ta.referenceArea = 10.5;
+ta.lateralReferenceLength = 4;
+ta.momentReferencePoint = [0.7 0.8 0.9];
+ta.independentVariableNames = {AerodynamicVariables.machNumber, AerodynamicVariables.angleOfAttack};
+ta.areCoefficientsInAerodynamicFrame = true;
+ta.areCoefficientsInNegativeAxisDirection = true;
+test.createInput(ta,[mfilename '_tabulatedN']);
 
 % Run tests
 

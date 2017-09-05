@@ -22,7 +22,7 @@ classdef ConstantAerodynamics < Aerodynamics
         function mp = getMandatoryProperties(obj)
             mp = getMandatoryProperties@Aerodynamics(obj);
             mp = horzcat(mp,{'forceCoefficients'});
-            if norm(obj.momentCoefficients) > 0  % moments
+            if ~isempty(obj.momentCoefficients)  % moments
                 mp = horzcat(mp,{'momentCoefficients','referenceLength','lateralReferenceLength',...
                     'momentReferencePoint'});
             end
