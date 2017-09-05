@@ -3,7 +3,7 @@ function failcount = rotationModel
 tudat.load();
 
 % Test 1: rotation model types
-test.createInputForEnum(?RotationModels,[mfilename '_types']);
+test.createInputForEnum(?RotationModels,fullfile(mfilename,'types'));
 
 % Test 2: simple rotation model
 rm = SimpleRotationModel();
@@ -12,13 +12,13 @@ rm.targetFrame = 'B';
 rm.initialTime = 42;
 rm.rotationRate = 2e-5;
 rm.initialOrientation = [1 0 0; 0 sqrt(2)/2 -sqrt(2)/2; 0 -sqrt(2)/2 sqrt(2)/2];
-test.createInput(rm,[mfilename '_simple']);
+test.createInput(rm,fullfile(mfilename,'simple'));
 
 % Test 3: spice rotation model
 rm = SpiceRotationModel();
 rm.originalFrame = 'foo';
 rm.targetFrame = 'oof';
-test.createInput(rm,[mfilename '_spice']);
+test.createInput(rm,fullfile(mfilename,'spice'));
 
 
 % Run tests

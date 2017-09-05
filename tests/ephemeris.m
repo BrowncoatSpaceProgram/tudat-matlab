@@ -5,16 +5,16 @@ tudat.load();
 % Create input files for tests
 
 % Test 1: ephemeris types
-test.createInputForEnum(?EphemerisTypes,[mfilename '_types']);
+test.createInputForEnum(?EphemerisTypes,fullfile(mfilename,'types'));
 
 % Test 2: bodies with ephemeris data
-test.createInputForEnum(?BodiesWithEphemerisData,[mfilename '_bodiesWithEphemerisData']);
+test.createInputForEnum(?BodiesWithEphemerisData,fullfile(mfilename,'bodiesWithEphemerisData'));
 
 % Test 3: approximate planet position ephemeris
 eph = ApproximatePlanetPositionEphemeris();
 eph.bodyIdentifier = BodiesWithEphemerisData.earthMoonBarycenter;
 eph.useCircularCoplanarApproximation = false;
-test.createInput(eph,[mfilename '_approximatePlanetPositions']);
+test.createInput(eph,fullfile(mfilename,'approximatePlanetPositions'));
 
 % Test 4: direct Spice ephemeris
 eph = DirectSpiceEphemeris();
@@ -23,12 +23,12 @@ eph.frameOrientation = 'FOO';
 eph.correctForStellarAbberation = true;
 eph.correctForLightTimeAbberation = false;
 eph.convergeLighTimeAbberation = true;
-test.createInput(eph,[mfilename '_directSpice']);
+test.createInput(eph,fullfile(mfilename,'directSpice'));
 
 % Test 5: tabulated ephemeris
 eph = TabulatedEphemeris();
 eph.bodyStateHistory = containers.Map({0 1 2},{[1 0 0 0 -0.4 0] [3 0 0 0 -0.2 0] [4 0 0 0 -0.1 0]});
-test.createInput(eph,[mfilename '_tabulated']);
+test.createInput(eph,fullfile(mfilename,'tabulated'));
 
 % Test 6: interpolated spice ephemeris
 eph = InterpolatedSpiceEphemeris();
@@ -40,11 +40,11 @@ eph.frameOrigin = 'Foo';
 eph.frameOrientation = 'FOO';
 eph.interpolator = LagrangeInterpolator(4);
 eph.correctForLightTimeAbberation = true;
-test.createInput(eph,[mfilename '_interpolatedSpice']);
+test.createInput(eph,fullfile(mfilename,'interpolatedSpice'));
 
 % Test 7: constant ephemeris
 eph = ConstantEphemeris([0 1 0 -0.1 0 0]);
-test.createInput(eph,[mfilename '_constant']);
+test.createInput(eph,fullfile(mfilename,'constant'));
 
 % Test 8: kepler ephemeris
 eph = KeplerEphemeris();
@@ -55,7 +55,7 @@ eph.frameOrigin = 'Foo';
 eph.frameOrientation = 'FOO';
 eph.rootFinderAbsoluteTolerance = 1e-9;
 eph.rootFinderMaximumNumberOfIterations = 100;
-test.createInput(eph,[mfilename '_kepler']);
+test.createInput(eph,fullfile(mfilename,'kepler'));
 
 
 % Run tests

@@ -5,16 +5,16 @@ tudat.load();
 % Create input files for tests
 
 % Test 1: aerodynamic coefficients types
-test.createInputForEnum(?AerodynamicCoefficients,[mfilename '_coefficientsTypes']);
+test.createInputForEnum(?AerodynamicCoefficients,fullfile(mfilename,'coefficientsTypes'));
 
 % Test 2: aerodynamic variables
-test.createInputForEnum(?AerodynamicVariables,[mfilename '_variables']);
+test.createInputForEnum(?AerodynamicVariables,fullfile(mfilename,'variables'));
 
 % Test 3: constant aerodynamics (only drag coefficient)
 ca = ConstantAerodynamics();
 ca.referenceArea = 10.5;
 ca.dragCoefficient = 2.2;
-test.createInput(ca,[mfilename '_dragCoefficient']);
+test.createInput(ca,fullfile(mfilename,'dragCoefficient'));
 
 % Test 4: constant aerodynamics (full)
 ca.referenceLength = 5;
@@ -24,7 +24,7 @@ ca.forceCoefficients = [1 2 3];
 ca.momentCoefficients = [0 1e-3 -0.1];
 ca.areCoefficientsInAerodynamicFrame = true;
 ca.areCoefficientsInNegativeAxisDirection = false;
-test.createInput(ca,[mfilename '_constant']);
+test.createInput(ca,fullfile(mfilename,'constant'));
 
 % Test 5: tabulated aerodynamics (1 dimension)
 ta = TabulatedAerodynamics();
@@ -39,7 +39,7 @@ ta.independentVariableNames = AerodynamicVariables.angleOfSideslip;
 ta.interpolator.type = Interpolators.cubicSpline;
 ta.areCoefficientsInAerodynamicFrame = false;
 ta.areCoefficientsInNegativeAxisDirection = false;
-test.createInput(ta,[mfilename '_tabulated1']);
+test.createInput(ta,fullfile(mfilename,'tabulated1'));
 
 % Test 6: tabulated aerodynamics (N dimensions)
 ta = TabulatedAerodynamics();
@@ -52,7 +52,7 @@ ta.momentReferencePoint = [0.7 0.8 0.9];
 ta.independentVariableNames = {AerodynamicVariables.machNumber, AerodynamicVariables.angleOfAttack};
 ta.areCoefficientsInAerodynamicFrame = true;
 ta.areCoefficientsInNegativeAxisDirection = true;
-test.createInput(ta,[mfilename '_tabulatedN']);
+test.createInput(ta,fullfile(mfilename,'tabulatedN'));
 
 % Run tests
 
