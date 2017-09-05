@@ -36,7 +36,7 @@ satellite.initialState.eccentricity = 0.1;
 satellite.initialState.inclination = '5 deg';
 ```
 
-Note that some of the Keplerian components have been omitted, and thus they are assumed to be zero. Also note that it is possible to provide the values is units other than SI units, by providing a string following the structure `'value units'`.
+Note that some of the Keplerian components have been omitted, and thus they are assumed to be zero. Also note that it is possible to provide the values is units other than SI units, by providing a string following the structure `'value units'`. You can see a list of supported units [here](src/+constants/SIUnits.m).
 
 Now, you add the bodies to the simulation by calling the method `addBodies` of your `simulation` object. There exist predefined objects for celestial bodies (namely the Sun, the Moon and the eight planets), so these objects can be added directly without the need to specify their properties:
 ```
