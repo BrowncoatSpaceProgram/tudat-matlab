@@ -14,5 +14,8 @@ classdef SIUnits
       km = 1e3
       au = 1.49597870691e11
       
+      % Angle
+      rad = 1
+      deg = pi/180
    end
 end
