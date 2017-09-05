@@ -16,6 +16,10 @@ classdef jsonable < handle
             mandatory = any(strcmp(property,getMandatoryProperties(obj)));
         end
         
+        function u = canHaveUnits(obj,property)
+            u = false;
+        end
+        
         function p = isPath(obj,property)
             p = false;
         end
@@ -44,7 +48,8 @@ classdef jsonable < handle
             propertyNames = getProperties(obj);
             for i = 1:length(propertyNames)
                 propertyName = propertyNames{i};
-                s = json.update(s,obj,propertyName,isMandatory(obj,propertyName),formatSpec(obj,propertyName));
+                s = json.update(s,obj,propertyName,isMandatory(obj,propertyName),...
+                    canHaveUnits(obj,propertyName),formatSpec(obj,propertyName));
             end
         end
         

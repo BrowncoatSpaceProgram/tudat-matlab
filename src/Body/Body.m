@@ -1,7 +1,7 @@
 classdef Body < jsonable
     properties
         useDefaultSettings
-        cartesianState
+        initialState
         mass
         rotationalState
         referenceArea
@@ -24,6 +24,7 @@ classdef Body < jsonable
     
     methods
         function obj = Body(name,useDefaultSettings)
+            obj.initialState = State();
             obj.aerodynamics = ConstantAerodynamics();
             obj.atmosphere = Atmosphere();
             obj.ephemeris = Ephemeris();

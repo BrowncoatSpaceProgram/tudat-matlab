@@ -31,10 +31,12 @@ simulation.spice = Spice('pck00009.tpc','de-403-masses.tpc','de421.bsp');
 Next, you need to create the bodies. For an unperturbed orbit, the mass of the satellite is irrelevant, so we create a body named 'satellite' with the following initial state:
 ```
 satellite = Body('satellite');
-satellite.cartesianState = convert.keplerianToCartesian([7500.0E3 0.1 deg2rad(5) 0 0 0]);
+satellite.initialState.semiMajorAxis = '7500 km';
+satellite.initialState.eccentricity = 0.1;
+satellite.initialState.inclination = '5 deg';
 ```
 
-Note the use of tudat-matlab's `convert` package, which includes a few useful functions for conversion of units and orbital elements.
+Note that some of the Keplerian components have been omitted, and thus they are assumed to be zero. Also note that it is possible to provide the values is units other than SI units, by providing a string following the structure `'value units'`.
 
 Now, you add the bodies to the simulation by calling the method `addBodies` of your `simulation` object. There exist predefined objects for celestial bodies (namely the Sun, the Moon and the eight planets), so these objects can be added directly without the need to specify their properties:
 ```

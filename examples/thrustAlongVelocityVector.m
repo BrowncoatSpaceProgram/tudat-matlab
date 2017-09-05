@@ -12,9 +12,10 @@ simulation.spice.preloadKernels = false;
 
 % Bodies
 vehicle = Body('vehicle');
-vehicle.cartesianState = [8e6 0 0 0 7.5e3 0];
-vehicle.mass = 5e3;
-simulation.addBodies(Earth,Sun,Moon,vehicle);
+vehicle.initialState.x = '8000 km';
+vehicle.initialState.vy = '7.5 km/s';
+vehicle.mass = 5000;
+simulation.addBodies(Sun,Earth,Moon,vehicle);
 
 % Gravitational accelerations
 accelerationsOnVehicle.Earth = PointMassGravity();

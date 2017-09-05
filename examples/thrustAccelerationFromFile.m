@@ -6,21 +6,21 @@ tudat.load();
 
 %% SET UP
 
-% Create Simulation object with Spice
 simulation = Simulation(0,convert.toSI(14,'d'));
 simulation.spice = Spice('pck00009.tpc','de-403-masses.tpc','de421.bsp');
 simulation.spice.preloadKernels = false;
 
 % Bodies
 vehicle = Body('vehicle');
-vehicle.cartesianState = [8e6 0 0 0 7.5e3 0];
-vehicle.mass = 5e3;
+vehicle.initialState.x = '8000 km';
+vehicle.initialState.vy = '7.5 km/s';
+vehicle.mass = 5000;
 simulation.addBodies(Sun,Earth,Moon,vehicle);
 
 % Gravitational accelerations
-accelerationsOfVehicle.Earth = PointMassGravity();
-accelerationsOfVehicle.Sun = PointMassGravity();
-accelerationsOfVehicle.Moon = PointMassGravity();
+accelerationsOnVehicle.Earth = PointMassGravity();
+accelerationsOnVehicle.Sun = PointMassGravity();
+accelerationsOnVehicle.Moon = PointMassGravity();
 
 % Thrust acceleration
 thrust = Thrust();
@@ -29,13 +29,13 @@ thrust.dataInterpolation.interpolator.type = Interpolators.linear;
 thrust.specificImpulse = 3000;
 thrust.frame = ThrustFrames.lvlh;
 thrust.centralBody = Earth;
-accelerationsOfVehicle.vehicle = thrust;
+accelerationsOnVehicle.vehicle = thrust;
 
 % Translational propagator
 translationalPropagator = TranslationalPropagator();
 translationalPropagator.centralBodies = Earth;
 translationalPropagator.bodiesToPropagate = vehicle;
-translationalPropagator.accelerations.vehicle = accelerationsOfVehicle;
+translationalPropagator.accelerations.vehicle = accelerationsOnVehicle;
 
 % Mass propagator
 massPropagator = MassPropagator();

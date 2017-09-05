@@ -24,15 +24,14 @@ simulation.bodies.Earth.ephemeris = ConstantEphemeris(zeros(6,1));
 simulation.bodies.Earth.ephemeris.frameOrientation = 'J2000';
 
 % Initial states
-semiMajorAxis = 23222e3 + 6378.1e3;
-eccentricity = 0;
-inclination = 56;
-argPeriapsis = 0;
 raans = mod(floor(((1:numberOfSatellites)-1)/numberOfSatellitesPerPlane),numberOfPlanes)*360/numberOfPlanes;
 trueAnomalies = mod((1:numberOfSatellites)-1,numberOfSatellitesPerPlane)*360/numberOfSatellitesPerPlane;
 for i = 1:numberOfSatellites
-    keplerianState = [semiMajorAxis eccentricity deg2rad([inclination argPeriapsis raans(i) trueAnomalies(i)])];
-    simulation.bodies.(satelliteNames{i}).cartesianState = convert.keplerianToCartesian(keplerianState);
+    satellite = simulation.bodies.(satelliteNames{i});
+    satellite.initialState.semiMajorAxis = 23222e3 + 6378.1e3;
+    satellite.initialState.inclination = deg2rad(56);
+    satellite.initialState.longitudeOfAscendingNode = deg2rad(raans(i));
+    satellite.initialState.trueAnomaly = deg2rad(trueAnomalies(i));
 end
 
 % Propagator
