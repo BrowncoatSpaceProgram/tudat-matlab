@@ -8,8 +8,8 @@ support.assertValidState(cartesianState);
 X = cartesianState(:,1:3);
 V = cartesianState(:,4:6);
 
-r = normh(X);
-v = normh(V);
+r = compute.normPerRows(X);
+v = compute.normPerRows(V);
 keplerianState = cartesianState;
 
 for j = 1:length(r)
