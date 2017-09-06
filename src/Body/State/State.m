@@ -16,6 +16,17 @@ classdef State < jsonable
         argumentOfPeriapsis
         longitudeOfAscendingNode
         trueAnomaly
+        meanAnomaly
+        eccentricAnomaly
+        semiLatusRectum
+        meanMotion
+        period
+        radius
+        altitude
+        periapsisDistance
+        apoapsisDistance
+        periapsisAltitude
+        apoapsisAltitude
     end
     properties (Dependent)
         type
@@ -70,12 +81,17 @@ classdef State < jsonable
         end
         
         function p = keplerianProperties(obj)
-            p = {'semiMajorAxis','eccentricity','inclination','argumentOfPeriapsis','longitudeOfAscendingNode','trueAnomaly'};
+            p = {'centralBody','semiMajorAxis','eccentricity','inclination','argumentOfPeriapsis',...
+                'longitudeOfAscendingNode','trueAnomaly','meanAnomaly','eccentricAnomaly','semiLatusRectum',...
+                'meanMotion','period','radius','altitude','periapsisDistance','apoapsisDistance',...
+                'periapsisAltitude','apoapsisAltitude'};
         end
         
         function u = canHaveUnits(obj,property)
             u = any(strcmp(property,{'x','y','z','vx','vy','vz','semiMajorAxis','inclination',...
-                'argumentOfPeriapsis','longitudeOfAscendingNode','trueAnomaly'}));
+                'argumentOfPeriapsis','longitudeOfAscendingNode','trueAnomaly','meanAnomaly',...
+                'eccentricAnomaly','semiLatusRectum','meanMotion','period','radius','altitude',...
+                'periapsisDistance','apoapsisDistance','periapsisAltitude','apoapsisAltitude'}));
         end
         
         function mp = getMandatoryProperties(obj)
