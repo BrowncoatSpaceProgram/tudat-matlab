@@ -8,10 +8,7 @@ classdef tudat
         testsSourcesDirectoryPathKey = 'testsSourcesDirectoryPath'
         testsBinariesDirectoryPathKey = 'testsBinariesDirectoryPath'
         
-        defaultBinaryPath = fullfile(tudat.rootdir,'bin','tudat')
-        defaultTestsSourcesPath = tudat.testsdir
-        defaultTestsBinariesPath = fullfile(tudat.testsdir,'bin')
-        
+        defaultBundlePath = fullfile(tudat.rootdir,'tudatBundle');
         defaultInBundleBinaryPath = fullfile('tudatExampleApplications','satellitePropagatorExamples','bin','applications','tudat')
         defaultInBundleTestsSourcesPath = fullfile('tudat','Tudat','External','JsonInterface','UnitTests')
         defaultInBundleTestsBinariesPath = fullfile('tudat','bin','unit_tests')
@@ -34,17 +31,17 @@ classdef tudat
         end
         
         function find(bundlePath)
-            if nargin >= 1
-                if ~isempty(bundlePath)
-                    tudat.binary(fullfile(bundlePath,tudat.defaultInBundleBinaryPath));
-                    tudat.testsSourcesDirectory(fullfile(bundlePath,tudat.defaultInBundleTestsSourcesPath));
-                    tudat.testsBinariesDirectory(fullfile(bundlePath,tudat.defaultInBundleTestsBinariesPath));
-                    return;
+            if nargin == 0
+                if exist(tudat.defaultBundlePath,'dir') == 7
+                    tudat.find(tudat.defaultBundlePath);
+                else
+                    tudat.find(input('Specify the path to your tudatBundle directory: ','s'));
                 end
+            else
+                tudat.binary(fullfile(bundlePath,tudat.defaultInBundleBinaryPath));
+                tudat.testsSourcesDirectory(fullfile(bundlePath,tudat.defaultInBundleTestsSourcesPath));
+                tudat.testsBinariesDirectory(fullfile(bundlePath,tudat.defaultInBundleTestsBinariesPath));
             end
-            tudat.binary(tudat.defaultBinaryPath);
-            tudat.testsSourcesDirectory(tudat.defaultTestsSourcesPath);
-            tudat.testsBinariesDirectory(tudat.defaultTestsBinariesPath);
         end
         
         function test(varargin)

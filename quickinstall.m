@@ -1,3 +1,4 @@
-addpath(fileparts(mfilename('fullpath')));
+mdir = fileparts(mfilename('fullpath'));
+addpath(mdir);
 savepath;
-tudat.find(input('Specify the path to the tudatBundle directory (or press return to skip this step): ','s'));
+tudat.find();
