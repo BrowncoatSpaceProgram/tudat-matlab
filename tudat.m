@@ -31,17 +31,9 @@ classdef tudat
         end
         
         function find(bundlePath)
-            if nargin == 0
-                if exist(tudat.defaultBundlePath,'dir') == 7
-                    tudat.find(tudat.defaultBundlePath);
-                else
-                    tudat.find(input('Specify the path to your tudatBundle directory: ','s'));
-                end
-            else
-                tudat.binary(fullfile(bundlePath,tudat.defaultInBundleBinaryPath));
-                tudat.testsSourcesDirectory(fullfile(bundlePath,tudat.defaultInBundleTestsSourcesPath));
-                tudat.testsBinariesDirectory(fullfile(bundlePath,tudat.defaultInBundleTestsBinariesPath));
-            end
+            tudat.binary(fullfile(bundlePath,tudat.defaultInBundleBinaryPath));
+            tudat.testsSourcesDirectory(fullfile(bundlePath,tudat.defaultInBundleTestsSourcesPath));
+            tudat.testsBinariesDirectory(fullfile(bundlePath,tudat.defaultInBundleTestsBinariesPath));
         end
         
         function test(varargin)

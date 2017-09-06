@@ -5,9 +5,21 @@ MATLAB interface for Tudat
 
 1. Install [CMake](https://cmake.org).
 
-2. Clone this repository.
+2. Download or clone this repository.
 
-3. If you already have a clone of [tudatBundle](http://github.com/aleixpinardell/tudatBundle), run the script [`quickSetup.m`](quickSetup.m) in MATLAB. Otherwise, run the script [`fullSetup.m`](fullSetup.m) in MATLAB.
+3. Add the tudat-matlab directory to your MATLAB's path:
+  * Type `pathtool` in MATLAB's Command Window.
+  * Click "Add folder...".
+  * Select your tudat-matlab folder.
+  * Click "Save".
+
+4. Run the script [`setup.m`](setup.m) located in your tudat-matlab folder. You will be asked to provide the path to your tudatBundle directory:
+  * If you already have a clone of [tudatBundle](http://github.com/aleixpinardell/tudatBundle) and have built the required targets, enter the path of the directory at this point.
+  * If you don't have a clone of [tudatBundle](http://github.com/aleixpinardell/tudatBundle) or haven't built the required targets, press `intro`. This will clone the repository and build the targets for you (will take several minutes).
+
+If the installation is successful, the units tests will start running. If any of the tests fails, [open an issue](https://github.com/aleixpinardell/tudat-matlab/issues/new).
+
+If you want to move, rename or delete your tudat-matlab directory, remove it first from MATLAB's path by using `pathtool`.
 
 
 ## Usage
