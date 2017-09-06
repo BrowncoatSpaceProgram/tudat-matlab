@@ -7,13 +7,7 @@ MATLAB interface for Tudat
 
 2. Download or clone this repository. Choose a definitive location (and name) for this folder before you continue to the next step.
 
-3. Add the tudat-matlab folder to your MATLAB's path:
-  * Type `pathtool` in MATLAB's Command Window.
-  * Click "Add folder...".
-  * Select your tudat-matlab folder.
-  * Click "Save".
-
-4. Run the script [`setup.m`](setup.m) located in your tudat-matlab folder. You will be asked to provide the path to your tudatBundle directory:
+3. Run the script [`setup.m`](setup.m) located in your tudat-matlab folder. You will be asked to provide the path to your tudatBundle directory:
   * If you already have a clone of [tudatBundle](http://github.com/aleixpinardell/tudatBundle) and have built the required targets, enter the path of the directory.
   * If you don't have a clone of [tudatBundle](http://github.com/aleixpinardell/tudatBundle) or haven't built the required targets, press `return`. This will clone the repository and build the targets for you (it will take several minutes).
 

@@ -8,17 +8,19 @@ maximumNumberOfConcurrentJobsDuringBuild = 4;
 %%% Do not edit beyond this line %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-tudatBundleDirectory = input('Specify the path to the tudatBundle directory (or press intro to use default path): ','s');
-if isempty(tudatBundleDirectory)
-    tudatBundleDirectory = tudat.defaultBundlePath;
-end
-tudat.find(tudatBundleDirectory);
+mdir = fileparts(mfilename('fullpath'));
+addpath(mdir);
+savepath;
 
-if exist(tudatBundleDirectory,'dir') ~= 7
+tudatBundleDirectory = input('Specify the path to the tudatBundle directory (or press intro to use default path): ','s');
+if ~isempty(tudatBundleDirectory)
+    tudat.find(tudatBundleDirectory);
+else
+    tudat.find(tudat.defaultBundlePath);
+
     tudatTarget = 'tudat';
     testsTargetsPrefix = 'test_json_';
     
-    mdir = fileparts(mfilename('fullpath'));
     cmakebin = '';
     if ismac
         cmakebin = '/Applications/CMake.app/Contents/bin/cmake';
