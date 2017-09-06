@@ -7,7 +7,7 @@ MATLAB interface for Tudat
 
 2. Clone this repository.
 
-3. If you already have a clone of [tudatBundle](http://github.com/Tudat/tudatBundle), run the script [`quickSetup.m`](quickSetup.m) in MATLAB. Otherwise, run the script [`fullSetup.m`](fullSetup.m) in MATLAB.
+3. If you already have a clone of [tudatBundle](http://github.com/aleixpinardell/tudatBundle), run the script [`quickSetup.m`](quickSetup.m) in MATLAB. Otherwise, run the script [`fullSetup.m`](fullSetup.m) in MATLAB.
 
 
 ## Usage
