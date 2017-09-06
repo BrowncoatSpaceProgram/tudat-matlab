@@ -12,15 +12,5 @@ else
     assert(isnumeric(value),'Please provide a numeric input');
 end
 
-[~,tokex] = regexp(units,'([a-z|A-Z])+','match','tokenExtents');
-unitsCommand = '';
-for i = 1:length(units)
-    for j = 1:length(tokex)
-        if tokex{j}(1) == i
-            unitsCommand = [unitsCommand 'constants.SIUnits.'];
-        end
-    end
-    unitsCommand = [unitsCommand lower(units(i))];
-end
-
+unitsCommand = regexprep(units,'([a-z|A-Z])+','constants.SIUnits.(lower(''$1''))');
 value = value * eval(unitsCommand);

@@ -21,21 +21,21 @@ asterix.mass = 400;
 asterix.referenceArea = 4;
 asterix.dragCoefficient = 1.2;
 asterix.radiationPressureCoefficient = 1.2;
-asterix.radiationPressure.Sun.occultingBodies = 'Earth';
+asterix.radiationPressure.Sun.occultingBodies = Earth;
 simulation.addBodies(Sun,Earth,Moon,Mars,Venus,asterix);
 
 % Accelerations
-accelerationsOnasterix.Earth = {SphericalHarmonicGravity(5,5), AerodynamicAcceleration()};
-accelerationsOnasterix.Sun = {PointMassGravity(), RadiationPressureAcceleration()};
-accelerationsOnasterix.Moon = PointMassGravity();
-accelerationsOnasterix.Mars = PointMassGravity();
-accelerationsOnasterix.Venus = PointMassGravity();
+accelerationsOnAsterix.Earth = {SphericalHarmonicGravity(5,5), AerodynamicAcceleration()};
+accelerationsOnAsterix.Sun = {PointMassGravity(), RadiationPressureAcceleration()};
+accelerationsOnAsterix.Moon = PointMassGravity();
+accelerationsOnAsterix.Mars = PointMassGravity();
+accelerationsOnAsterix.Venus = PointMassGravity();
 
 % Propagator
 propagator = TranslationalPropagator();
-propagator.centralBodies = 'Earth';
+propagator.centralBodies = Earth;
 propagator.bodiesToPropagate = asterix;
-propagator.accelerations.asterix = accelerationsOnasterix;
+propagator.accelerations.asterix = accelerationsOnAsterix;
 simulation.propagator = propagator;
 
 % Integrator
