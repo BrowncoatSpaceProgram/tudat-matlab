@@ -8,12 +8,12 @@ simulation.spice = Spice('pck00009.tpc','de-403-masses.tpc','de421.bsp');
 
 % Bodies
 asterix = Body('asterix');
-asterix.initialState.semiMajorAxis = '7500 km';
+asterix.initialState.semiMajorAxis = 7500e3;
 asterix.initialState.eccentricity = 0.1;
-asterix.initialState.inclination = '85.3 deg';
-asterix.initialState.argumentOfPeriapsis = '235.7 deg';
-asterix.initialState.longitudeOfAscendingNode = '23.4 deg';
-asterix.initialState.trueAnomaly = '139.87 deg';
+asterix.initialState.inclination = 1.4888;
+asterix.initialState.argumentOfPeriapsis = 4.1137;
+asterix.initialState.longitudeOfAscendingNode = 0.4084;
+asterix.initialState.trueAnomaly = 2.4412;
 simulation.addBodies(Earth,asterix);
 simulation.bodies.Earth.ephemeris = ConstantEphemeris(zeros(6,1));
 

@@ -12,8 +12,8 @@ simulation.spice.preloadKernels = false;
 
 % Bodies
 vehicle = Body('vehicle');
-vehicle.initialState.x = '8000 km';
-vehicle.initialState.vy = '7.5 km/s';
+vehicle.initialState.x = 8e6;
+vehicle.initialState.vy = 7500;
 vehicle.mass = 5000;
 simulation.addBodies(Sun,Earth,Moon,vehicle);
 

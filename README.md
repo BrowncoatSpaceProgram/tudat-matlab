@@ -31,12 +31,12 @@ simulation.spice = Spice('pck00009.tpc','de-403-masses.tpc','de421.bsp');
 Next, you need to create the bodies. For an unperturbed orbit, the mass of the satellite is irrelevant, so we create a body named 'satellite' with the following initial state:
 ```
 satellite = Body('satellite');
-satellite.initialState.semiMajorAxis = '7500 km';
+satellite.initialState.semiMajorAxis = 7500e3;
 satellite.initialState.eccentricity = 0.1;
-satellite.initialState.inclination = '5 deg';
+satellite.initialState.inclination = deg2rad(5)';
 ```
 
-Note that some of the Keplerian components have been omitted, and thus they are assumed to be zero. Also note that it is possible to provide the values is units other than SI units, by providing a string following the structure `'value units'`. You can see a list of supported units [here](src/+constants/SIUnits.m).
+Note that some of the Keplerian components have been omitted, and thus they are assumed to be zero.
 
 Now, you add the bodies to the simulation by calling the method `addBodies` of your `simulation` object. There exist predefined objects for celestial bodies (namely the Sun, the Moon and the eight planets), so these objects can be added directly without the need to specify their properties:
 ```

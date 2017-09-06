@@ -6,7 +6,9 @@ tudat.load();
 
 %% SET UP
 
-simulation = Simulation(1e7,1e7+convert.toSI(2,'y'));
+t0 = 1e7;  % seconds since J2000
+tf = t0 + convert.toSI(2,'y');  % two years later
+simulation = Simulation(t0,tf);
 simulation.spice = Spice('pck00009.tpc','de-403-masses.tpc','de421.bsp','naif0009.tls');
 simulation.spice.preloadKernels = false;
 
@@ -32,7 +34,7 @@ simulation.propagator = propagator;
 
 % Integrator
 simulation.integrator.type = Integrators.rungeKutta4;
-simulation.integrator.stepSize = '1 h';
+simulation.integrator.stepSize = 3600;
 
 
 %% RUN

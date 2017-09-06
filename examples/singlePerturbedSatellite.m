@@ -11,12 +11,12 @@ simulation.spice = Spice('pck00009.tpc','de-403-masses.tpc','de421.bsp');
 
 % Bodies
 asterix = Body('asterix');
-asterix.initialState.semiMajorAxis = '7500 km';
+asterix.initialState.semiMajorAxis = 7500e3;
 asterix.initialState.eccentricity = 0.1;
-asterix.initialState.inclination = '85.3 deg';
-asterix.initialState.argumentOfPeriapsis = '235.7 deg';
-asterix.initialState.longitudeOfAscendingNode = '23.4 deg';
-asterix.initialState.trueAnomaly = '139.87 deg';
+asterix.initialState.inclination = deg2rad(85.3);
+asterix.initialState.argumentOfPeriapsis = deg2rad(235.7);
+asterix.initialState.longitudeOfAscendingNode = deg2rad(23.4);
+asterix.initialState.trueAnomaly = deg2rad(139.87);
 asterix.mass = 400;
 asterix.referenceArea = 4;
 asterix.dragCoefficient = 1.2;
