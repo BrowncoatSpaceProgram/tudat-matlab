@@ -5,9 +5,9 @@ MATLAB interface for Tudat
 
 1. Install [CMake](https://cmake.org).
 
-2. Download or clone this repository.
+2. Download or clone this repository. Choose a definitive location (and name) for this folder before you continue to the next step.
 
-3. Add the tudat-matlab directory to your MATLAB's path:
+3. Add the tudat-matlab folder to your MATLAB's path:
   * Type `pathtool` in MATLAB's Command Window.
   * Click "Add folder...".
   * Select your tudat-matlab folder.
