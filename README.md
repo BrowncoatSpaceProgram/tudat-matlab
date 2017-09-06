@@ -3,9 +3,11 @@ MATLAB interface for Tudat
 
 ## Installation
 
-1. Clone this repository.
+1. Install [CMake](https://cmake.org).
 
-2. If you already have a clone of `tudatBundle`, run the script [`quickSetup.m`](quickSetup.m) in MATLAB. Otherwise, run the script [`fullSetup.m`](fullSetup.m) in MATLAB.
+2. Clone this repository.
+
+3. If you already have a clone of [tudatBundle](http://github.com/Tudat/tudatBundle), run the script [`quickSetup.m`](quickSetup.m) in MATLAB. Otherwise, run the script [`fullSetup.m`](fullSetup.m) in MATLAB.
 
 
 ## Usage

@@ -1,4 +1,4 @@
-cler all;
+clear all;
 mdir = fileparts(mfilename('fullpath'));
 addpath(mdir);
 savepath;
