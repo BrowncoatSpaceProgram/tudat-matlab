@@ -3,11 +3,10 @@ MATLAB interface for Tudat
 
 ## Installation
 
-1. Clone or download [tudatBundle-json](http://github.com/aleixpinardell/tudatBundle/tree/json) ([see how](http://tudat.tudelft.nl/installation/)).
-2. Compile the target `tudat`.
-3. Clone or download this repository.
-4. Run the MATLAB script `quickinstall.m`.
-5. You will be prompted to provide the path to the `tudatBundle` folder you downloaded in step 1. You can skip this step by pressing `return` if you are planning to use tudat-matlab only in IO mode (see [Usage modes](#usage-modes)). You can specify the `tudatBundle` path later by calling `tudat.find('tudatBundlePath')` from MATLAB's Command Window.
+1. Clone this repository.
+
+2. If you already have a clone of `tudatBundle`, run the script [`quickSetup.m`](quickSetup.m) in MATLAB. Otherwise, run the script [`fullSetup.m`](fullSetup.m) in MATLAB.
+
 
 ## Usage
 
