@@ -1,6 +1,7 @@
-clear all;
-
 enableTesting = true;
+jobs = 4;
+
+% Do not edit beyond this line
 
 tudatTarget = 'tudat';
 testsTargetsPrefix = 'test_json_';
@@ -24,7 +25,7 @@ command = [
     'mkdir build; '...
     'cd build; '...
     sprintf('%s ../tudatBundle; ',cmakebin)...
-    sprintf('make -j4 %s',tudatTarget)
+    sprintf('make -j%i %s',jobs,tudatTarget)
     ];
 
 if enableTesting
@@ -40,6 +41,9 @@ status = system(command);
 
 if status == 0
     run('quickSetup.m');
+    if enableTesting
+        tudat.test();
+    end
 else
     error('There was a problem during installation.\nTry to compile the target %s manually and the run the MATLAB script <a href="matlab: open(which(''quickSetup.m''))">quickSetup.m</a>',tudatTarget);
 end
