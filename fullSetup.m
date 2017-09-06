@@ -41,5 +41,5 @@ status = system(command);
 if status == 0
     run('quickSetup.m');
 else
-    error('There was a problem during installation.\nTry to compile the target %s manually and the run the MATLAB script quickSetup.m',tudatTarget);
+    error('There was a problem during installation.\nTry to compile the target %s manually and the run the MATLAB script <a href="matlab: open(which(''quickSetup.m''))">quickSetup.m</a>',tudatTarget);
 end
