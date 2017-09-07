@@ -16,7 +16,7 @@ else
     savepath;
 end
 
-tudatBundleDirectory = input('Specify the path to the tudatBundle directory (or press intro to use default path): ','s');
+tudatBundleDirectory = input('Specify the path to the tudatBundle directory (or press return to use the default path): ','s');
 if ~isempty(tudatBundleDirectory)
     tudat.find(tudatBundleDirectory);
 else
