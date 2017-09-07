@@ -10,7 +10,11 @@ maximumNumberOfConcurrentJobsDuringBuild = 4;
 
 mdir = fileparts(mfilename('fullpath'));
 addpath(mdir);
-savepath;
+if exist(userpath,'dir') == 7
+    savepath(fullfile(userpath,'pathdef.m'));
+else
+    savepath;
+end
 
 tudatBundleDirectory = input('Specify the path to the tudatBundle directory (or press intro to use default path): ','s');
 if ~isempty(tudatBundleDirectory)
@@ -31,7 +35,6 @@ else
     
     command = [
         sprintf('cd %s; ',mdir)...
-        'git pull; '...
         'git clone https://github.com/aleixpinardell/tudatBundle.git; '...
         'cd tudatBundle; '...
         'git checkout json; '...
@@ -56,7 +59,7 @@ else
     
     status = system(command);
     if status ~= 0
-        error('There was a problem during installation. Try to compile the target %s manually.',tudatTarget);
+        error('There was a problem during installation. Try to compile the targets manually.');
     end
 end
 
