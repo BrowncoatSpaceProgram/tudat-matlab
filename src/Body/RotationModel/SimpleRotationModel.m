@@ -15,7 +15,7 @@ classdef SimpleRotationModel < RotationModel
     methods (Hidden)
         function mp = getMandatoryProperties(obj)
             mp = getMandatoryProperties@RotationModel(obj);
-            mp = horzcat(mp,{'initialOrientation','initialTime','rotationRate'});
+            mp = horzcat(mp,{'initialTime','rotationRate'});
         end
         
     end

@@ -71,5 +71,5 @@ simulation.run();
 hold on;
 plot(convert.epochToDate(t),compute.altitude(r)/1e3);
 hold off;
-legend('asterix stellite','Solar sail','Location','NorthWest');
+legend('Satellite','Solar sail','Location','South','Orientation','Horizontal');
 
