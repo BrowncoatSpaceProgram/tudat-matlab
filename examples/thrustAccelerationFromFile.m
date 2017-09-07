@@ -6,7 +6,7 @@ tudat.load();
 
 %% SET UP
 
-simulation = Simulation(0,convert.toSI(14,'d'));
+simulation = Simulation(0,4e5);
 simulation.spice = Spice('pck00009.tpc','de-403-masses.tpc','de421.bsp');
 simulation.spice.preloadKernels = false;
 
@@ -49,6 +49,12 @@ simulation.propagators = {translationalPropagator, massPropagator};
 simulation.integrator.type = Integrators.rungeKutta4;
 simulation.integrator.stepSize = 30;
 
+% Save variables
+% Thrust acceleration on vehicle by vehicle
+simulation.addResultsToSave('thrust','vehicle.acceleration@thrust-vehicle');
+% lvlh to inertial frame rotation of vehicle wrt Earth
+simulation.addResultsToSave('rotation','vehicle.lvlhToInertialFrameRotation-Earth');
+
 
 %% RUN
 
@@ -74,4 +80,13 @@ plot(dates,m);
 ylabel('Mass [kg]');
 
 fprintf('Final mass: %g kg\n',m(end));
+
+figure;
+plot(dates,simulation.results.thrust);
+ylabel('Thrust [m/s^2]');
+legend('x','y','z');
+grid on;
+
+disp('Final lvlh to inertial frame rotation matrix:');
+disp(reshape(simulation.results.rotation(end,:),3,3));
 
