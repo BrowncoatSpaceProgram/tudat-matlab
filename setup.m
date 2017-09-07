@@ -45,7 +45,7 @@ else
         'mkdir build; '...
         'cd build; '...
         sprintf('%s ../tudatBundle; ',cmakebin)...
-        sprintf('%s --build . --target %s -j%i',cmakebin,tudatTarget,concurrentJobs)
+        sprintf('%s --build . --target %s -- -j%i',cmakebin,tudatTarget,concurrentJobs)
         ];
     
     if enableUnitTests
@@ -53,7 +53,7 @@ else
         testNames = {testFiles.name};
         for i = 1:length(testNames)
             testName = strrep(testNames{i},'.m','');
-            command = sprintf('%s; %s --build . --target %s%s -j%i',...
+            command = sprintf('%s; %s --build . --target %s%s -- -j%i',...
                 command,cmakebin,testsTargetsPrefix,testName,concurrentJobs);
         end
     end
