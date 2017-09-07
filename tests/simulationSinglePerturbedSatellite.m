@@ -1,9 +1,9 @@
-function failcount = simulationSingleSatellite
+function failcount = simulationSinglePerturbedSatellite
 
 tudat.load();
 
 % Simulation
-simulation = Simulation(0,convert.toSI(1,'d'));
+simulation = Simulation(0,convert.toSI(1,'d'),'SSB','J2000');
 simulation.spice = Spice('pck00009.tpc','de-403-masses.tpc','de421.bsp');
 
 % Bodies
@@ -14,14 +14,25 @@ asterix.initialState.inclination = 1.4888;
 asterix.initialState.argumentOfPeriapsis = 4.1137;
 asterix.initialState.longitudeOfAscendingNode = 0.4084;
 asterix.initialState.trueAnomaly = 2.4412;
-simulation.addBodies(Earth,asterix);
-simulation.bodies.Earth.ephemeris = ConstantEphemeris(zeros(6,1));
+asterix.mass = 400;
+asterix.referenceArea = 4;
+asterix.dragCoefficient = 1.2;
+asterix.radiationPressureCoefficient = 1.2;
+asterix.radiationPressure.Sun.occultingBodies = Earth;
+simulation.addBodies(Sun,Earth,Moon,Mars,Venus,asterix);
+
+% Accelerations
+accelerationsOnAsterix.Earth = {SphericalHarmonicGravity(5,5), AerodynamicAcceleration()};
+accelerationsOnAsterix.Sun = {PointMassGravity(), RadiationPressureAcceleration()};
+accelerationsOnAsterix.Moon = PointMassGravity();
+accelerationsOnAsterix.Mars = PointMassGravity();
+accelerationsOnAsterix.Venus = PointMassGravity();
 
 % Propagator
 propagator = TranslationalPropagator();
 propagator.centralBodies = Earth;
 propagator.bodiesToPropagate = asterix;
-propagator.accelerations.asterix.Earth = PointMassGravity();
+propagator.accelerations.asterix = accelerationsOnAsterix;
 simulation.propagator = propagator;
 
 % Integrator
