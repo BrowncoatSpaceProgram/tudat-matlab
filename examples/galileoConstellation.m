@@ -49,7 +49,7 @@ simulation.integrator.stepSize = 30;
 
 % Define results to generate
 for i = 1:numberOfSatellites
-    simulation.addResultsToImport(sprintf('r%i',i),sprintf('%s.relativePosition-Earth',satelliteNames{i}));
+    simulation.addResultsToSave(sprintf('r%i',i),sprintf('%s.relativePosition-Earth',satelliteNames{i}));
 end
 
 

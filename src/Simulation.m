@@ -84,7 +84,7 @@ classdef Simulation < jsonable
             end
         end
         
-        function obj = addResultsToImport(obj,varargin)
+        function obj = addResultsToSave(obj,varargin)
             N = length(varargin);
             if mod(N,2) ~= 0
                 error('You must provide an even number of arguments: name1, output1, name2, output2...');
@@ -106,7 +106,7 @@ classdef Simulation < jsonable
         function obj = run(obj)
             result = Result('state');
             result.epochsInFirstColumn = true;
-            obj.addResultsToImport('numericalSolution',result);
+            obj.addResultsToSave('numericalSolution',result);
             mainInputFile = Simulation.defaultInputFileName;
             if isempty(obj.options.populatedFile)
                 obj.options.populatedFile = Simulation.defaultPopulatedInputFileName;
