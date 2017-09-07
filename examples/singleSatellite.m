@@ -6,7 +6,7 @@ tudat.load();
 
 %% SET UP
 
-simulation = Simulation(0,constants.secondsInOne.julianDay);
+simulation = Simulation(0,convert.toSI(1,'d'));
 simulation.spice = Spice('pck00009.tpc','de-403-masses.tpc','de421.bsp');
 
 % Bodies
