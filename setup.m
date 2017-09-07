@@ -1,4 +1,4 @@
-clear all;
+matlabrc;  % Reset MATLAB to its startup state
 
 enableUnitTests = true;
 maximumNumberOfConcurrentJobsDuringBuild = 4;
