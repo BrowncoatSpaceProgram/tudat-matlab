@@ -1,7 +1,7 @@
 matlabrc;  % Reset MATLAB to its startup state
 
 enableUnitTests = true;
-maximumNumberOfConcurrentJobsDuringBuild = 4;
+concurrentJobs = 4;
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -45,7 +45,7 @@ else
         'mkdir build; '...
         'cd build; '...
         sprintf('%s ../tudatBundle; ',cmakebin)...
-        sprintf('make -j%i %s',maximumNumberOfConcurrentJobsDuringBuild,tudatTarget)
+        sprintf('%s --build . --target %s -j%i',cmakebin,tudatTarget,concurrentJobs)
         ];
     
     if enableUnitTests
@@ -53,7 +53,8 @@ else
         testNames = {testFiles.name};
         for i = 1:length(testNames)
             testName = strrep(testNames{i},'.m','');
-            command = [command ' ' testsTargetsPrefix testName];
+            command = sprintf('%s; %s --build . --target %s%s -j%i',...
+                command,cmakebin,testsTargetsPrefix,testName,concurrentJobs);
         end
     end
     
