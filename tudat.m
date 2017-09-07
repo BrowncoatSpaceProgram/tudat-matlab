@@ -69,13 +69,13 @@ classdef tudat
                     tic;
                     evalc(sprintf('failures = %s',testName));
                     if failures
-                        result = sprintf('<strong>%-22s</strong>',sprintf('*** FAILED (%i errors)',failures));
+                        result = sprintf('<strong>%-24s</strong>',sprintf('*** FAILED (%i errors)',failures));
                     else
-                        result = sprintf('%-22s','PASSED');
+                        result = sprintf('%-24s','PASSED');
                         passed{end+1} = testName;
                     end
                 catch
-                    result = sprintf('<strong>%-22s</strong>','*** ERROR');
+                    result = sprintf('<strong>%-24s</strong>','*** ERROR');
                 end
                 fprintf('%s  [ %.3f s ]\n',result,toc);
             end
