@@ -3,7 +3,7 @@ function failcount = simulationThrustAlongVelocityVector
 tudat.load();
 
 % Simulation
-simulation = Simulation(0,convert.toSI(14,'d'));
+simulation = Simulation(0,3600);
 simulation.spice = Spice('pck00009.tpc','de-403-masses.tpc','de421.bsp');
 simulation.spice.preloadKernels = false;
 

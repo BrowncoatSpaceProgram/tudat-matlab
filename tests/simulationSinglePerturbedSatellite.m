@@ -3,7 +3,7 @@ function failcount = simulationSinglePerturbedSatellite
 tudat.load();
 
 % Simulation
-simulation = Simulation(0,convert.toSI(1,'d'),'SSB','J2000');
+simulation = Simulation(0,3600,'SSB','J2000');
 simulation.spice = Spice('pck00009.tpc','de-403-masses.tpc','de421.bsp');
 
 % Bodies
