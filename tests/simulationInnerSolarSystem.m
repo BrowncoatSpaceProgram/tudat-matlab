@@ -2,6 +2,8 @@ function failcount = simulationInnerSolarSystem
 
 tudat.load();
 
+% barycentric
+
 % Simulation
 t0 = 1e7;  % seconds since J2000
 tf = t0 + convert.toSI(2,'y');  % two years later
@@ -34,8 +36,19 @@ simulation.integrator.type = Integrators.rungeKutta4;
 simulation.integrator.stepSize = 3600;
 
 % Generate input file
-test.createInput(simulation,mfilename);
+test.createInput(simulation,fullfile(mfilename,'barycentric'));
 
-% Run test
+
+% hierarchical
+
+% Change central bodies hierarchy
+propagator.centralBodies = {'SSB','Sun','Sun','Sun','Earth','Sun'};
+
+% Generate input file
+test.createInput(simulation,fullfile(mfilename,'hierarchical'));
+
+
+% Run tests
+
 failcount = test.runUnitTest(mfilename);
 

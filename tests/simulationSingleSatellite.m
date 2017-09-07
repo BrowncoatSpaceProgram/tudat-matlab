@@ -29,7 +29,7 @@ simulation.integrator.type = Integrators.rungeKutta4;
 simulation.integrator.stepSize = 10;
 
 % Generate input file
-test.createInput(simulation,mfilename);
+test.createInput(simulation,fullfile(mfilename,'main'));
 
 % Run test
 failcount = test.runUnitTest(mfilename);
