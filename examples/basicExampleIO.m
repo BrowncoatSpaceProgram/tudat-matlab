@@ -4,7 +4,9 @@
 clc; clear;
 tudat.load();
 
-simulation = Simulation('1992-02-14 06:00','1992-02-14 12:00');
+simulation = Simulation();
+simulation.initialEpoch = convert.dateToEpoch('1992-02-14 06:00');
+simulation.finalEpoch = convert.dateToEpoch('1992-02-14 12:00');
 simulation.spice = Spice('pck00009.tpc','de-403-masses.tpc','de421.bsp');
 satellite = Body('satellite');
 satellite.initialState.semiMajorAxis = 7500e3;
@@ -26,7 +28,7 @@ json.export(simulation,'unperturbedSatellite.json');
 %% Run "tudat unperturbedSatellite.json" from the command-line
 
 %% Use output
-[results,failed] = loadResults('results.txt');
+[results,failed] = import.results('results.txt');
 if failed
     warning('Propagation failed: plotting results obtained until propagation failure.');
 end

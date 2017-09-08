@@ -1,7 +1,7 @@
-function export(object,file,tab)
+function export(object,file,tabsize)
 
 if nargin < 3
-    tab = 2;
+    tabsize = 2;
 end
 
 [~,filename,extension] = fileparts(file);
@@ -11,10 +11,15 @@ elseif isempty(filename) || isempty(extension)
     file = [file '.json'];
 end
 
-filesystem.createDirectories(fileparts(file));
+exportdir = fileparts(file);
+if ~isempty(exportdir)
+    if exist(exportdir,'dir') ~= 7
+        mkdir(exportdir);
+    end
+end
 
 fid = fopen(file,'w');
-fprintf(fid,json.encode(object,tab));
+fprintf(fid,json.encode(object,tabsize));
 fclose(fid);
 
 end

@@ -42,6 +42,11 @@ simulation.propagator = propagator;
 simulation.integrator.type = Integrators.rungeKutta4;
 simulation.integrator.stepSize = 10;
 
+% Variables to save
+% simulation.results.t and simulation.results.h will be set after calling simulation.run()
+simulation.addResultsToSave('t','independent');  % independent variable (time in seconds since J2000)
+simulation.addResultsToSave('h','asterix.altitude-Earth');  % altitude of Asterix wrt Earth
+
 
 %% RUN
 
@@ -51,9 +56,8 @@ simulation.run();
 %% RESULTS
 
 % Plot altitude
-[t,r,~] = compute.epochPositionVelocity(simulation.results.numericalSolution);
 figure;
-plot(convert.epochToDate(t),compute.altitude(r)/1e3);
+plot(convert.epochToDate(simulation.results.t),simulation.results.h/1e3);
 grid on;
 ylabel('Altitude [km]');
 
@@ -67,9 +71,8 @@ simulation.run();
 
 %% ADD TO PLOT
 
-[t,r,~] = compute.epochPositionVelocity(simulation.results.numericalSolution);
 hold on;
-plot(convert.epochToDate(t),compute.altitude(r)/1e3);
+plot(convert.epochToDate(simulation.results.t),simulation.results.h/1e3);
 hold off;
 legend('Satellite','Solar sail','Location','South','Orientation','Horizontal');
 

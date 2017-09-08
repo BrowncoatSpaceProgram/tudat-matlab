@@ -87,13 +87,6 @@ classdef State < jsonable
                 'periapsisAltitude','apoapsisAltitude'};
         end
         
-        function u = canHaveUnits(obj,property)
-            u = any(strcmp(property,{'x','y','z','vx','vy','vz','semiMajorAxis','inclination',...
-                'argumentOfPeriapsis','longitudeOfAscendingNode','trueAnomaly','meanAnomaly',...
-                'eccentricAnomaly','semiLatusRectum','meanMotion','period','radius','altitude',...
-                'periapsisDistance','apoapsisDistance','periapsisAltitude','apoapsisAltitude'}));
-        end
-        
         function mp = getMandatoryProperties(obj)
             mp = {''};
         end

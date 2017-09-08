@@ -1,11 +1,9 @@
-function fig = apoapsisPeriapsisAltitudes(obj,varargin)
+function fig = apoapsisPeriapsisAltitudes(obj,centralBody,varargin)
 
-mu = support.optionalArgument(constants.standardGravitationalParameter.earth, ...
-    'StandardGravitationalParameter',varargin);
-t_units = support.optionalArgument('date','TimeUnits',varargin);
-plot_title = support.optionalArgument('','Title',varargin);
-plot_legends = support.optionalArgument({},'Legends',varargin);
-line_style = support.optionalArgument('-','LineStyle',varargin);
+t_units = support.optionalArgument(varargin,'TimeUnits','date');
+plot_title = support.optionalArgument(varargin,'Title','');
+plot_legends = support.optionalArgument(varargin,'Legends',{});
+line_style = support.optionalArgument(varargin,'LineStyle','-');
 
 % Support for plotting multiple cases
 if isa(obj,'cell')
@@ -24,7 +22,7 @@ for i = 1:length(objs)
     
     % Transform to Keplerian components if necessary
     if cartesian
-        states = convert.cartesianToKeplerian(states,'StandardGravitationalParameter',mu);
+        states = convert.cartesianToKeplerian(states,centralBody);
     end
     
     % Convert time
@@ -36,7 +34,7 @@ for i = 1:length(objs)
     end
     
     % Get apo peri altitudes
-    [ha,hp] = compute.apoapsisPeriapsisAltitude(states);
+    [ha,hp] = compute.apoapsisPeriapsisAltitudes(states,varargin{:});
     
     subplot(2,1,1);
     hold on;

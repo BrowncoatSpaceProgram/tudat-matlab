@@ -25,9 +25,11 @@ The first step is to include the paths to tudat-matlab source code in the curren
 tudat.load();
 ```
 
-Now, you can create a `Simulation` object by writing:
+Now, you can create a `Simulation` object and specify the initial (and final) epoch:
 ```
-simulation = Simulation('1992-02-14 06:00','1992-02-14 12:00');
+simulation = Simulation();
+simulation.initialEpoch = convert.dateToEpoch('1992-02-14 06:00');
+simulation.finalEpoch = convert.dateToEpoch('1992-02-14 12:00');
 ```
 
 If you want to load automatically the ephemeris and properties of bodies such as the Sun, Earth, the Moon and other planets, you will need to use Spice. For a simple propagation, you do this by specifying the following Spice kernels:
@@ -88,9 +90,10 @@ After setting up your simulation by following the steps described in [Usage](#us
 simulation.run();
 ```
 
-Now, you are able to access the requested results at the `results` property of your `simulation` object. In addition to the requested results (in this case no results were requested), you are always able to access the property `results.numericalSolution`, which is a matrix in which each row corresponds to an integration step. The first column contains the value of the independent variable (the epoch in this case) and the other columns contain the state (the Cartesian components of `satellite`). You can decompose this matrix into epoch, position and velocity by writing:
+Now, you are able to access the requested results at the `results` property of your `simulation` object. In addition to the requested results (in this case no results were requested), you are always able to access the property `results.numericalSolution`, which is a matrix in which each row corresponds to an integration step. The first column contains the value of the independent variable (the epoch in this case) and the other columns contain the state (the Cartesian components of `satellite`). You can decompose this matrix into epoch and position by writing:
 ```
-[t,r,v] = compute.epochPositionVelocity(simulation.results.numericalSolution);
+t = simulation.results.numericalSolution(:,1);
+r = simulation.results.numericalSolution(:,2:4);
 ```
 
 Finally, you can run MATLAB commands on your results as usual:

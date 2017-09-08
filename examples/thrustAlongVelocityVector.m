@@ -56,35 +56,34 @@ simulation.integrator.stepSize = 30;
 
 % With thrust
 simulation.run();
-thrustResults = simulation.results.numericalSolution;
+epochsOn = simulation.results.numericalSolution(:,1);
+statesOn = simulation.results.numericalSolution(:,2:7);
+masses = simulation.results.numericalSolution(:,8);
 
 % Without thrust
 thrust.magnitude.constantMagnitude = 0;
 simulation.run();
-noThrustResults = simulation.results.numericalSolution;
+epochsOff = simulation.results.numericalSolution(:,1);
+statesOff = simulation.results.numericalSolution(:,2:7);
 
 
 %% RESULTS
 
-[t,r,~] = compute.epochPositionVelocity(noThrustResults);
-dates = convert.epochToDate(t);
-h = compute.altitude(r);
 figure;
 grid on;
 
 yyaxis left;
-semilogy(dates,h/1e3);
+altitudesOff = compute.altitude(statesOff,Earth);  % use Earth's average radius
+semilogy(convert.epochToDate(epochsOff),altitudesOff/1e3);
 ylabel('Altitude [km]');
 hold on;
 
-[t,r,~] = compute.epochPositionVelocity(thrustResults);
-dates = convert.epochToDate(t);
-h = compute.altitude(r);
-semilogy(dates,h/1e3);
+altitudesOn = compute.altitude(statesOn,Earth);
+semilogy(convert.epochToDate(epochsOn),altitudesOn/1e3);
 legend('No thrust','Constant thrust','Location','NorthWest');
 hold off;
 
-m = thrustResults(:,end);
 yyaxis right;
-plot(dates,m);
+plot(convert.epochToDate(epochsOn),masses);
 ylabel('Mass [kg]');
+

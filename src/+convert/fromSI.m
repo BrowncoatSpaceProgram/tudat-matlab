@@ -1,2 +1,3 @@
-function value = fromSI(value,units)
-value = convert.toSI(value,['(' units ')^-1']);
+function value = fromSI(value,toUnits)
+
+value = convert.toSI(value,['(' toUnits ')^-1']);

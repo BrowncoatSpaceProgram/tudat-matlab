@@ -1,6 +1,6 @@
-function cartesianState = keplerianToCartesian(keplerianState,varargin)
-mu = support.optionalArgument(constants.standardGravitationalParameter.earth, ...
-    'StandardGravitationalParameter',varargin);
+function cartesianState = keplerianToCartesian(keplerianState,centralBody)
+
+mu = centralBody.gravitationalParameter;
 
 support.assertValidState(keplerianState);
 
@@ -40,4 +40,6 @@ for j = 1:length(r)
     v_y = mu/H(j)*(-m1(j)*sin(f(j)) + m2(j)*(e(j) + cos(f(j))));
     v_z = mu/H(j)*(-n1(j)*sin(f(j)) + n2(j)*(e(j) + cos(f(j))));
     cartesianState(j,4:6) = [v_x v_y v_z];
+end
+
 end

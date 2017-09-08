@@ -1,7 +1,7 @@
 classdef Simulation < jsonable
     properties
-        startEpoch
-        endEpoch
+        initialEpoch
+        finalEpoch
         globalFrameOrigin
         globalFrameOrientation
         spice
@@ -29,14 +29,14 @@ classdef Simulation < jsonable
     end
     
     methods
-        function obj = Simulation(startEpoch,endEpoch,globalFrameOrigin,globalFrameOrientation)
+        function obj = Simulation(initialEpoch,finalEpoch,globalFrameOrigin,globalFrameOrientation)
             obj.integrator = Integrator();
             obj.spice = Spice();
             obj.options = Options();
             if nargin >= 1
-                obj.startEpoch = startEpoch;
+                obj.initialEpoch = initialEpoch;
                 if nargin >= 2
-                    obj.endEpoch = endEpoch;
+                    obj.finalEpoch = finalEpoch;
                     if nargin >= 3
                         obj.globalFrameOrigin = globalFrameOrigin;
                         if nargin >= 4
@@ -139,15 +139,15 @@ classdef Simulation < jsonable
                 importSettings = obj.import{i};
                 name = importSettings.name;
                 file = sprintf(Simulation.defaultResultFileName,name);
-                eval(sprintf('obj.results.%s = loadResults(file);',name));
+                eval(sprintf('obj.results.%s = import.results(file);',name));
             end
         end
         
         function obj = deleteAuxiliaryFiles(obj)
-            filesystem.deleteFile(Simulation.defaultInputFileName);
-            filesystem.deleteFile(Simulation.defaultPopulatedInputFileName);
+            deleteIfExists(Simulation.defaultInputFileName);
+            deleteIfExists(Simulation.defaultPopulatedInputFileName);
             for i = 1:length(obj.import)
-                filesystem.deleteFile(sprintf(Simulation.defaultResultFileName,obj.import{i}.name));
+                deleteIfExists(sprintf(Simulation.defaultResultFileName,obj.import{i}.name));
             end
         end
         
@@ -155,12 +155,23 @@ classdef Simulation < jsonable
     
 end
 
+
 function [ID,result] = getIDresult(i,elements)
+
 ID = elements{2*i-1};
 result = elements{2*i};
 if ~iscell(result)
     result = { result };
 end
 result = Result(result{:});
+
 end
 
+
+function deleteIfExists(file)
+
+if exist(file,'file') == 2
+    delete(file);
+end
+
+end

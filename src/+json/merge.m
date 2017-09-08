@@ -6,8 +6,8 @@ if mod(N,2) ~= 0
 end
 
 map = containers.Map;
-for i = 1:N/2
-    map(varargin{2*i-1}) = varargin{2*i};
+for i = 1:2:N
+    map(varargin{i}) = varargin{i+1};
 end
 
 array = { object, map };

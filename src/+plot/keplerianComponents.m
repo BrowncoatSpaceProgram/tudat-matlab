@@ -1,8 +1,6 @@
-function fig = keplerianComponentsHistory(obj,varargin)
+function keplerianComponents(obj,centralBody,varargin)
 
-mu = support.optionalArgument(constants.standardGravitationalParameter.earth, ...
-    'StandardGravitationalParameter',varargin);
-
+mu = centralBody.gravitationalParameter;
 t_units = support.optionalArgument('date','TimeUnits',varargin);
 
 % Support for plotting multiple cases
@@ -22,7 +20,7 @@ for i = 1:length(objs)
     
     % Transform to Keplerian components if necessary
     if cartesian
-        states = convert.cartesianToKeplerian(states,'StandardGravitationalParameter',mu);
+        states = convert.cartesianToKeplerian(states,centralBody);
     end
     
     % Convert time
@@ -59,14 +57,14 @@ for i = 1:length(objs)
     plot(t,rad2deg(states(:,4)));
     grid on;
     xlabel(xl);
-    ylabel('Argument perigee [deg]');
+    ylabel('Argument of perigee [deg]');
     
     subplot(2,3,5);
     hold on;
     plot(t,rad2deg(states(:,5)));
     grid on;
     xlabel(xl);
-    ylabel('Longitude ascending node [deg]');
+    ylabel('Longitude of the ascending node [deg]');
     
     subplot(2,3,6);
     hold on;
@@ -76,4 +74,3 @@ for i = 1:length(objs)
     ylabel('True anomaly [deg]');
 end
 
-fig = gcf;

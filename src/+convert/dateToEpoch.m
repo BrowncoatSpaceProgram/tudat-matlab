@@ -1,5 +1,15 @@
-function epoch = dateToEpoch(date)
+function epoch = dateToEpoch(date,referenceDate)
+
 if ~isa(date,'datetime')
     date = datetime(date);
 end
-epoch = ( juliandate(date) - juliandate(2000,1,1,12,0,0) ) * constants.secondsInOne.julianDay;
+
+if nargin < 2
+    referenceDate = '2000-01-01 12:00:00';  % J2000
+elseif ~isa(referenceDate,'datetime')
+    referenceDate = datetime(referenceDate);
+end
+
+epoch = convert.toSI(juliandate(date) - juliandate(referenceDate),'d');
+
+end

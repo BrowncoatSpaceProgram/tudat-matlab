@@ -78,7 +78,7 @@ zlabel('Z [km]');
 
 % Add Earth
 [x,y,z] = sphere;
-radius = constants.radius.earth/1e3;
+radius = Earth.averageRadius/1e3;
 surf(x*radius,y*radius,z*radius);
 
 % Add satellites at final positions
@@ -87,5 +87,4 @@ for i = 1:numberOfSatellites
     plot3(r(end,1),r(end,2),r(end,3),'.','Color',colors(ccodes(i),:),'MarkerSize',18);
 end
 hold off;
-
 

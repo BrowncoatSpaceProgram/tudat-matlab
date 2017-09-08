@@ -1,7 +1,9 @@
-function object = modular(object,file,tab)
+function object = modular(object,file,tabsize)
+
 if nargin < 3
-    tab = 2;
+    tabsize = 2;
 end
-json.export(object,file,tab);
+json.export(object,file,tabsize);
 object = ['$(' file ')'];
+
 end

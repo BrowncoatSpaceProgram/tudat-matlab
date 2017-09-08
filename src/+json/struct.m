@@ -30,7 +30,7 @@ else
     catch ME
         if isenum(object)  % enum -> std::string
             s = char(object);
-        elseif strcmp(ME.identifier,'MATLAB:structRefFromNonStruct')  % primitive -> int, double, bool, std::string
+        elseif strcmp(ME.identifier,'MATLAB:structRefFromNonStruct')  % primitive -> int, double, bool, string
             if isnumeric(object)
                 if any(imag(object(:)))  % complex numbers -> "(real,imag")
                     [m,n] = size(object);

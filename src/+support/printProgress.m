@@ -51,3 +51,5 @@ if updateProgress
     output = sprintf('%s%s\n',output,currentStr);
     clc; fprintf('%s',output);
 end
+
+end

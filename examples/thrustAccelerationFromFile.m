@@ -63,9 +63,8 @@ simulation.run();
 
 %% RESULTS
 
-[t,r,~] = compute.epochPositionVelocity(simulation.results.numericalSolution);
-dates = convert.epochToDate(t);
-h = compute.altitude(r);
+dates = convert.epochToDate(simulation.results.numericalSolution(:,1));
+h = compute.altitude(simulation.results.numericalSolution(:,2:7),Earth);  % use Earth's average radius
 figure;
 grid on;
 
@@ -74,7 +73,7 @@ semilogy(dates,h/1e3);
 ylabel('Altitude [km]');
 hold on;
 
-m = simulation.results.numericalSolution(:,end);
+m = simulation.results.numericalSolution(:,8);
 yyaxis right;
 plot(dates,m);
 ylabel('Mass [kg]');

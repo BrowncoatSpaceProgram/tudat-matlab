@@ -40,12 +40,9 @@ simulation.run();
 %% RESULTS
 
 % Plot distance to Earth's CoM
-[t,r,~] = compute.epochPositionVelocity(simulation.results.numericalSolution);
-plot(convert.epochToDate(t),compute.normPerRows(r)/1e3); grid on; ylabel('Distance [km]');
-
-% Unperturbed orbit: check that the Keplerian elements stay constant
-[~,a,e,i,omega,raan,~] = compute.epochKeplerianElements(simulation.results.numericalSolution);
-tolerance = 1e-7;
-[all(abs(a-a(1)) < tolerance*a(1)) all(abs(e-e(1)) < tolerance) all(abs(i-i(1)) < tolerance) ...
-    all(abs(omega-omega(1)) < tolerance) all(abs(raan-raan(1)) < tolerance)]
+t = simulation.results.numericalSolution(:,1);
+r = simulation.results.numericalSolution(:,2:4);
+plot(convert.epochToDate(t),compute.normPerRows(r)/1e3);
+grid on;
+ylabel('Distance [km]');
 

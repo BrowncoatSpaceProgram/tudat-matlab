@@ -1,8 +1,9 @@
-function keplerianState = cartesianToKeplerian(cartesianState,varargin)
-mu = support.optionalArgument(constants.standardGravitationalParameter.earth, ...
-    'StandardGravitationalParameter',varargin);
+function keplerianState = cartesianToKeplerian(cartesianState,gravitationalParameter)
 
-support.assertValidState(cartesianState);
+if isa(gravitationalParameter,'Body')
+    body = gravitationalParameter;
+    gravitationalParameter = body.gravitationalParameter;
+end
 
 % Get elements
 X = cartesianState(:,1:3);
@@ -16,8 +17,8 @@ for j = 1:length(r)
     h = cross(X(j,:),V(j,:));
     N = cross([0;0;1],h);
 
-    a = 1/(2/r(j) - v(j)^2/mu);
-    e = 1/mu*cross(V(j,:),h) - X(j,:)/r(j);
+    a = 1/(2/r(j) - v(j)^2/gravitationalParameter);
+    e = 1/gravitationalParameter*cross(V(j,:),h) - X(j,:)/r(j);
     i = acos(h(3)/norm(h));
     Nxy = sqrt(N(1)^2 + N(2)^2);
     raan = atan2(N(2)/Nxy,N(1)/Nxy);
@@ -46,4 +47,6 @@ for j = 1:length(r)
     keplerianState(j,4) = omega;
     keplerianState(j,5) = raan;
     keplerianState(j,6) = f;
+end
+
 end

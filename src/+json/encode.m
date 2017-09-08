@@ -1,7 +1,7 @@
-function jsonObject = encode(object,tab)
+function jsonObject = encode(object,tabsize)
 
 if nargin < 2
-    tab = 2;
+    tabsize = 2;
 end
 
 % Convert to json (only if not json)
@@ -12,7 +12,7 @@ end
 jsonObject = strrep(jsonencode(json.struct(object)),'\','\\');
 
 % Add indenting
-if tab > 0
+if tabsize > 0
     indentedjson = [];
     indentLevel = 0;
     betweenQuotes = -1;
@@ -22,30 +22,30 @@ if tab > 0
             betweenQuotes = -betweenQuotes;
         end
         if betweenQuotes == 1
-            indentedjson = [indentedjson c];
+            indentedjson = sprintf('%s%s',indentedjson,c);
         else
             if c == '{' || c == '['
                 indentLevel = indentLevel + 1;
-                indentedjson = [indentedjson c '\n'];
-                for j = 1:(tab*indentLevel)
-                    indentedjson = [indentedjson ' '];
+                indentedjson = sprintf('%s%s\n',indentedjson,c);
+                for j = 1:(tabsize*indentLevel)
+                    indentedjson = sprintf('%s ',indentedjson);
                 end
             elseif c == '}' || c == ']'
                 indentLevel = indentLevel - 1;
-                indentedjson = [indentedjson '\n'];
-                for j = 1:(tab*indentLevel)
-                    indentedjson = [indentedjson ' '];
+                indentedjson = sprintf('%s\n',indentedjson);
+                for j = 1:(tabsize*indentLevel)
+                    indentedjson = sprintf('%s ',indentedjson);
                 end
-                indentedjson = [indentedjson c];
+                indentedjson = sprintf('%s%s',indentedjson,c);
             elseif c == ','
-                indentedjson = [indentedjson c '\n'];
-                for j = 1:(tab*indentLevel)
-                    indentedjson = [indentedjson ' '];
+                indentedjson = sprintf('%s%s\n',indentedjson,c);
+                for j = 1:(tabsize*indentLevel)
+                    indentedjson = sprintf('%s ',indentedjson);
                 end
             elseif c == ':'
-                indentedjson = [indentedjson c ' '];
+                indentedjson = sprintf('%s%s ',indentedjson,c);
             else
-                indentedjson = [indentedjson c];
+                indentedjson = sprintf('%s%s',indentedjson,c);
             end
         end
     end

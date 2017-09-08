@@ -13,49 +13,52 @@ classdef Variable < jsonable
     
     methods
         function obj = Variable(var)
-            if isa(var,'Variable')
-                obj = var;
-            elseif isa(var,'Variables')
-                obj.type = var;
-            elseif isa(var,'DependentVariables')
-                obj.dependentVariableType = var;
-            else
-                [~,tok] = regexp(var,'(.+?)\((\d+)\)','match','tokens');
-                if ~isempty(tok)
-                    var = tok{1}{1};
-                    obj.componentIndex = str2double(tok{1}{2}) - 1;
+            if nargin >= 1
+                if isa(var,'Variable')
+                    obj = var;
+                elseif isa(var,'Variables')
+                    obj.type = var;
+                elseif isa(var,'DependentVariables')
+                    obj.dependentVariableType = var;
                 else
-                    [~,tok] = regexp(var,'(.+?)\[(\d+)\]','match','tokens');
+                    [~,tok] = regexp(var,'(.+?)\((\d+)\)','match','tokens');
                     if ~isempty(tok)
                         var = tok{1}{1};
-                        obj.componentIndex = str2double(tok{1}{2});
-                    end
-                end
-                parts = split(var,'.');
-                if length(parts) == 1
-                    obj.type = var;
-                else
-                    obj.body = parts{1};
-                    subparts = split(parts{2},'-');
-                    secondaryBody = [];
-                    if length(subparts) > 1
-                        secondaryBody = subparts{end};
-                    end
-                    subparts = split(subparts{1},'@');
-                    obj.dependentVariableType = subparts{1};
-                    if obj.dependentVariableType == DependentVariables.acceleration ...
-                            || obj.dependentVariableType == DependentVariables.accelerationNorm
-                        obj.bodyExertingAcceleration = secondaryBody;
-                        obj.accelerationType = subparts{2};
-                    elseif obj.dependentVariableType == DependentVariables.torque ...
-                            || obj.dependentVariableType == DependentVariables.torqueNorm
-                        obj.bodyExertingTorque = secondaryBody;
-                        obj.torqueType = subparts{2};
+                        obj.componentIndex = str2double(tok{1}{2}) - 1;
                     else
-                        obj.relativeToBody = secondaryBody;
+                        [~,tok] = regexp(var,'(.+?)\[(\d+)\]','match','tokens');
+                        if ~isempty(tok)
+                            var = tok{1}{1};
+                            obj.componentIndex = str2double(tok{1}{2});
+                        end
+                    end
+                    parts = split(var,'.');
+                    if length(parts) == 1
+                        obj.type = var;
+                    else
+                        obj.body = parts{1};
+                        subparts = split(parts{2},'-');
+                        secondaryBody = [];
+                        if length(subparts) > 1
+                            secondaryBody = subparts{end};
+                        end
+                        subparts = split(subparts{1},'@');
+                        obj.dependentVariableType = subparts{1};
+                        if obj.dependentVariableType == DependentVariables.acceleration ...
+                                || obj.dependentVariableType == DependentVariables.accelerationNorm
+                            obj.bodyExertingAcceleration = secondaryBody;
+                            obj.accelerationType = subparts{2};
+                        elseif obj.dependentVariableType == DependentVariables.torque ...
+                                || obj.dependentVariableType == DependentVariables.torqueNorm
+                            obj.bodyExertingTorque = secondaryBody;
+                            obj.torqueType = subparts{2};
+                        else
+                            obj.relativeToBody = secondaryBody;
+                        end
                     end
                 end
             end
+            
         end
         
         function set.type(obj,value)

@@ -19,3 +19,5 @@ else
         urlencode(issueTitle),urlencode(issueBody));
     fprintf('\nPlease, <a href="matlab: web(''%s'',''-browser'')">open an issue on GitHub</a>.\n',issueURL)
 end
+
+end
