@@ -21,7 +21,7 @@ simulation.propagator = propagator;
 simulation.integrator.type = Integrators.rungeKutta4;
 simulation.integrator.stepSize = 20;
 simulation.addResultsToExport('results.txt',{'independent','state'});
-simulation.options.populatedFile = 'unperturbedSatellite-populated.json';
+simulation.options.fullSettingsFile = 'unperturbedSatellite_fullSettings.json';
 
 json.export(simulation,'unperturbedSatellite.json');
 
