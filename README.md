@@ -11,7 +11,7 @@ MATLAB interface for Tudat
   * If you already have a clone of [tudatBundle](http://github.com/aleixpinardell/tudatBundle) and have built the required targets, enter the path of the directory.
   * If you don't have a clone of [tudatBundle](http://github.com/aleixpinardell/tudatBundle) or haven't built the required targets, press `return`. This will clone the repository and build the targets for you (it will take several minutes).
 
-If the installation is successful, the units tests will start running. If any of the tests fails, [open an issue](https://github.com/aleixpinardell/tudat-matlab/issues/new).
+If the installation is successful, the units tests will start running. If any of the tests fails, open an issue for each.
 
 If you want to move, rename or delete your tudat-matlab directory, remove it first from MATLAB's path by using `pathtool`.
 
@@ -40,7 +40,7 @@ Next, you need to create the bodies. For an unperturbed orbit, the mass of the s
 satellite = Body('satellite');
 satellite.initialState.semiMajorAxis = 7500e3;
 satellite.initialState.eccentricity = 0.1;
-satellite.initialState.inclination = deg2rad(5)';
+satellite.initialState.inclination = deg2rad(5);
 ```
 
 Note that some of the Keplerian components have been omitted, and thus they are assumed to be zero.
@@ -76,7 +76,7 @@ Now, the simulation is set up and you can proceed in two different ways.
 ### Usage modes
 
 * **SL mode** (seamless mode). You use tudat-matlab to set up simulations that will be run directly from your MATLAB script. Temporary input and output files will be genereated and deleted by tudat-matlab in the background. When the simulation completes, you will be able to access the results directly in the property `results` of your `Simulation` object. You can use this data to generate plots and eventually consolidate (parts of) it in a text file.
-* **IO mode** (input-output mode). You use tudat-matlab to set up simulations and to generate JSON input files that will then be provided to the `tudat` binary. Then, the generated output files can be opened with your favorite text editor and/or loaded into MATLAB for post-processing and plotting.
+* **IO mode** (input-output mode). You use tudat-matlab to set up simulations and to generate JSON input files that will then be provided to the `tudat` binary manually, i.e. from the command line. You must specify the output files to generate by using the `addResultsToExport` of your `Simulation` object. Then, the generated output files can be opened with your favorite text editor and/or loaded into MATLAB for post-processing and plotting.
 
 These modes are not mutually exclusive, i.e. you can run your simulations from MATLAB and still get to keep the input and output files in your directory. In the following two sub-sections, the two modes are briefly described.
 
@@ -93,9 +93,9 @@ Now, you are able to access the requested results at the `results` property of y
 [t,r,v] = compute.epochPositionVelocity(simulation.results.numericalSolution);
 ```
 
-Finally, you can run MATLAB command on your results as usual:
+Finally, you can run MATLAB commands on your results as usual:
 ```
-plot(convert.epochToDate(t),r/13);
+plot(convert.epochToDate(t),r/1e3);
 legend('x','y','z','Location','South','Orientation','Horizontal');
 ylabel('Position [km]');
 grid on;

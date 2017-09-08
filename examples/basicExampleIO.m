@@ -32,7 +32,7 @@ if failed
 end
 t = results(:,1);
 r = results(:,2:4);
-plot(convert.epochToDate(t),r/13);
+plot(convert.epochToDate(t),r/1e3);
 legend('x','y','z','Location','South','Orientation','Horizontal');
 ylabel('Position [km]');
 grid on;

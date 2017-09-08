@@ -21,7 +21,7 @@ simulation.integrator.stepSize = 20;
 simulation.run();
 
 [t,r,v] = compute.epochPositionVelocity(simulation.results.numericalSolution);
-plot(convert.epochToDate(t),r/13);
+plot(convert.epochToDate(t),r/1e3);
 legend('x','y','z','Location','South','Orientation','Horizontal');
 ylabel('Position [km]');
 grid on;
