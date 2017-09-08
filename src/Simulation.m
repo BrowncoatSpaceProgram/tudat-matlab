@@ -19,13 +19,13 @@ classdef Simulation < jsonable
         import
     end
     properties (Transient, SetAccess = protected)
-        populatedjson
+        fullSettings
         results
     end
     properties (Transient, Constant, Hidden)
         defaultInputFileName = 'temp.json';
-        defaultPopulatedInputFileName = 'temp.populated.json';
-        defaultResultFileName = 'temp.results.%s.txt';
+        defaultFullSettingsFileName = 'temp_full.json';
+        defaultResultFileName = 'temp_results_%s.txt';
     end
     
     methods
@@ -108,8 +108,8 @@ classdef Simulation < jsonable
             result.epochsInFirstColumn = true;
             obj.addResultsToSave('numericalSolution',result);
             mainInputFile = Simulation.defaultInputFileName;
-            if isempty(obj.options.populatedFile)
-                obj.options.populatedFile = Simulation.defaultPopulatedInputFileName;
+            if isempty(obj.options.fullSettingsFile)
+                obj.options.fullSettingsFile = Simulation.defaultFullSettingsFileName;
             end
             json.export(obj,mainInputFile);
             
@@ -134,7 +134,7 @@ classdef Simulation < jsonable
     
     methods (Access = protected)
         function obj = loadAuxiliaryFiles(obj)
-            obj.populatedjson = fileread(obj.options.populatedFile);
+            obj.fullSettings = fileread(obj.options.fullSettingsFile);
             for i = 1:length(obj.import)
                 importSettings = obj.import{i};
                 name = importSettings.name;
@@ -145,7 +145,7 @@ classdef Simulation < jsonable
         
         function obj = deleteAuxiliaryFiles(obj)
             deleteIfExists(Simulation.defaultInputFileName);
-            deleteIfExists(Simulation.defaultPopulatedInputFileName);
+            deleteIfExists(Simulation.defaultFullSettingsFileName);
             for i = 1:length(obj.import)
                 deleteIfExists(sprintf(Simulation.defaultResultFileName,obj.import{i}.name));
             end

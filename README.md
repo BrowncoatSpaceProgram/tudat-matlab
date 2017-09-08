@@ -90,6 +90,11 @@ After setting up your simulation by following the steps described in [Usage](#us
 simulation.run();
 ```
 
+After running the simulation, you can display the full settings (including the default values) that have been used by Tudat as JSON-formatted text:
+```
+disp(simulation.fullSettings);  
+```
+
 Now, you are able to access the requested results at the `results` property of your `simulation` object. In addition to the requested results (in this case no results were requested), you are always able to access the property `results.numericalSolution`, which is a matrix in which each row corresponds to an integration step. The first column contains the value of the independent variable (the epoch in this case) and the other columns contain the state (the Cartesian components of `satellite`). You can decompose this matrix into epoch and position by writing:
 ```
 t = simulation.results.numericalSolution(:,1);

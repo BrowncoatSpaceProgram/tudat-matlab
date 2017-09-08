@@ -6,7 +6,7 @@ classdef Options < jsonable
         defaultValueUsedForMissingKey
         unusedKey
         unidimensionalArrayInference
-        populatedFile
+        fullSettingsFile
         tagOutputFilesIfPropagationFails
     end
     
@@ -46,7 +46,7 @@ classdef Options < jsonable
     
     methods (Hidden)
         function p = isPath(obj,property)
-            p = strcmp(property,{'populatedFile'});
+            p = strcmp(property,{'fullSettingsFile'});
         end
         
         function mp = getMandatoryProperties(obj)

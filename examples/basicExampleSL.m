@@ -21,6 +21,7 @@ simulation.integrator.type = Integrators.rungeKutta4;
 simulation.integrator.stepSize = 20;
 
 simulation.run();
+disp(simulation.fullSettings);  
 
 t = simulation.results.numericalSolution(:,1);
 r = simulation.results.numericalSolution(:,2:4);
