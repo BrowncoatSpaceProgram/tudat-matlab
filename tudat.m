@@ -4,14 +4,20 @@ classdef tudat
         testsdir = fullfile(tudat.rootdir,'tests')
         settingsfile = fullfile(tudat.rootdir,'settings.mat')
         
+        bundlePathKey = 'bundlePath'
         binaryPathKey = 'binaryPath'
         testsSourcesDirectoryPathKey = 'testsSourcesDirectoryPath'
         testsBinariesDirectoryPathKey = 'testsBinariesDirectoryPath'
         
         defaultBundlePath = fullfile(tudat.rootdir,'tudatBundle');
+        
         defaultInBundleBinaryPath = fullfile('tudatExampleApplications','satellitePropagatorExamples','bin','applications','tudat')
         defaultInBundleTestsSourcesPath = fullfile('tudat','Tudat','External','JsonInterface','UnitTests')
         defaultInBundleTestsBinariesPath = fullfile('tudat','bin','unit_tests')
+        
+        defaultBinaryPath = fullfile(tudat.defaultBundlePath,tudat.defaultInBundleBinaryPath)
+        defaultTestsSourcesPath = fullfile(tudat.defaultBundlePath,tudat.defaultInBundleTestsSourcesPath)
+        defaultTestsBinariesPath = fullfile(tudat.defaultBundlePath,tudat.defaultInBundleTestsBinariesPath)
     end
     
     methods (Static)
@@ -31,6 +37,7 @@ classdef tudat
         end
         
         function find(bundlePath)
+            tudat.bundle(bundlePath);
             tudat.binary(fullfile(bundlePath,tudat.defaultInBundleBinaryPath));
             tudat.testsSourcesDirectory(fullfile(bundlePath,tudat.defaultInBundleTestsSourcesPath));
             tudat.testsBinariesDirectory(fullfile(bundlePath,tudat.defaultInBundleTestsBinariesPath));
@@ -104,59 +111,50 @@ classdef tudat
             s = load(tudat.settingsfile);
         end
         
-        function path = binary(path)
-            if nargin == 0  % get binary path
+        function varargout = bundle(path)
+            if nargin == 0  % get
                 try
-                    path = tudat.settings.(tudat.binaryPathKey);
+                    varargout{1} = tudat.settings.(tudat.bundlePathKey);
                 catch
-                    error(['Could not find Tudat binary.\n'...
-                        'Call tudat.find(''tudatBundlePath'') or tudat.binary(''tudatBinaryPath'') from the Command Window before running simulations.\n'...
-                        'You will NOT need to do this again the next time you launch MATLAB.'],'');
+                    varargout{1} = tudat.defaultBundlePath;
                 end
-                if exist(path,'file') ~= 2
-                    error(['Tudat binary was not found at the specified path: "%s"\n'...
-                        'Call tudat.find(''tudatBundlePath'') or tudat.binary(''binaryPath'') from the Command Window '...
-                        'to update Tudat binary path.'],path);
+            else  % set
+                updateSetting(tudat.bundlePathKey,path);
+            end
+        end
+        
+        function varargout = binary(path)
+            if nargin == 0  % get
+                try
+                    varargout{1} = tudat.settings.(tudat.binaryPathKey);
+                catch
+                    varargout{1} = tudat.defaultBinaryPath;
                 end
-            else  % set binary path
+            else  % set
                 updateSetting(tudat.binaryPathKey,path);
             end
         end
         
-        function path = testsSourcesDirectory(path)
-            if nargin == 0  % get tests sources directory path
+        function varargout = testsSourcesDirectory(path)
+            if nargin == 0  % get
                 try
-                    path = tudat.settings.(tudat.testsSourcesDirectoryPathKey);
+                    varargout{1} = tudat.settings.(tudat.testsSourcesDirectoryPathKey);
                 catch
-                    error(['Could not find Tudat tests sources directory.\n'...
-                        'Call tudat.find(''tudatBundlePath'') or tudat.testsSourcesDirectory(''path'') from the Command Window before running simulations.\n'...
-                        'You will NOT need to do this again the next time you launch MATLAB.'],'');
+                    varargout{1} = tudat.defaultTestsSourcesPath;
                 end
-                if exist(path,'dir') ~= 7
-                    error(['Tudat tests sources directory was not found at the specified path: "%s"\n'...
-                        'Call tudat.find(''tudatBundlePath'') or tudat.testsSourcesDirectory(''path'') from the Command Window '...
-                        'to update Tudat tests sources directory.'],path);
-                end
-            else  % set tests sources directory path
+            else  % set
                 updateSetting(tudat.testsSourcesDirectoryPathKey,path);
             end
         end
         
-        function path = testsBinariesDirectory(path)
-            if nargin == 0  % get tests binaries directory path
+        function varargout = testsBinariesDirectory(path)
+            if nargin == 0  % get
                 try
-                    path = tudat.settings.(tudat.testsBinariesDirectoryPathKey);
+                    varargout{1} = tudat.settings.(tudat.testsBinariesDirectoryPathKey);
                 catch
-                    error(['Could not find Tudat tests binaries directory.\n'...
-                        'Call tudat.find(''tudatBundlePath'') or tudat.testsBinariesDirectory(''path'') from the Command Window before running simulations.\n'...
-                        'You will NOT need to do this again the next time you launch MATLAB.'],'');
+                    varargout{1} = tudat.defaultTestsBinariesPath;
                 end
-                if exist(path,'dir') ~= 7
-                    error(['Tudat tests binaries directory was not found at the specified path: "%s"\n'...
-                        'Call tudat.find(''tudatBundlePath'') or tudat.testsBinariesDirectory(''path'') from the Command Window '...
-                        'to update Tudat tests binaries directory.'],path);
-                end
-            else  % set tests binaries directory path
+            else  % set
                 updateSetting(tudat.testsBinariesDirectoryPathKey,path);
             end
         end

@@ -16,12 +16,10 @@ else
     savepath;
 end
 
-tudatBundleDirectory = input('Specify the path to the tudatBundle directory (or press return to use the default path): ','s');
-if ~isempty(tudatBundleDirectory)
-    tudat.find(tudatBundleDirectory);
+customTudatBundleDirectory = input('Specify the path to the tudatBundle directory (or press return to use the default path): ','s');
+if ~isempty(customTudatBundleDirectory)
+    tudat.find(customTudatBundleDirectory);
 else
-    tudat.find(tudat.defaultBundlePath);
-
     tudatTarget = 'tudat';
     testsTargetsPrefix = 'test_json_';
     
