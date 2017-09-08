@@ -128,14 +128,16 @@ classdef tudat
                 try
                     tic;
                     evalc(sprintf('[failures,issuesURLs{i}] = %s',testName));
-                    if failures
-                        result = sprintf('<strong>%-24s</strong>',sprintf('*** FAILED (%i errors)',failures));
-                    else
+                    if failures == 0
                         result = sprintf('%-24s','PASSED');
                         passed{end+1} = testName;
+                    elseif failures == -1
+                        result = sprintf('<strong>%-24s</strong>','*** TUDAT ERROR');
+                    else
+                        result = sprintf('<strong>%-24s</strong>',sprintf('*** FAILED (%i errors)',failures));
                     end
                 catch
-                    result = sprintf('<strong>%-24s</strong>','*** ERROR');
+                    result = sprintf('<strong>%-24s</strong>','*** MATLAB ERROR');
                 end
                 fprintf('%s  [ %.3f s ]\n',result,toc);
             end
