@@ -1,4 +1,4 @@
-function failcount = simulationGalileoConstellation
+function [failcount,issueURL] = simulationGalileoConstellation
 
 tudat.load();
 
@@ -48,5 +48,5 @@ simulation.integrator.stepSize = 30;
 test.createInput(simulation,fullfile(mfilename,'main'));
 
 % Run test
-failcount = test.runUnitTest(mfilename);
+[failcount,issueURL] = test.runUnitTest(mfilename);
 

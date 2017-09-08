@@ -1,4 +1,4 @@
-function failcount = radiationPressure
+function [failcount,issueURL] = radiationPressure
 
 tudat.load();
 
@@ -16,5 +16,5 @@ test.createInput(rp,fullfile(mfilename,'cannonBall'));
 
 % Run tests
 
-failcount = test.runUnitTest(mfilename);
+[failcount,issueURL] = test.runUnitTest(mfilename);
 

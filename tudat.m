@@ -43,70 +43,6 @@ classdef tudat
             tudat.testsBinariesDirectory(fullfile(bundlePath,tudat.defaultInBundleTestsBinariesPath));
         end
         
-        function test(varargin)
-            t0 = tic;
-            clc;
-            n = length(varargin);
-            if n == 0  % run all tests
-                testFiles = dir(fullfile(tudat.testsdir,'*.m'));
-                testNames = {testFiles.name};
-            else  % run specified tests
-                testNames = varargin;
-            end
-            n = length(testNames);
-            title = sprintf('Running %i test',n);
-            if n > 1
-                title = [title 's'];
-            end
-            filenamewidth = 0;
-            for i = 1:n
-                [~,filename,~] = fileparts(testNames{i});
-                testNames{i} = filename;
-                filenamewidth = max(filenamewidth,length(filename));
-            end
-            fprintf([title '\n']);
-            separator = repmat('=',1,length(title));
-            fprintf([separator '\n']);
-            passed = {};
-            addpath(tudat.testsdir);
-            for i = 1:n
-                testName = testNames{i};
-                fprintf(sprintf('Test %%%ii/%%i   %%-%is     ',length(sprintf('%i',n)),filenamewidth),i,n,testName);
-                try
-                    tic;
-                    evalc(sprintf('failures = %s',testName));
-                    if failures
-                        result = sprintf('<strong>%-24s</strong>',sprintf('*** FAILED (%i errors)',failures));
-                    else
-                        result = sprintf('%-24s','PASSED');
-                        passed{end+1} = testName;
-                    end
-                catch
-                    result = sprintf('<strong>%-24s</strong>','*** ERROR');
-                end
-                fprintf('%s  [ %.3f s ]\n',result,toc);
-            end
-            fprintf([separator '\n']);
-            p = length(passed);
-            fprintf('Total elapsed time: %g s.\n\n%i of %i tests (%g%%) passed.\n',toc(t0),p,n,p/n*100);
-            f = n - p;
-            if f > 0
-                if f == 1
-                    ts = '';
-                else
-                    ts = 's';
-                end
-                fprintf('%i test%s failed:\n',f,ts);
-                for i = 1:n
-                    testName = testNames{i};
-                    if ~any(strcmp(testName,passed))
-                        fprintf('   * <a href="matlab: open(which(''%s.m''))">%s.m</a>\n',testName,testName);
-                    end
-                end
-            end
-            fprintf('\n');
-        end
-        
         function s = settings
             s = load(tudat.settingsfile);
         end
@@ -157,6 +93,75 @@ classdef tudat
             else  % set
                 updateSetting(tudat.testsBinariesDirectoryPathKey,path);
             end
+        end
+        
+        function test(varargin)
+            t0 = tic;
+            clc;
+            n = length(varargin);
+            if n == 0  % run all tests
+                testFiles = dir(fullfile(tudat.testsdir,'*.m'));
+                testNames = {testFiles.name};
+            else  % run specified tests
+                testNames = varargin;
+            end
+            n = length(testNames);
+            title = sprintf('Running %i test',n);
+            if n > 1
+                title = [title 's'];
+            end
+            filenamewidth = 0;
+            for i = 1:n
+                [~,filename,~] = fileparts(testNames{i});
+                testNames{i} = filename;
+                filenamewidth = max(filenamewidth,length(filename));
+            end
+            fprintf([title '\n']);
+            separator = repmat('=',1,length(title));
+            fprintf([separator '\n']);
+            passed = {};
+            addpath(tudat.testsdir);
+            issuesURLs = cell(size(testNames));
+            for i = 1:n
+                testName = testNames{i};
+                fprintf(sprintf('Test %%%ii/%%i   %%-%is     ',length(sprintf('%i',n)),filenamewidth),i,n,testName);
+                try
+                    tic;
+                    evalc(sprintf('[failures,issuesURLs{i}] = %s',testName));
+                    if failures
+                        result = sprintf('<strong>%-24s</strong>',sprintf('*** FAILED (%i errors)',failures));
+                    else
+                        result = sprintf('%-24s','PASSED');
+                        passed{end+1} = testName;
+                    end
+                catch
+                    result = sprintf('<strong>%-24s</strong>','*** ERROR');
+                end
+                fprintf('%s  [ %.3f s ]\n',result,toc);
+            end
+            fprintf([separator '\n']);
+            p = length(passed);
+            fprintf('Total elapsed time: %g s.\n\n%i of %i tests (%g%%) passed.\n',toc(t0),p,n,p/n*100);
+            f = n - p;
+            if f > 0
+                if f == 1
+                    ts = '';
+                else
+                    ts = 's';
+                end
+                fprintf('%i test%s failed:\n',f,ts);
+                for i = 1:n
+                    testName = testNames{i};
+                    if ~any(strcmp(testName,passed))
+                        fprintf('   * <a href="matlab: open(which(''%s.m''))">%s.m</a>',testName,testName);
+                        if ~isempty(issuesURLs{i})
+                            fprintf(' (<a href="matlab: web(''%s'',''-browser'')">open issue</a>)',issuesURLs{i});
+                        end
+                        fprintf('\n');
+                    end
+                end
+            end
+            fprintf('\n');
         end
         
     end

@@ -1,4 +1,4 @@
-function failcount = simulationThrustAccelerationFromFile
+function [failcount,issueURL] = simulationThrustAccelerationFromFile
 
 tudat.load();
 
@@ -55,5 +55,5 @@ simulation.addResultsToSave('rotation','vehicle.lvlhToInertialFrameRotation-Eart
 test.createInput(simulation,fullfile(mfilename,'main'));
 
 % Run test
-failcount = test.runUnitTest(mfilename);
+[failcount,issueURL] = test.runUnitTest(mfilename);
 

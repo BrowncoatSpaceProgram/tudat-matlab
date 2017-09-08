@@ -1,4 +1,4 @@
-function failcount = ephemeris
+function [failcount,issueURL] = ephemeris
 
 tudat.load();
 
@@ -60,5 +60,5 @@ test.createInput(eph,fullfile(mfilename,'kepler'));
 
 % Run tests
 
-failcount = test.runUnitTest(mfilename);
+[failcount,issueURL] = test.runUnitTest(mfilename);
 

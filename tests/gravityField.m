@@ -1,4 +1,4 @@
-function failcount = gravityField
+function [failcount,issueURL] = gravityField
 
 tudat.load();
 
@@ -49,5 +49,5 @@ test.createInput(gf,fullfile(mfilename,'sphericalHarmonic_direct'));
 
 % Run tests
 
-failcount = test.runUnitTest(mfilename);
+[failcount,issueURL] = test.runUnitTest(mfilename);
 

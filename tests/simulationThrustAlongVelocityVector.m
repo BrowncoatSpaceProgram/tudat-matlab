@@ -1,4 +1,4 @@
-function failcount = simulationThrustAlongVelocityVector
+function [failcount,issueURL] = simulationThrustAlongVelocityVector
 
 tudat.load();
 
@@ -52,5 +52,5 @@ simulation.integrator.stepSize = 30;
 test.createInput(simulation,fullfile(mfilename,'main'));
 
 % Run test
-failcount = test.runUnitTest(mfilename);
+[failcount,issueURL] = test.runUnitTest(mfilename);
 

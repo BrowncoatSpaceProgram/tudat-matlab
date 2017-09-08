@@ -1,4 +1,4 @@
-function failcount = atmosphere
+function [failcount,issueURL] = atmosphere
 
 tudat.load();
 
@@ -30,5 +30,5 @@ test.createInput(atm,fullfile(mfilename,'nrlmsise00_custom'));
 
 % Run tests
 
-failcount = test.runUnitTest(mfilename);
+[failcount,issueURL] = test.runUnitTest(mfilename);
 

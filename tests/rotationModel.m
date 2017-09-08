@@ -1,4 +1,4 @@
-function failcount = rotationModel
+function [failcount,issueURL] = rotationModel
 
 tudat.load();
 
@@ -22,5 +22,5 @@ test.createInput(rm,fullfile(mfilename,'spice'));
 
 % Run tests
 
-failcount = test.runUnitTest(mfilename);
+[failcount,issueURL] = test.runUnitTest(mfilename);
 

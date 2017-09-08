@@ -1,4 +1,4 @@
-function failcount = gravityFieldVariation
+function [failcount,issueURL] = gravityFieldVariation
 
 tudat.load();
 
@@ -24,5 +24,5 @@ test.createInput(gfv,fullfile(mfilename,'tabulated'));
 
 % Run tests
 
-failcount = test.runUnitTest(mfilename);
+[failcount,issueURL] = test.runUnitTest(mfilename);
 

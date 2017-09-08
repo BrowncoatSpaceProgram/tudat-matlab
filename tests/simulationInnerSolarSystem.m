@@ -1,4 +1,4 @@
-function failcount = simulationInnerSolarSystem
+function [failcount,issueURL] = simulationInnerSolarSystem
 
 tudat.load();
 
@@ -50,5 +50,5 @@ test.createInput(simulation,fullfile(mfilename,'hierarchical'));
 
 % Run tests
 
-failcount = test.runUnitTest(mfilename);
+[failcount,issueURL] = test.runUnitTest(mfilename);
 

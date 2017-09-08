@@ -1,4 +1,4 @@
-function failcount = simulationSingleSatellite
+function [failcount,issueURL] = simulationSingleSatellite
 
 tudat.load();
 
@@ -32,5 +32,5 @@ simulation.integrator.stepSize = 10;
 test.createInput(simulation,fullfile(mfilename,'main'));
 
 % Run test
-failcount = test.runUnitTest(mfilename);
+[failcount,issueURL] = test.runUnitTest(mfilename);
 

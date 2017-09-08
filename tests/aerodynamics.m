@@ -1,4 +1,4 @@
-function failcount = aerodynamics
+function [failcount,issueURL] = aerodynamics
 
 tudat.load();
 
@@ -56,5 +56,5 @@ test.createInput(ta,fullfile(mfilename,'tabulatedN'));
 
 % Run tests
 
-failcount = test.runUnitTest(mfilename);
+[failcount,issueURL] = test.runUnitTest(mfilename);
 

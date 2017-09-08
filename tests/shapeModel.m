@@ -1,4 +1,4 @@
-function failcount = shapeModel
+function [failcount,issueURL] = shapeModel
 
 tudat.load();
 
@@ -23,5 +23,5 @@ test.createInput(sm,fullfile(mfilename,'oblateSpherical'));
 
 % Run tests
 
-failcount = test.runUnitTest(mfilename);
+[failcount,issueURL] = test.runUnitTest(mfilename);
 
