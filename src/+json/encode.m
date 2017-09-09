@@ -9,7 +9,9 @@ try
     object = jsondecode(object);
 catch
 end
-jsonObject = strrep(jsonencode(json.struct(object)),'\','\\');
+
+% Fix bug of jsonencode function when combined with sprintf/fprintf for escaped / and "
+jsonObject = strrep(strrep(jsonencode(json.struct(object)),'\/','/'),'\"','\\"');
 
 % Add indenting
 if tabsize > 0

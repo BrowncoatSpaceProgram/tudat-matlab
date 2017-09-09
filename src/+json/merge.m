@@ -10,6 +10,6 @@ for i = 1:2:N
     map(varargin{i}) = varargin{i+1};
 end
 
-array = { object, map };
+array = {object, map};
 
 end

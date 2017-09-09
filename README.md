@@ -49,7 +49,7 @@ Note that some of the Keplerian components have been omitted, and thus they are 
 
 Now, you add the bodies to the simulation by calling the method `addBodies` of your `simulation` object. There exist predefined objects for celestial bodies (namely the Sun, the Moon and the eight planets), so these objects can be added directly without the need to specify their properties:
 ```
-simulation.addBodies(Earth,satelliteBody);
+simulation.addBodies(Earth,satellite);
 ```
 
 Then, you will create the settings for the propagation. We are going to propagate the translational state of the body `satellite` about `Earth`. Thus, we will use a `TranslationalPropagator`:
@@ -90,9 +90,9 @@ After setting up your simulation by following the steps described in [Usage](#us
 simulation.run();
 ```
 
-After running the simulation, you can display the full settings (including the default values) that have been used by Tudat as JSON-formatted text:
+After running the simulation, you can access the full settings (including the default values) that have been used by Tudat as JSON-formatted text:
 ```
-disp(simulation.fullSettings);  
+simulation.fullSettings
 ```
 
 Now, you are able to access the requested results at the `results` property of your `simulation` object. In addition to the requested results (in this case no results were requested), you are always able to access the property `results.numericalSolution`, which is a matrix in which each row corresponds to an integration step. The first column contains the value of the independent variable (the epoch in this case) and the other columns contain the state (the Cartesian components of `satellite`). You can decompose this matrix into epoch and position by writing:
@@ -114,33 +114,31 @@ grid on;
 
 After setting up your simulation by following the steps described in [Usage](#usage), you have to specify the output files that you want to generate. Otherwise, when running `tudat`, the simulation will be completed but no output will be generated. You do this by writing:
 ```
-simulation.addResultsToExport('results.txt',{'independent','state'});
+simulation.addResultsToExport(fullfile('..','OUTPUT','results.txt'),{'independent','state'});
 ```
+Note that the paths are relative to the input file.
 
 In this case, after the simulation is completed, a text file will be generated, containing a matrix in which each row will correspond to an integration step. The first column will contain the value of the independent variable (the epoch in this case) and the other columns will contain the state (the Cartesian components of `satellite`).
 
-Optionally, you can specify to generate an input file containing all the data loaded from Spice and all the default values used for keys that have not been specified, also known as a populated input file (note that this file will be generated when you run `tudat`). You do this by writing:
+Optionally, you can specify to generate an input file containing all the data loaded from Spice and all the default values used for keys that have not been specified (note that this file will be generated when you run `tudat`). You do this by writing:
 
 ```
-simulation.options.populatedFile = 'unperturbedSatellite-populated.json';
+simulation.options.fullSettingsFile = 'fullSettings.json';
 ```
 
 Now, you need to generate the JSON input file that will be provided to the `tudat` binary as command-line argument. You do this by using the `json` package of tudat-matlab:
 ```
-json.export(simulation,'unperturbedSatellite.json');
+json.export(simulation,fullfile('INPUT','main.json'));
 ```
 
-At this point, after running your script, you can run `tudat` with the file 'unperturbedSatellite.json' generated in your working directory, by writing in the command line:
+At this point, after running your script, you can run `tudat` with the file 'INPUT/main.json' generated in your working directory, by writing in the command line:
 ```
-tudatBinaryPath unperturbedSatelliteInputFilePath
+tudatBinaryPath inputFilePath
 ```
 
-The files 'unperturbedSatellite-populated.json' and 'results.txt' will be generated next to your 'unperturbedSatellite.json'. Now, in MATLAB, you can post-process the results as usual:
+The files 'fullSettings.json' and 'results.txt' will be generated in the 'INPUT' and 'OUTPUT' directories, respectively. Now, in MATLAB, you can post-process the results as usual:
 ```
-[results,failed] = loadResults('results.txt');
-if failed
-    warning('Propagation failed: plotting results obtained until propagation failure.');
-end
+results = import.results(fullfile('OUTPUT','results.txt'),'warn');
 t = results(:,1);
 r = results(:,2:4);
 plot(convert.epochToDate(t),r/13);
@@ -148,4 +146,4 @@ legend('x','y','z','Location','South','Orientation','Horizontal');
 ylabel('Position [km]');
 grid on;
 ```
-Note the use of the function `epochToDate` from tudat-matlab's `convert` package, which converts seconds from J2000 to a MATLAB `datetime`; and the function `loadResults`, which returns the results from the specified file and, in addition, a `bool` indicating whether the propagation failed (when the propagation terminates before reaching the termination condition, in this case the end epoch `'1992-02-14 12:00'`, the output files contain in the header line the word `FAILURE` by default, which is detected by the `loadResults` function).
+Note the use of the function `epochToDate` from tudat-matlab's `convert` package, which converts seconds from J2000 to a MATLAB `datetime`; and the function `import.results`, which can return a variable number of arguments. The first one is a matrix containing the data from the specified file. The second one, if requested, is a `bool` indicating whether the propagation failed (when the propagation terminates before reaching the termination condition, in this case the end epoch `'1992-02-14 12:00'`, the output files contain in the header line the word `FAILURE` by default, which is detected by the `import.results` function). If the argument `'warn'` is provided to the function, it will print a warning when reading a results file that contains the word `FAILURE` in the first line.

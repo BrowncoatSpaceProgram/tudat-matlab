@@ -1,30 +1,32 @@
-function fig = apoapsisPeriapsisAltitudes(obj,centralBody,varargin)
+function fig = apoapsisPeriapsisAltitudesHistory(varargin)
 
+if mod(length(varargin),2) == 1
+    varargin = horzcat('CartesianStatesHistory',varargin);
+end
+[epochs,states] = support.epochsCartesianStates(varargin{:});
 t_units = support.optionalArgument(varargin,'TimeUnits','date');
 plot_title = support.optionalArgument(varargin,'Title','');
 plot_legends = support.optionalArgument(varargin,'Legends',{});
 line_style = support.optionalArgument(varargin,'LineStyle','-');
 
 % Support for plotting multiple cases
-if isa(obj,'cell')
-    objs = obj;
+if isa(states,'cell')
+    statesCell = states;
+    if isa(epochs,'cell')
+        epochsCell = epochs;
+    else
+        epochsCell = repmat({epochs},length(states));
+    end
 else
-    objs = {obj};
+    statesCell = {states};
+    epochsCell = {epochs};
 end
 
 % Load the states from a results object or directly from the first input argument
-for i = 1:length(objs)
-    obj = objs{i};
-    t = obj(:,1);
-    states = obj(:,2:7);
-    support.assertValidState(states);
-    cartesian = support.isCartesianState(states);
-    
-    % Transform to Keplerian components if necessary
-    if cartesian
-        states = convert.cartesianToKeplerian(states,centralBody);
-    end
-    
+for i = 1:length(statesCell)
+    t = epochsCell{i};
+    components = statesCell{i};
+        
     % Convert time
     t = convert.epochTo(t,t_units);
     if strcmpi(t_units,'date')
@@ -34,7 +36,8 @@ for i = 1:length(objs)
     end
     
     % Get apo peri altitudes
-    [ha,hp] = compute.apoapsisPeriapsisAltitudes(states,varargin{:});
+    centralBody = support.optionalArgument(varargin,'CentralBody',[]);
+    [ha,hp] = compute.apoapsisPeriapsisAltitudes(components,centralBody);
     
     subplot(2,1,1);
     hold on;
