@@ -3,6 +3,10 @@ MATLAB interface for Tudat
 
 ## Installation
 
+Successfully tested on macOS Sierra.
+
+**NOT TESTED ON WINDOWS OR LINUX YET.**
+
 1. Install [CMake](https://cmake.org).
 
 2. Download or clone this repository. Choose a definitive location (and name) for this folder before you continue to the next step.
