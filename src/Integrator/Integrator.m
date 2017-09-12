@@ -4,6 +4,7 @@ classdef Integrator < jsonable
         initialTime
         stepSize
         saveFrequency
+        assessPropagationTerminationConditionDuringIntegrationSubsteps
     end
     
     methods
