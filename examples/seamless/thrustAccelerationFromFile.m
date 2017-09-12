@@ -7,7 +7,6 @@ tudat.load();
 %% SET UP
 
 simulation = Simulation(0,4e5);
-simulation.spice = Spice('pck00009.tpc','de-403-masses.tpc','de421.bsp');
 simulation.spice.preloadKernels = false;
 
 % Bodies

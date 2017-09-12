@@ -6,8 +6,10 @@ tudat.load();
 
 %% SET UP
 
-simulation = Simulation(0,convert.toSI(1,'d'),'SSB','J2000');
-simulation.spice = Spice('pck00009.tpc','de-403-masses.tpc','de421.bsp');
+simulation = Simulation();
+simulation.initialEpoch = 0;
+simulation.finalEpoch = convert.toSI(1,'d');
+simulation.globalFrameOrientation = 'J2000';
 
 % Bodies
 asterix = Body('asterix');

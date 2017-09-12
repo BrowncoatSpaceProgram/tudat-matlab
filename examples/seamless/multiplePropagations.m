@@ -8,7 +8,6 @@ tudat.load();
 
 % Simulation
 simulation = Simulation(0);
-simulation.spice = Spice('pck00009.tpc','de-403-masses.tpc','de421.bsp');
 simulation.spice.preloadKernels = false;
 
 % Bodies
@@ -41,7 +40,7 @@ simulation.termination = Variable('satellite.periapsisAltitude-Earth') < 105e3;
 
 % Integrator
 integrator = VariableStepSizeIntegrator(RungeKuttaCoefficientSets.rungeKuttaFehlberg78);
-integrator.initialStepSize = 20;
+integrator.initialStepSize = 60;
 integrator.minimumStepSize = 5;
 integrator.maximumStepSize = 1e4;
 integrator.errorTolerance = 1e-11;

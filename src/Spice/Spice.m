@@ -1,34 +1,27 @@
 classdef Spice < jsonable
     properties
+        alternativeKernels
         kernels
         preloadKernels
-        preloadOffsets
+        interpolationOffsets
         interpolationStep
+    end
+    properties (Dependent)
+        useStandardKernels
     end
     
     methods
-        function obj = Spice(varargin)
-            if length(varargin) > 0
-                if islogical(varargin{end})
-                    useCustomKernelsDirectory = varargin{end};
-                    varargin(end) = [];
-                else
-                    useCustomKernelsDirectory = false;
-                end
-                if ~useCustomKernelsDirectory
-                    for i = 1:length(varargin)
-                        varargin{i} = ['${SPICE_KERNELS_PATH}/' varargin{i}];
-                    end
-                end
-                obj.kernels = varargin;
-            end
+        function value = get.useStandardKernels(obj)
+            value = isempty(obj.kernels);
         end
-        
     end
     
     methods (Hidden)
         function mp = getMandatoryProperties(obj)
-            mp = {'kernels'};
+            mp = {'useStandardKernels'};
+            if obj.useStandardKernels == false
+                mp = horzcat(mp,{'kernels'});
+            end
         end
         
     end

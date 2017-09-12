@@ -8,9 +8,6 @@ simulation = Simulation();
 simulation.initialEpoch = convert.dateToEpoch('1992-02-14 06:00');
 simulation.finalEpoch = convert.dateToEpoch('1992-02-14 12:00');
 
-% Spice kernels
-simulation.spice = Spice('pck00009.tpc','de-403-masses.tpc','de421.bsp');
-
 % Bodies
 asterix = Body('asterix');
 asterix.initialState.semiMajorAxis = 7500e3;

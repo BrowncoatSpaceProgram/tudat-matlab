@@ -9,7 +9,6 @@ tudat.load();
 simulation = Simulation();
 simulation.initialEpoch = 1e7;  % seconds since J2000
 simulation.finalEpoch = simulation.initialEpoch + convert.toSI(2,'y');  % two years later
-simulation.spice = Spice('pck00009.tpc','de-403-masses.tpc','de421.bsp');
 simulation.spice.preloadKernels = false;
 
 % Bodies

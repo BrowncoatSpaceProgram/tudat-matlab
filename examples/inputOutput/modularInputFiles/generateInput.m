@@ -58,12 +58,6 @@ simulation.addBodies(earth,Moon,Sun,satellite);
 % Export simulation.bodies to a file called bodies.json, and define simulation.bodies to point to that file
 simulation.bodies = json.modular(simulation.bodies,'bodies.json');
 
-% Define Spice kernels
-simulation.spice = Spice('pck00009.tpc','de-403-masses.tpc','de421.bsp');
-
-% Export simulation.spice to a file called spice.json, and define simulation.spice to point to that file
-simulation.spice = json.modular(simulation.spice,'spice.json');
-
 % Export propagator to a file called prop.json, and define simulation.propagator to point to that file
 simulation.propagator = json.modular(propagator,'prop.json');
 
