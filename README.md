@@ -5,11 +5,16 @@ MATLAB interface for Tudat
 
 Successfully tested on macOS Sierra. **Not tested on Windows or Linux yet.**
 
-1. Install [CMake](https://cmake.org).
+1. Clone this repository and its submodules recursively: 
+    ```
+    git clone --recursive https://github.com/aleixpinardell/tudat-matlab
+    ```
 
-2. Download or clone this repository (and initialise the submodules if not done automatically). Choose a definitive location (and name) for this folder before you continue to the next step.
+2. Install [CMake](https://cmake.org).
 
-3. Run the script [`setup.m`](setup.m) located in your tudat-matlab folder. This will compile the required targets, which will take several minutes. If you want to use MATLAB while this process runs, open an additional isntance of MATLAB before running the script.
+3. After choosing a definitive location (and name) for your tudat-matlab folder, run the script [`setup.m`](setup.m).
+
+During the set-up process, the required targets will be compiled using CMake, which will take several minutes. If you want to use MATLAB while this process runs, open an additional isntance of MATLAB before running the script.
 
 If the installation is successful, the units tests will start running. If any of the tests fails, open an issue for each.
 
