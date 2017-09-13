@@ -14,8 +14,11 @@ if failcount == 0
     issueURL = '';
 else
     issueTitle = sprintf('%s failing',testNameFull);
-    issueBody = sprintf('```%s```',output);
-    issueURL = sprintf('http://github.com/aleixpinardell/tudat-matlab/issues/new?title=%s&body=%s',...
+    issueBody = '';
+    if ~isempty(output)
+        issueBody = sprintf('```%s```',output);
+    end
+    issueURL = sprintf('http://github.com/Tudat/tudat/issues/new?title=%s&body=%s',...
         urlencode(issueTitle),urlencode(issueBody));
     fprintf('\nPlease, <a href="matlab: web(''%s'',''-browser'')">open an issue on GitHub</a>.\n',issueURL)
 end
