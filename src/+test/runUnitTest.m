@@ -2,7 +2,7 @@ function [failcount,issueURL] = runUnitTest(testName)
 
 failcount = 0;
 testNameFull = ['test_json_' testName];
-[status,output] = system(fullfile(tudat.testsBinariesDirectory,testNameFull),'-echo');
+[status,output] = system(['LD_LIBRARY_PATH= ' fullfile(tudat.testsBinariesDirectory,testNameFull)],'-echo');
 [~,tok] = regexp(output,'\*\*\* (\d+) failure','match','tokens');
 if ~isempty(tok)
     failcount = str2double(tok{1}{1});
