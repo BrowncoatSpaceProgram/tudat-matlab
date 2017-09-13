@@ -16,7 +16,7 @@ Successfully tested on macOS Sierra. **Not tested on Windows or Linux yet.**
 
 During the set-up process, the required targets will be compiled using CMake, which will take several minutes. If you want to use MATLAB while this process runs, open an additional isntance of MATLAB before running the script.
 
-If the installation is successful, the units tests will start running. If any of the tests fails, open an issue for each.
+If the installation is successful, the units tests will start running. If any of the tests fails, open a separate issue for each one.
 
 If you want to move, rename or delete your tudat-matlab directory, remove it first from MATLAB's path by using `pathtool`.
 
@@ -35,11 +35,6 @@ Now, you can create a `Simulation` object and specify the initial (and final) ep
 simulation = Simulation();
 simulation.initialEpoch = convert.dateToEpoch('1992-02-14 06:00');
 simulation.finalEpoch = convert.dateToEpoch('1992-02-14 12:00');
-```
-
-If you want to load automatically the ephemeris and properties of bodies such as the Sun, Earth, the Moon and other planets, you will need to use Spice. For a simple propagation, you do this by specifying the following Spice kernels:
-```
-simulation.spice = Spice('pck00009.tpc','de-403-masses.tpc','de421.bsp');
 ```
 
 Next, you need to create the bodies. For an unperturbed orbit, the mass of the satellite is irrelevant, so we create a body named 'satellite' with the following initial state:
