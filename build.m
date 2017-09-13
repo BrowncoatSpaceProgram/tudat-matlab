@@ -51,7 +51,7 @@ if buildUnitTests
     testNames = {testFiles.name};
     for i = 1:length(testNames)
         testName = strrep(testNames{i},'.m','');
-        command = sprintf('%s;LD_LIBRARY_PATH= %s --build . --target %s%s -- -j%i',...
+        command = sprintf('%s; LD_LIBRARY_PATH= %s --build . --target %s%s -- -j%i',...
             command,cmakebin,testsTargetsPrefix,testName,concurrentJobs);
     end
 end

@@ -113,7 +113,7 @@ classdef Simulation < jsonable
             end
             json.export(obj,mainInputFile);
             
-            exitSuccess = system([tudat.binary ' ' mainInputFile],'-echo') == 0;
+            exitSuccess = system(['LD_LIBRARY_PATH= ' tudat.binary ' ' mainInputFile],'-echo') == 0;
             if exitSuccess
                 obj.loadAuxiliaryFiles();
             end
