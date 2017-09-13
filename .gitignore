@@ -21,7 +21,6 @@ INPUT/
 OUTPUT/
 
 #
-# Build and tudatBundle directories
+# Build directories
 #
 build/
-tudatBundle/
