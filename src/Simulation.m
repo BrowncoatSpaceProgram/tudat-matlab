@@ -47,7 +47,7 @@ classdef Simulation < jsonable
             end
         end
         
-        function obj = addBodies(obj,varargin)
+        function addBodies(obj,varargin)
             for i = 1:length(varargin)
                 body = varargin{i};
                 if isa(body,'Body')
@@ -66,7 +66,7 @@ classdef Simulation < jsonable
             value = obj.propagator;
         end
         
-        function obj = addResultsToExport(obj,varargin)
+        function addResultsToExport(obj,varargin)
             N = length(varargin);
             if mod(N,2) ~= 0
                 error('You must provide an even number of arguments: file1, output1, file2, output2...');
@@ -84,7 +84,7 @@ classdef Simulation < jsonable
             end
         end
         
-        function obj = addResultsToSave(obj,varargin)
+        function addResultsToSave(obj,varargin)
             N = length(varargin);
             if mod(N,2) ~= 0
                 error('You must provide an even number of arguments: name1, output1, name2, output2...');
@@ -103,7 +103,7 @@ classdef Simulation < jsonable
             end
         end
         
-        function obj = run(obj)
+        function cmdout = run(obj,mode)
             result = Result('state');
             result.epochsInFirstColumn = true;
             obj.addResultsToSave('numericalSolution',result);
@@ -112,13 +112,29 @@ classdef Simulation < jsonable
                 obj.options.fullSettingsFile = Simulation.defaultFullSettingsFileName;
             end
             json.export(obj,mainInputFile);
-            
-            exitSuccess = system(['LD_LIBRARY_PATH= ' tudat.binary ' ' mainInputFile],'-echo') == 0;
-            if exitSuccess
+            command = ['LD_LIBRARY_PATH= ' tudat.binary ' ' mainInputFile];
+            if nargout == 0
+                if nargin == 1 || strcmpi(mode,'-echo')
+                    status = system(command,'-echo');
+                elseif strcmpi(mode,'-silent')
+                    [status,cmdout] = system(command);
+                else
+                    error('Unrecognized option: %s',mode);
+                end
+            else
+                if nargin == 1 || strcmpi(mode,'-silent')
+                    [status,cmdout] = system(command);
+                elseif strcmpi(mode,'-echo')
+                    [status,cmdout] = system(command,'-echo');
+                else
+                    error('Unrecognized option: %s',mode);
+                end
+            end
+            if status == 0
                 obj.loadAuxiliaryFiles();
             end
             obj.deleteAuxiliaryFiles();
-            if ~exitSuccess
+            if status ~= 0
                 error('Error while running Tudat.');
             end
         end
@@ -133,7 +149,7 @@ classdef Simulation < jsonable
     end
     
     methods (Access = protected)
-        function obj = loadAuxiliaryFiles(obj)
+        function loadAuxiliaryFiles(obj)
             obj.fullSettings = fileread(obj.options.fullSettingsFile);
             for i = 1:length(obj.import)
                 importSettings = obj.import{i};
@@ -143,7 +159,7 @@ classdef Simulation < jsonable
             end
         end
         
-        function obj = deleteAuxiliaryFiles(obj)
+        function deleteAuxiliaryFiles(obj)
             deleteIfExists(Simulation.defaultInputFileName);
             deleteIfExists(Simulation.defaultFullSettingsFileName);
             for i = 1:length(obj.import)
