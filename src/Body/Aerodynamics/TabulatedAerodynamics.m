@@ -1,7 +1,6 @@
 classdef TabulatedAerodynamics < Aerodynamics
     properties
-        % numberOfDimensions
-        independentVariables
+        independentVariableValues
         forceCoefficients
         momentCoefficients
         interpolator

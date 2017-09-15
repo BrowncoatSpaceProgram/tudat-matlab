@@ -88,9 +88,8 @@ cd(originalWorkingDirectory);
 
 % Don't include this part in your scripts
 mdir = fileparts(mfilename('fullpath'));
-tudatBinary = 'tudat';
 fprintf('In Terminal, run any of these commands (all equivalent):\n\n');
-fprintf('%s %s\n',tudatBinary,fullfile(mdir,'INPUT'));
-fprintf('%s %s\n',tudatBinary,fullfile(mdir,'INPUT','main'));
-fprintf('%s %s\n\n',tudatBinary,fullfile(mdir,'INPUT','main.json'));
+fprintf('%s %s\n',tudat.binary,fullfile(mdir,'INPUT'));
+fprintf('%s %s\n',tudat.binary,fullfile(mdir,'INPUT','main'));
+fprintf('%s %s\n\n',tudat.binary,fullfile(mdir,'INPUT','main.json'));
 

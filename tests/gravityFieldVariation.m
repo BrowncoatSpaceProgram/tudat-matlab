@@ -18,7 +18,7 @@ gfv.cosineCoefficientCorrections = containers.Map({0, 1},{[0 1 2], [0 0 -1]});
 gfv.sineCoefficientCorrections = containers.Map({0, 1},{[-1 4 5], [3 2 0.5]});
 gfv.minimumDegree = 4;
 gfv.minimumOrder = 2;
-gfv.modelInterpolation.interpolator.type = 'cubicSpline';
+gfv.interpolator.type = 'cubicSpline';
 test.createInput(gfv,fullfile(mfilename,'tabulated'));
 
 

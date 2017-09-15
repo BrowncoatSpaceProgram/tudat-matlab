@@ -75,10 +75,9 @@ end
 
 % Don't include this part in your scripts
 mdir = fileparts(mfilename('fullpath'));
-tudatBinary = 'tudat';
 fprintf('In Terminal, run:\n\n');
 for i = 1:length(masses)
-    fprintf('%s %s\n',tudatBinary,fullfile(mdir,'INPUT',sprintf('mass%i.json',masses(i))));
+    fprintf('%s %s\n',tudat.binary,fullfile(mdir,'INPUT',sprintf('mass%i.json',masses(i))));
 end
 fprintf('\nor, if you have <a href="matlab: web(''https://www.gnu.org/software/parallel/'',''-browser'')">GNU Parallel</a> installed:\n\n')
-fprintf('parallel %s ::: %s\n\n',tudatBinary,fullfile(mdir,'INPUT','mass*.json'));
+fprintf('parallel %s ::: %s\n\n',tudat.binary,fullfile(mdir,'INPUT','mass*.json'));

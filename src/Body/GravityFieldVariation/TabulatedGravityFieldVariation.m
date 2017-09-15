@@ -4,13 +4,12 @@ classdef TabulatedGravityFieldVariation < GravityFieldVariation
         sineCoefficientCorrections
         minimumDegree
         minimumOrder
-        modelInterpolation
+        interpolator
     end
     
     methods
         function obj = TabulatedGravityFieldVariation()
             obj@GravityFieldVariation(BodyDeformations.tabulatedVariation);
-            obj.modelInterpolation = ModelInterpolation();
         end
         
     end
@@ -19,7 +18,7 @@ classdef TabulatedGravityFieldVariation < GravityFieldVariation
         function mp = getMandatoryProperties(obj)
             mp = getMandatoryProperties@GravityFieldVariation(obj);
             mp = horzcat(mp,{'cosineCoefficientCorrections','sineCoefficientCorrections','minimumDegree'...
-                'minimumOrder','modelInterpolation'});
+                'minimumOrder','interpolator'});
         end
         
     end

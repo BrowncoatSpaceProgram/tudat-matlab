@@ -28,7 +28,7 @@ test.createInput(ca,fullfile(mfilename,'constant'));
 
 % Test 5: tabulated aerodynamics (1 dimension)
 ta = TabulatedAerodynamics();
-ta.independentVariables = 0:3;
+ta.independentVariableValues = 0:3;
 ta.forceCoefficients = [0.7, 0.8, 0.9; 1.7, 1.8, 1.9; 2.7, 2.8, 2.9; 3.7, 3.8, 3.9];
 ta.momentCoefficients = [1.0, 2.0, 3.0; 1.0, 1.0, 1.0; 2.0, 2.0, 2.0; 3.0, 3.0, 3.0];
 ta.referenceLength = 5;
