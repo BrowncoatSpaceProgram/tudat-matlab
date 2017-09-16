@@ -1,18 +1,26 @@
-function [failCount,testOutput] = runUnitTest(testName)
+function [failcount,issueURL] = runUnitTest(testName)
 
-failCount = 0;
+failcount = 0;
 testNameFull = ['test_json_' testName];
-[status,testOutput] = system(['LD_LIBRARY_PATH= ' fullfile(tudat.testsBinariesDirectory,testNameFull)],'-echo');
-[~,tok] = regexp(testOutput,'\*\*\* (\d+) failure','match','tokens');
+[status,output] = system(['LD_LIBRARY_PATH= ' fullfile(tudat.testsBinariesDirectory,testNameFull)],'-echo');
+[~,tok] = regexp(output,'\*\*\* (\d+) failure','match','tokens');
 if ~isempty(tok)
-    failCount = str2double(tok{1}{1});
+    failcount = str2double(tok{1}{1});
 elseif status ~= 0
-    failCount = -1;
+    failcount = -1;
 end
 
-if failCount ~= 0
-    fprintf('\nPlease, <a href="matlab: web(''%s'',''-browser'')">open an issue on GitHub</a>.\n',...
-        test.getIssueURL(testNameFull,testOutput));
+if failcount == 0
+    issueURL = '';
+else
+    issueTitle = sprintf('%s failing',testNameFull);
+    issueBody = '';
+    if ~isempty(output)
+        issueBody = sprintf('```%s```',output);
+    end
+    issueURL = sprintf('http://github.com/Tudat/tudat/issues/new?title=%s&body=%s',...
+        urlencode(issueTitle),urlencode(issueBody));
+    fprintf('\nPlease, <a href="matlab: web(''%s'',''-browser'')">open an issue on GitHub</a>.\n',issueURL)
 end
 
 end

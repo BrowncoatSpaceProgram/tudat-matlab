@@ -96,15 +96,8 @@ classdef tudat
         
         function test(varargin)
             t0 = tic;
-            generateInput = false;
             clc;
             n = length(varargin);
-            if n == 1
-                if islogical(varargin{1})
-                    generateInput = varargin{1};
-                    n = 0;
-                end
-            end
             if n == 0  % run all tests
                 testFiles = dir(fullfile(tudat.testsdir,'*.m'));
                 testNames = {testFiles.name};
@@ -127,13 +120,13 @@ classdef tudat
             fprintf([separator '\n']);
             passed = {};
             addpath(tudat.testsdir);
-            testOutputs = cell(size(testNames));
+            issuesURLs = cell(size(testNames));
             for i = 1:n
                 testName = testNames{i};
                 fprintf(sprintf('Test %%%ii/%%i   %%-%is     ',length(sprintf('%i',n)),filenamewidth),i,n,testName);
                 try
                     tic;
-                    evalc(sprintf('[failures,testOutputs{i}] = %s(%i)',testName,generateInput));
+                    evalc(sprintf('[failures,issuesURLs{i}] = %s',testName));
                     if failures == 0
                         result = sprintf('%-24s','PASSED');
                         passed{end+1} = testName;
@@ -161,10 +154,10 @@ classdef tudat
                 for i = 1:n
                     testName = testNames{i};
                     if ~any(strcmp(testName,passed))
-                        testOutput = testOutputs{i};
-                        issueURL = test.getIssueURL(['test_json_' testName],testOutput);
                         fprintf('   * <a href="matlab: open(which(''%s.m''))">%s.m</a>',testName,testName);
-                        fprintf(' (<a href="matlab: web(''%s'',''-browser'')">open issue</a>)',issueURL);
+                        if ~isempty(issuesURLs{i})
+                            fprintf(' (<a href="matlab: web(''%s'',''-browser'')">open issue</a>)',issuesURLs{i});
+                        end
                         fprintf('\n');
                     end
                 end
