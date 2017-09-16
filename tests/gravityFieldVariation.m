@@ -1,28 +1,33 @@
-function [failcount,issueURL] = gravityFieldVariation
+function [failCount,testOutput] = gravityFieldVariation(generateInput)
 
 tudat.load();
 
-% Test 1: body deformation types
-test.createInputForEnum(?BodyDeformations,fullfile(mfilename,'bodyDeformationTypes'));
+if nargin < 1
+    generateInput = false;
+end
 
-% Test 2: basic solid body gravity field variation
-gfv = BasicSolidBodyGravityFieldVariation();
-gfv.deformingBodies = 'Moon';
-gfv.loveNumbers = [[1+2i 2-1i 0.3-5i]; [0.5i 2i 4-2i]; [-3 -5+1i 6+0.5i]];
-gfv.referenceRadius = 6.4e6;
-test.createInput(gfv,fullfile(mfilename,'basicSolidBody'));
-
-% Test 3: tabulated field variation
-gfv = TabulatedGravityFieldVariation();
-gfv.cosineCoefficientCorrections = containers.Map({0, 1},{[0 1 2], [0 0 -1]});
-gfv.sineCoefficientCorrections = containers.Map({0, 1},{[-1 4 5], [3 2 0.5]});
-gfv.minimumDegree = 4;
-gfv.minimumOrder = 2;
-gfv.interpolator.type = 'cubicSpline';
-test.createInput(gfv,fullfile(mfilename,'tabulated'));
-
+% Create input files for tests
+if generateInput
+    % Test 1: body deformation types
+    test.createInputForEnum(?BodyDeformations,fullfile(mfilename,'bodyDeformationTypes'));
+    
+    % Test 2: basic solid body gravity field variation
+    gfv = BasicSolidBodyGravityFieldVariation();
+    gfv.deformingBodies = 'Moon';
+    gfv.loveNumbers = [[1+2i 2-1i 0.3-5i]; [0.5i 2i 4-2i]; [-3 -5+1i 6+0.5i]];
+    gfv.referenceRadius = 6.4e6;
+    test.createInput(gfv,fullfile(mfilename,'basicSolidBody'));
+    
+    % Test 3: tabulated field variation
+    gfv = TabulatedGravityFieldVariation();
+    gfv.cosineCoefficientCorrections = containers.Map({0, 1},{[0 1 2], [0 0 -1]});
+    gfv.sineCoefficientCorrections = containers.Map({0, 1},{[-1 4 5], [3 2 0.5]});
+    gfv.minimumDegree = 4;
+    gfv.minimumOrder = 2;
+    gfv.interpolator.type = 'cubicSpline';
+    test.createInput(gfv,fullfile(mfilename,'tabulated'));
+end
 
 % Run tests
-
-[failcount,issueURL] = test.runUnitTest(mfilename);
+[failCount,testOutput] = test.runUnitTest(mfilename);
 
