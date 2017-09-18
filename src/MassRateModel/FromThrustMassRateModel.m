@@ -1,7 +1,7 @@
 classdef FromThrustMassRateModel < MassRateModel
     properties
         useAllThrustModels
-        associatedThroustSource
+        associatedThrustSource
     end
     
     methods
@@ -15,7 +15,7 @@ classdef FromThrustMassRateModel < MassRateModel
         function mp = getMandatoryProperties(obj)
             mp = getMandatoryProperties@MassRateModel(obj);
             if ~obj.useAllThrustModels
-                mp{end+1} = 'associatedThroustSource';
+                mp{end+1} = 'associatedThrustSource';
             end
         end
         

@@ -21,9 +21,9 @@ test.createInput(eph,fullfile(mfilename,'approximatePlanetPositions'));
 eph = DirectSpiceEphemeris();
 eph.frameOrigin = 'Foo';
 eph.frameOrientation = 'FOO';
-eph.correctForStellarAbberation = true;
-eph.correctForLightTimeAbberation = false;
-eph.convergeLighTimeAbberation = true;
+eph.correctForStellarAberration = true;
+eph.correctForLightTimeAberration = false;
+eph.convergeLighTimeAberration = true;
 test.createInput(eph,fullfile(mfilename,'directSpice'));
 
 % Test 5: tabulated ephemeris
@@ -40,7 +40,7 @@ eph.timeStep = 10;
 eph.frameOrigin = 'Foo';
 eph.frameOrientation = 'FOO';
 eph.interpolator = LagrangeInterpolator(4);
-eph.correctForLightTimeAbberation = true;
+eph.correctForLightTimeAberration = true;
 test.createInput(eph,fullfile(mfilename,'interpolatedSpice'));
 
 % Test 7: constant ephemeris

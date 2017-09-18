@@ -1,8 +1,8 @@
 classdef DirectSpiceEphemeris < Ephemeris
     properties
-        correctForStellarAbberation
-        correctForLightTimeAbberation
-        convergeLighTimeAbberation
+        correctForStellarAberration
+        correctForLightTimeAberration
+        convergeLighTimeAberration
     end
     
     methods
