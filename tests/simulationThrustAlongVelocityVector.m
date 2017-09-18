@@ -7,7 +7,7 @@ tudat.load();
 
 % Simulation
 simulation = Simulation(0,3600);
-simulation.spice.preloadKernels = false;
+simulation.spice.preloadEphemeris = false;
 
 % Bodies
 vehicle = Body('vehicle');

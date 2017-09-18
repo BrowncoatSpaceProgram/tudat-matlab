@@ -3,7 +3,7 @@ tudat.load();
 
 % Simulation
 simulation = Simulation(0);
-simulation.spice.preloadKernels = false;
+simulation.spice.preloadEphemeris = false;
 
 % Bodies
 satellite = Body('satellite');

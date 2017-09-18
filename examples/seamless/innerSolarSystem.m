@@ -9,7 +9,7 @@ tudat.load();
 simulation = Simulation();
 simulation.initialEpoch = 1e7;  % seconds since J2000
 simulation.finalEpoch = simulation.initialEpoch + convert.toSI(2,'y');  % two years later
-simulation.spice.preloadKernels = false;
+simulation.spice.preloadEphemeris = false;
 
 % Bodies
 simulation.addBodies(Sun,Mercury,Venus,Earth,Moon,Mars);

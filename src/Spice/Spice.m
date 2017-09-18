@@ -2,7 +2,7 @@ classdef Spice < jsonable
     properties
         alternativeKernels
         kernels
-        preloadKernels
+        preloadEphemeris
         interpolationOffsets
         interpolationStep
     end

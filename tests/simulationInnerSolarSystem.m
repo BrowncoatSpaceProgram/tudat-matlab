@@ -11,7 +11,7 @@ tudat.load();
 t0 = 1e7;  % seconds since J2000
 tf = t0 + convert.toSI(30,'d');  % 1 month later
 simulation = Simulation(t0,tf);
-simulation.spice.preloadKernels = false;
+simulation.spice.preloadEphemeris = false;
 
 % Bodies
 simulation.addBodies(Sun,Mercury,Venus,Earth,Moon,Mars);
