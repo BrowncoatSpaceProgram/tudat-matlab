@@ -1,8 +1,9 @@
-function cartesianState = keplerianToCartesian(keplerianState,centralBody)
+function cartesianState = keplerianToCartesian(keplerianState,gravitationalParameter)
 
-mu = centralBody.gravitationalParameter;
-
-support.assertValidState(keplerianState);
+if isa(gravitationalParameter,'Body')
+    body = gravitationalParameter;
+    gravitationalParameter = body.gravitationalParameter;
+end
 
 % Get elements
 a = keplerianState(:,1);
@@ -20,7 +21,7 @@ end
 r = a.*(1 - e.^2)./(1 + e.*cos(f));
 rc = r.*cos(f);
 rs = r.*sin(f);
-H = sqrt(mu*a.*(1 - e.^2));
+H = sqrt(gravitationalParameter*a.*(1 - e.^2));
 
 l1 = cos(raan).*cos(omega) - sin(raan).*sin(omega).*cos(i);
 l2 = -cos(raan).*sin(omega) - sin(raan).*cos(omega).*cos(i);
@@ -36,9 +37,9 @@ for j = 1:length(r)
     cartesianState(j,1:3) = X;
     
     % Determine velocity vector
-    v_x = mu/H(j)*(-l1(j)*sin(f(j)) + l2(j)*(e(j) + cos(f(j))));
-    v_y = mu/H(j)*(-m1(j)*sin(f(j)) + m2(j)*(e(j) + cos(f(j))));
-    v_z = mu/H(j)*(-n1(j)*sin(f(j)) + n2(j)*(e(j) + cos(f(j))));
+    v_x = gravitationalParameter/H(j)*(-l1(j)*sin(f(j)) + l2(j)*(e(j) + cos(f(j))));
+    v_y = gravitationalParameter/H(j)*(-m1(j)*sin(f(j)) + m2(j)*(e(j) + cos(f(j))));
+    v_z = gravitationalParameter/H(j)*(-n1(j)*sin(f(j)) + n2(j)*(e(j) + cos(f(j))));
     cartesianState(j,4:6) = [v_x v_y v_z];
 end
 
