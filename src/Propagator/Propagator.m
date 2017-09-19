@@ -18,14 +18,18 @@ classdef Propagator < jsonable
         end
         
         function bodyNames = get.bodiesToPropagate(obj)
-            if iscell(obj.bodiesToPropagate)
+            if isempty(obj.bodiesToPropagate)
                 bodyNames = obj.bodiesToPropagate;
             else
-                bodyNames = { obj.bodiesToPropagate };
-            end
-            for i = 1:length(bodyNames)
-                if isa(bodyNames{i},'Body')
-                    bodyNames{i} = bodyNames{i}.name;
+                if iscell(obj.bodiesToPropagate)
+                    bodyNames = obj.bodiesToPropagate;
+                else
+                    bodyNames = { obj.bodiesToPropagate };
+                end
+                for i = 1:length(bodyNames)
+                    if isa(bodyNames{i},'Body')
+                        bodyNames{i} = bodyNames{i}.name;
+                    end
                 end
             end
         end
