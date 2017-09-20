@@ -39,11 +39,11 @@ integrator.type = Integrators.rungeKutta4;
 integrator.stepSize = 30;
 
 % Create directory in which to save the input files (if necessary) and change working directory
-if exist('INPUT','dir') ~= 7
-    mkdir('INPUT');
+if exist('','dir') ~= 7
+    mkdir('');
 end
 originalWorkingDirectory = cd;
-cd('INPUT');
+cd('');
 
 % Create Simulation object
 simulation = Simulation();
@@ -65,13 +65,13 @@ simulation.propagator = json.modular(propagator,'prop.json');
 simulation.integrator = json.modular(integrator,'rk4.json');
 
 % Path of the main JSON file that will be provided as input to the tudat binary
-% Recall that the working directory has been changed to /INPUT
+% Recall that the working directory has been changed to /
 mainFile = 'main.json';
 
 % Define results to export
 % Paths are relative to the main.json file directory
-simulation.addResultsToExport(fullfile('..','OUTPUT','epochs.txt'),t);
-simulation.addResultsToExport(fullfile('..','OUTPUT','states.txt'),{r,v});
+simulation.addResultsToExport(fullfile('..','tmpout','epochs.txt'),t);
+simulation.addResultsToExport(fullfile('..','tmpout','states.txt'),{r,v});
 
 % Export simulation.export to a file called export.json, and define simulation.export to point to that file
 simulation.export = json.modular(simulation.export,'export.json');
@@ -89,7 +89,7 @@ cd(originalWorkingDirectory);
 % Don't include this part in your scripts
 mdir = fileparts(mfilename('fullpath'));
 fprintf('In Terminal, run any of these commands (all equivalent):\n\n');
-fprintf('%s %s\n',tudat.binary,fullfile(mdir,'INPUT'));
-fprintf('%s %s\n',tudat.binary,fullfile(mdir,'INPUT','main'));
-fprintf('%s %s\n\n',tudat.binary,fullfile(mdir,'INPUT','main.json'));
+fprintf('%s %s\n',tudat.binary,fullfile(mdir,''));
+fprintf('%s %s\n',tudat.binary,fullfile(mdir,'','main'));
+fprintf('%s %s\n\n',tudat.binary,fullfile(mdir,'','main.json'));
 

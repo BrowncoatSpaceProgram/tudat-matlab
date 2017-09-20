@@ -1,10 +1,10 @@
 clc; clear;
 tudat.load();
 
-% Import results from OUTPUT/results.txt
+% Import results from tmpout/results.txt
 % Use the function import.results with the argument 'warn' to print a message
 % in case that the propagation failed
-results = import.results(fullfile('OUTPUT','results.txt'),'warn');
+results = import.results(fullfile('tmpout','results.txt'),'warn');
 
 % Get epochs (first column) and positions (second, third and fourth columns)
 t = results(:,1);

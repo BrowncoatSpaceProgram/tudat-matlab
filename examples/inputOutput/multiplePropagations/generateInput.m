@@ -44,13 +44,13 @@ simulation.integrator = integrator;
 % Define results to export (epoch, states and altitude)
 % Path defined relative to the input file in which it is defined
 % ${ROOT_FILE_STEM} will be replaced by the name (without extension) of the input file during run-time
-simulation.addResultsToExport(fullfile('..','OUTPUT','${ROOT_FILE_STEM}.txt'),{'independent','state',altitude});
+simulation.addResultsToExport(fullfile('..','tmpout','${ROOT_FILE_STEM}.txt'),{'independent','state',altitude});
 
 % Options
 simulation.options.notifyOnPropagationTermination = true;
 
 % Generate file containing the shared settings for all the propagations
-json.export(simulation,fullfile('INPUT','shared.json'));
+json.export(simulation,fullfile('','shared.json'));
 
 % Generate individual files for different satellite properties
 masses = 200:100:800;
@@ -60,7 +60,7 @@ for i = 1:length(masses)
     A = referenceAreas(i);
     
     % Define the path the file will be saved to
-    filePath = fullfile('INPUT',sprintf('mass%i.json',m));
+    filePath = fullfile('',sprintf('mass%i.json',m));
     
     % Create a JSON-formatted text by merging "shared.json" and the specific mass
     fileContents = json.merge('$(shared.json)','bodies.satellite.mass',m,'bodies.satellite.referenceArea',A);
@@ -77,7 +77,7 @@ end
 mdir = fileparts(mfilename('fullpath'));
 fprintf('In Terminal, run:\n\n');
 for i = 1:length(masses)
-    fprintf('%s %s\n',tudat.binary,fullfile(mdir,'INPUT',sprintf('mass%i.json',masses(i))));
+    fprintf('%s %s\n',tudat.binary,fullfile(mdir,'',sprintf('mass%i.json',masses(i))));
 end
 fprintf('\nor, if you have <a href="matlab: web(''https://www.gnu.org/software/parallel/'',''-browser'')">GNU Parallel</a> installed:\n\n')
-fprintf('parallel %s ::: %s\n\n',tudat.binary,fullfile(mdir,'INPUT','mass*.json'));
+fprintf('parallel %s ::: %s\n\n',tudat.binary,fullfile(mdir,'','mass*.json'));
