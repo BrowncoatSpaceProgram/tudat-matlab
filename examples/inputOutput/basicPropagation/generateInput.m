@@ -28,7 +28,7 @@ simulation.integrator.type = Integrators.rungeKutta4;
 simulation.integrator.stepSize = 20;
 
 % Path of the input file that will be generated and provided to Tudat
-inputFile = fullfile('','main.json');
+inputFile = fullfile('tmpin','main.json');
 
 % Define results to save (paths are defined relative to the input file)
 simulation.addResultsToExport(fullfile('..','tmpout','results.txt'),{'independent','state'});
@@ -43,7 +43,7 @@ json.export(simulation,inputFile);
 % Don't include this part in your scripts
 mdir = fileparts(mfilename('fullpath'));
 fprintf('In Terminal, run any of these commands (all equivalent):\n\n');
-fprintf('%s %s\n',tudat.binary,fullfile(mdir,''));
-fprintf('%s %s\n',tudat.binary,fullfile(mdir,'','main'));
-fprintf('%s %s\n\n',tudat.binary,fullfile(mdir,'','main.json'));
+fprintf('%s %s\n',tudat.binary,fullfile(mdir,'tmpin'));
+fprintf('%s %s\n',tudat.binary,fullfile(mdir,'tmpin','main'));
+fprintf('%s %s\n\n',tudat.binary,fullfile(mdir,'tmpin','main.json'));
 

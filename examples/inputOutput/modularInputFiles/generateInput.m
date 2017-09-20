@@ -39,11 +39,11 @@ integrator.type = Integrators.rungeKutta4;
 integrator.stepSize = 30;
 
 % Create directory in which to save the input files (if necessary) and change working directory
-if exist('','dir') ~= 7
-    mkdir('');
+if exist('tmpin','dir') ~= 7
+    mkdir('tmpin');
 end
 originalWorkingDirectory = cd;
-cd('');
+cd('tmpin');
 
 % Create Simulation object
 simulation = Simulation();
@@ -89,7 +89,7 @@ cd(originalWorkingDirectory);
 % Don't include this part in your scripts
 mdir = fileparts(mfilename('fullpath'));
 fprintf('In Terminal, run any of these commands (all equivalent):\n\n');
-fprintf('%s %s\n',tudat.binary,fullfile(mdir,''));
-fprintf('%s %s\n',tudat.binary,fullfile(mdir,'','main'));
-fprintf('%s %s\n\n',tudat.binary,fullfile(mdir,'','main.json'));
+fprintf('%s %s\n',tudat.binary,fullfile(mdir,'tmpin'));
+fprintf('%s %s\n',tudat.binary,fullfile(mdir,'tmpin','main'));
+fprintf('%s %s\n\n',tudat.binary,fullfile(mdir,'tmpin','main.json'));
 
