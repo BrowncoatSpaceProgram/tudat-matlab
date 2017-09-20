@@ -1,4 +1,4 @@
-# tudat-matlab
+# Tudat-MATLAB interface
 MATLAB interface for Tudat
 
 ## Installation
@@ -12,22 +12,18 @@ Successfully tested on Linux and macOS Sierra. **Not tested on Windows yet.**
 
 2. Install [CMake](https://cmake.org).
 
-3. After choosing a definitive location for your tudatBundle folder, run the script [`matlabInterface/setup.m`](matlabInterface/setup.m).
+3. After choosing a definitive location for your tudatBundle directory, run the script [`setup.m`](setup.m) in the matlabInterface directory.
 
-4. Build the whole tudatBundle manually, or run [`matlabInterface/build.m`](matlabInterface/build.m) to build only the targets required for the MATLAB interface.
+4. Build the whole tudatBundle manually, or run the script [`build.m`](build.m) in the matlabInterface directory to build only the targets required for the MATLAB interface.
 
-During the set-up process, the required targets will be compiled using CMake, which will take several minutes. If you want to use MATLAB while this process runs, open an additional isntance of MATLAB before running the script.
-
-If the installation is successful, the units tests will start running. If any of the tests fails, open a separate issue for each one.
-
-If you want to move, rename or delete your tudat-matlab directory, remove it first from MATLAB's path by using `pathtool`.
+If you want to move, rename or delete your matlabInterface directory, remove it first from MATLAB's path by using `pathtool`.
 
 
 ## Usage
 
 In this section, the steps to simulate the unperturbed motion of a satellite about the Earth will be described.
 
-The first step is to include the paths to tudat-matlab source code in the current MATLAB session so that you can use all the classes needed to set up the simulation. You do this by writing in a new script:
+The first step is to include the paths to matlabInterface source code in the current MATLAB session so that you can use all the classes needed to set up the simulation. You do this by writing in a new script:
 ```
 tudat.load();
 ```
@@ -79,8 +75,8 @@ Now, the simulation is set up and you can proceed in two different ways.
 
 ### Usage modes
 
-* **SL mode** (seamless mode). You use tudat-matlab to set up simulations that will be run directly from your MATLAB script. Temporary input and output files will be genereated and deleted by tudat-matlab in the background. When the simulation completes, you will be able to access the results directly in the property `results` of your `Simulation` object. You can use this data to generate plots and eventually consolidate (parts of) it in a text file.
-* **IO mode** (input-output mode). You use tudat-matlab to set up simulations and to generate JSON input files that will then be provided to the `tudat` binary manually, i.e. from the command line. You must specify the output files to generate by using the `addResultsToExport` of your `Simulation` object. Then, the generated output files can be opened with your favorite text editor and/or loaded into MATLAB for post-processing and plotting.
+* **SL mode** (seamless mode). You use the MATLAB Interface to set up simulations that will be run directly from your MATLAB script. Temporary input and output files will be generated and deleted by the MATLAB Interface in the background. When the simulation completes, you will be able to access the results directly in the property `results` of your `Simulation` object. You can use this data to generate plots and eventually consolidate (parts of) it in a text file.
+* **IO mode** (input-output mode). You use the MATLAB Interface to set up simulations and to generate JSON input files that will then be provided to the `tudat` binary manually, i.e. from the command line. You must specify the output files to generate by using the `addResultsToExport` of your `Simulation` object. Then, the generated output files can be opened with your favourite text editor and/or loaded into MATLAB for post-processing and plotting.
 
 These modes are not mutually exclusive, i.e. you can run your simulations from MATLAB and still get to keep the input and output files in your directory. In the following two sub-sections, the two modes are briefly described.
 
@@ -128,7 +124,7 @@ Optionally, you can specify to generate an input file containing all the data lo
 simulation.options.fullSettingsFile = 'fullSettings.json';
 ```
 
-Now, you need to generate the JSON input file that will be provided to the `tudat` binary as command-line argument. You do this by using the `json` package of tudat-matlab:
+Now, you need to generate the JSON input file that will be provided to the `tudat` binary as command-line argument. You do this by using the `json` package of the MATLAB Interface:
 ```
 json.export(simulation,fullfile('INPUT','main.json'));
 ```
@@ -148,4 +144,4 @@ legend('x','y','z','Location','South','Orientation','Horizontal');
 ylabel('Position [km]');
 grid on;
 ```
-Note the use of the function `epochToDate` from tudat-matlab's `convert` package, which converts seconds from J2000 to a MATLAB `datetime`; and the function `import.results`, which can return a variable number of arguments. The first one is a matrix containing the data from the specified file. The second one, if requested, is a `bool` indicating whether the propagation failed (when the propagation terminates before reaching the termination condition, in this case the end epoch `'1992-02-14 12:00'`, the output files contain in the header line the word `FAILURE` by default, which is detected by the `import.results` function). If the argument `'warn'` is provided to the function, it will print a warning when reading a results file that contains the word `FAILURE` in the first line.
+Note the use of the function `epochToDate` from the MATLAB Interface's `convert` package, which converts seconds from J2000 to a MATLAB `datetime`; and the function `import.results`, which can return a variable number of arguments. The first one is a matrix containing the data from the specified file. The second one, if requested, is a `bool` indicating whether the propagation failed (when the propagation terminates before reaching the termination condition, in this case the end epoch `'1992-02-14 12:00'`, the output files contain in the header line the word `FAILURE` by default, which is detected by the `import.results` function). If the argument `'warn'` is provided to the function, it will print a warning when reading a results file that contains the word `FAILURE` in the first line.
