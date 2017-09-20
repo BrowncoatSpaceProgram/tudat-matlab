@@ -22,7 +22,7 @@ Successfully tested on Linux and macOS Sierra. **Not tested on Windows yet.**
     ```
 
 
-If you want to move, rename or delete your matlabInterface directory, remove it first from MATLAB's path by using `pathtool`.
+If you want to move, rename or delete your tudatBundle/matlabInterface directory, remove it first from MATLAB's path by using `pathtool`.
 
 
 ## Usage
