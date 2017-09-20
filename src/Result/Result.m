@@ -3,7 +3,7 @@ classdef Result < jsonable
         variables
         header
         epochsInFirstColumn = false
-        precision
+        numericalPrecision
         onlyInitialStep
         onlyFinalStep
     end
@@ -17,7 +17,7 @@ classdef Result < jsonable
                 obj.variables = varargin{1}.variables;
                 obj.header = varargin{1}.header;
                 obj.epochsInFirstColumn = varargin{1}.epochsInFirstColumn;
-                obj.precision = varargin{1}.precision;
+                obj.numericalPrecision = varargin{1}.numericalPrecision;
                 obj.onlyInitialStep = varargin{1}.onlyInitialStep;
                 obj.onlyFinalStep = varargin{1}.onlyFinalStep;
             else
