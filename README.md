@@ -12,9 +12,15 @@ Successfully tested on Linux and macOS Sierra. **Not tested on Windows yet.**
 
 2. Install [CMake](https://cmake.org).
 
-3. After choosing a definitive location for your tudatBundle directory, run the script [`setup.m`](setup.m) in the matlabInterface directory.
+3. After choosing a definitive location for your tudatBundle directory, run the script [`setup.m`](setup.m) located in the matlabInterface directory.
 
-4. Build the whole tudatBundle manually, or run the script [`build.m`](build.m) in the matlabInterface directory to build only the targets required for the MATLAB interface.
+4. Build the whole tudatBundle manually, or run the script [`build.m`](build.m) located in the matlabInterface directory to build only the targets required for the MATLAB interface.
+
+5. If you compiled the targets manually, run the unit tests by writing in MATLAB's Command Window:
+    ```
+    tudat.test
+    ```
+
 
 If you want to move, rename or delete your matlabInterface directory, remove it first from MATLAB's path by using `pathtool`.
 
