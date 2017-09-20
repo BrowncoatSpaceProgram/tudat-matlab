@@ -8,7 +8,7 @@ filenames = {files.name};
 
 for i = 1:length(filenames)
     sourceFile = fullfile(testAuxDir,filenames{i});
-    targetFile = fullfile(tudat.testsSourcesDirectory,'INPUT',testName,filenames{i});
+    targetFile = fullfile(tudat.testsSourcesDirectory,'matlab_inputs',testName,filenames{i});
     copyfile(sourceFile,targetFile);
 end
 

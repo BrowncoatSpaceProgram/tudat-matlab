@@ -18,7 +18,7 @@ Successfully tested on Linux and macOS Sierra. **Not tested on Windows yet.**
 
 5. If you compiled the targets manually, run the unit tests by writing in MATLAB's Command Window:
     ```
-    tudat.test
+    tudat.test()
     ```
 
 
