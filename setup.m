@@ -1,5 +1,4 @@
-matlabrc;  % Reset MATLAB to its startup state
-
+matlabrc;
 mdir = fileparts(mfilename('fullpath'));
 addpath(mdir);
 if exist(userpath,'dir') == 7
@@ -7,5 +6,3 @@ if exist(userpath,'dir') == 7
 else
     savepath;
 end
-
-run('build.m');

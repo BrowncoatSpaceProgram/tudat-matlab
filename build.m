@@ -9,9 +9,8 @@ concurrentJobs = 4;
 %%% Do not edit beyond this line %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-mdir = fileparts(mfilename('fullpath'));
-builddir = fullfile(mdir,'build');
-tudatTarget = 'tudat';
+builddir = fullfile(fileparts(tudat.bundle),'build-tudatBundle-matlabInterface');
+target = 'json_interface';
 testsTargetsPrefix = 'test_json_';
 
 cmakebin = '';
@@ -43,7 +42,7 @@ end
 command = [
     sprintf('cd %s; ',builddir)...
     sprintf('LD_LIBRARY_PATH= %s ../tudatBundle; ',cmakebin)...
-    sprintf('LD_LIBRARY_PATH= %s --build . --target %s -- -j%i',cmakebin,tudatTarget,concurrentJobs)
+    sprintf('LD_LIBRARY_PATH= %s --build . --target %s -- -j%i',cmakebin,target,concurrentJobs)
     ];
 
 if buildUnitTests
@@ -58,7 +57,7 @@ end
 
 status = system(command);
 if status ~= 0
-    error('There was a problem during installation. Try to compile the targets manually.');
+    error('There was a problem during compilation. Try to build the targets manually.');
 end
 
 if runUnitTests

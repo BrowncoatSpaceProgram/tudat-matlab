@@ -9,7 +9,7 @@ classdef tudat
         testsSourcesDirectoryPathKey = 'testsSourcesDirectoryPath'
         testsBinariesDirectoryPathKey = 'testsBinariesDirectoryPath'
         
-        defaultBundlePath = fullfile(tudat.rootdir,'tudatBundle');
+        defaultBundlePath = fileparts(tudat.rootdir);
         defaultInBundleBinaryPath = fullfile('tudat','bin','json_interface')
         defaultInBundleTestsSourcesPath = fullfile('tudat','Tudat','InputOutput','JsonInterface','UnitTests')
         defaultInBundleTestsBinariesPath = fullfile('tudat','bin','unit_tests')
