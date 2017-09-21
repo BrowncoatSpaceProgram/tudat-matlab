@@ -7,6 +7,7 @@ tudat.load();
 %% SET UP
 
 simulation = Simulation(0,convert.toSI(1,'d'),'SSB','J2000');
+simulation.spice.preloadEphemeris = false;
 
 % Satellites
 numberOfSatellites = 30;
