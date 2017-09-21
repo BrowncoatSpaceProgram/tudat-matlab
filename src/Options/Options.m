@@ -5,7 +5,6 @@ classdef Options < jsonable
         printInterval
         defaultValueUsedForMissingKey
         unusedKey
-        unidimensionalArrayInference
         fullSettingsFile
         tagOutputFilesIfPropagationFails
     end
@@ -33,13 +32,6 @@ classdef Options < jsonable
                 value = ExceptionResponses(value);
             end
             obj.unusedKey = value;
-        end
-        
-        function set.unidimensionalArrayInference(obj,value)
-            if ~isa(value,'ExceptionResponses')
-                value = ExceptionResponses(value);
-            end
-            obj.unidimensionalArrayInference = value;
         end
         
     end

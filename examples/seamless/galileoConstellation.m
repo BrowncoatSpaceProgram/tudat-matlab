@@ -52,6 +52,8 @@ for i = 1:numberOfSatellites
     simulation.addResultsToSave(sprintf('r%i',i),sprintf('%s.relativePosition-Earth',satelliteNames{i}));
 end
 
+% simulation.options.defaultValueUsedForMissingKey = 'printWarning';
+
 
 %% RUN
 
