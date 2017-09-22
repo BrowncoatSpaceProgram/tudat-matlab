@@ -24,16 +24,16 @@ simulation.addBodies(Earth,Sun,Moon,Mars,Venus,satellite);
 % Accelerations
 accelerationsOnSatellite.Earth = {SphericalHarmonicGravity(5,5), AerodynamicAcceleration()};
 accelerationsOnSatellite.Sun = {PointMassGravity(), RadiationPressureAcceleration()};
-accelerationsOnSatellite.Moon = PointMassGravity();
-accelerationsOnSatellite.Mars = PointMassGravity();
-accelerationsOnSatellite.Venus = PointMassGravity();
+accelerationsOnSatellite.Moon = {PointMassGravity()};
+accelerationsOnSatellite.Mars = {PointMassGravity()};
+accelerationsOnSatellite.Venus = {PointMassGravity()};
 
 % Propagator
 propagator = TranslationalPropagator();
-propagator.centralBodies = Earth;
-propagator.bodiesToPropagate = satellite;
+propagator.centralBodies = {Earth};
+propagator.bodiesToPropagate = {satellite};
 propagator.accelerations.satellite = accelerationsOnSatellite;
-simulation.propagator = propagator;
+simulation.propagators = {propagator};
 
 % Termination
 simulation.termination = Variable('satellite.periapsisAltitude-Earth') < 105e3;

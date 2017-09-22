@@ -21,18 +21,12 @@ classdef TranslationalPropagator < Propagator
         end
         
         function bodyNames = get.centralBodies(obj)
-            if isempty(obj.centralBodies)
-                bodyNames = obj.centralBodies;
-            else
-                if iscell(obj.centralBodies)
-                    bodyNames = obj.centralBodies;
+            bodyNames = cell(size(obj.centralBodies));
+            for i = 1:length(obj.centralBodies)
+                if isa(obj.centralBodies{i},'Body')
+                    bodyNames{i} = obj.centralBodies{i}.name;
                 else
-                    bodyNames = { obj.centralBodies };
-                end
-                for i = 1:length(bodyNames)
-                    if isa(bodyNames{i},'Body')
-                        bodyNames{i} = bodyNames{i}.name;
-                    end
+                    bodyNames{i} = obj.centralBodies{i};
                 end
             end
         end

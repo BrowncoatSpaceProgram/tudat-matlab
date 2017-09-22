@@ -6,14 +6,11 @@ classdef Simulation < jsonable
         globalFrameOrientation
         spice
         bodies
-        propagator
+        propagators
         termination
         integrator
         export
         options
-    end
-    properties (Transient, Dependent)
-        propagators
     end
     properties (Transient, Access = protected)
         import
@@ -56,14 +53,6 @@ classdef Simulation < jsonable
                     error('Could not add body to simulation because it does not derive from class Body');
                 end
             end
-        end
-        
-        function set.propagators(obj,value)
-            obj.propagator = value;
-        end
-        
-        function value = get.propagators(obj)
-            value = obj.propagator;
         end
         
         function addResultsToExport(obj,varargin)

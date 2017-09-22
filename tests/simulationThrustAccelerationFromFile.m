@@ -20,7 +20,7 @@ simulation.bodies.Earth.ephemeris.frameOrientation = 'J2000';
 simulation.bodies.Earth.gravityField.type = GravityFields.pointMassSpice;
 
 % Gravitational accelerations
-accelerationsOnVehicle.Earth = PointMassGravity();
+accelerationsOnVehicle.Earth = {PointMassGravity()};
 
 % Thrust acceleration
 thrust = Thrust();
@@ -29,18 +29,18 @@ thrust.dataInterpolation.interpolator.type = Interpolators.linear;
 thrust.specificImpulse = 3000;
 thrust.frame = ThrustFrames.lvlh;
 thrust.centralBody = Earth;
-accelerationsOnVehicle.vehicle = thrust;
+accelerationsOnVehicle.vehicle = {thrust};
 
 % Translational propagator
 translationalPropagator = TranslationalPropagator();
-translationalPropagator.centralBodies = Earth;
-translationalPropagator.bodiesToPropagate = vehicle;
+translationalPropagator.centralBodies = {Earth};
+translationalPropagator.bodiesToPropagate = {vehicle};
 translationalPropagator.accelerations.vehicle = accelerationsOnVehicle;
 
 % Mass propagator
 massPropagator = MassPropagator();
-massPropagator.bodiesToPropagate = vehicle;
-massPropagator.massRateModels.vehicle = FromThrustMassRateModel();
+massPropagator.bodiesToPropagate = {vehicle};
+massPropagator.massRateModels.vehicle = {FromThrustMassRateModel()};
 
 % Hybrid propagator
 simulation.propagators = {translationalPropagator, massPropagator};

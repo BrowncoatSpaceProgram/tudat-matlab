@@ -23,7 +23,7 @@ dog.mass = 19.5;
 dog.hobbies = {'eat','sleep'};
 dog.food = containers.Map({7,12,15,19},{'feed','meat','feed','feed'});
 dog.orientation = [1 0 0; 0 2 1; 0 3 -1];
-dog.enemies = cat;
+dog.enemies = {cat};
 
 test.createInput(dog,fullfile(mfilename,'object'));
 

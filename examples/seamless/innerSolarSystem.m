@@ -19,7 +19,7 @@ bodyNames = fieldnames(simulation.bodies);
 for i = 1:length(bodyNames)
     for j = 1:length(bodyNames)
         if i ~= j
-            accelerations.(bodyNames{j}).(bodyNames{i}) = PointMassGravity();
+            accelerations.(bodyNames{j}).(bodyNames{i}) = {PointMassGravity()};
         end
     end
 end
@@ -29,7 +29,7 @@ propagator = TranslationalPropagator();
 propagator.centralBodies = repmat({'SSB'},size(bodyNames));
 propagator.bodiesToPropagate = bodyNames;
 propagator.accelerations = accelerations;
-simulation.propagator = propagator;
+simulation.propagators = {propagator};
 
 % Integrator
 simulation.integrator.type = Integrators.rungeKutta4;

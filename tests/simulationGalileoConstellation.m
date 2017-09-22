@@ -39,9 +39,9 @@ propagator = TranslationalPropagator();
 propagator.centralBodies = repmat({'Earth'},1,numberOfSatellites);
 propagator.bodiesToPropagate = satelliteNames;
 for i = 1:numberOfSatellites
-    propagator.accelerations.(satelliteNames{i}).Earth = SphericalHarmonicGravity(4,0);
+    propagator.accelerations.(satelliteNames{i}).Earth = {SphericalHarmonicGravity(4,0)};
 end
-simulation.propagator = propagator;
+simulation.propagators = {propagator};
 
 % Integrator
 simulation.integrator.type = Integrators.rungeKutta4;

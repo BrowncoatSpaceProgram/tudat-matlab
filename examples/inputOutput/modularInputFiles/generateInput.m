@@ -25,12 +25,12 @@ v = Variable('satellite.relativeVelocity-Earth');
 % Define accelerations acting on satellite caused by Earth, the Sun and the Moon
 accelerationsOnSatellite.Earth = {SphericalHarmonicGravity(7,7), AerodynamicAcceleration()};
 accelerationsOnSatellite.Sun = {PointMassGravity(), RadiationPressureAcceleration()};
-accelerationsOnSatellite.Moon = SphericalHarmonicGravity(4,4);
+accelerationsOnSatellite.Moon = {SphericalHarmonicGravity(4,4)};
 
 % Define the propagator to use
 propagator = TranslationalPropagator();
-propagator.centralBodies = Earth;
-propagator.bodiesToPropagate = satellite;
+propagator.centralBodies = {Earth};
+propagator.bodiesToPropagate = {satellite};
 propagator.accelerations.satellite = accelerationsOnSatellite;
 
 % Define the itegrator to use
@@ -59,7 +59,7 @@ simulation.addBodies(earth,Moon,Sun,satellite);
 simulation.bodies = json.modular(simulation.bodies,'bodies.json');
 
 % Export propagator to a file called prop.json, and define simulation.propagator to point to that file
-simulation.propagator = json.modular(propagator,'prop.json');
+simulation.propagators = {json.modular(propagator,'translationalPropagator.json')};
 
 % Export integrator to a file called rk4.json, and define simulation.integrator to point to that file
 simulation.integrator = json.modular(integrator,'rk4.json');
