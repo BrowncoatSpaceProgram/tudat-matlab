@@ -1,5 +1,6 @@
-matlabrc;  % Reset MATLAB to its startup state
+% Build the required targets for the Tudat-MATLAB interface.
 
+% Build options
 buildUnitTests = true;
 runUnitTests = true;
 concurrentJobs = 4;
@@ -40,9 +41,9 @@ if exist(builddir,'dir') ~= 7
 end
 
 command = [
-    sprintf('cd %s; ',builddir)...
-    sprintf('LD_LIBRARY_PATH= %s ../tudatBundle; ',cmakebin)...
-    sprintf('LD_LIBRARY_PATH= %s --build . --target %s -- -j%i',cmakebin,target,concurrentJobs)
+    sprintf('cd "%s"; ',builddir)...
+    sprintf('LD_LIBRARY_PATH= "%s" ../tudatBundle; ',cmakebin)...
+    sprintf('LD_LIBRARY_PATH= "%s" --build . --target %s -- -j%i',cmakebin,target,concurrentJobs)
     ];
 
 if buildUnitTests
@@ -50,7 +51,7 @@ if buildUnitTests
     testNames = {testFiles.name};
     for i = 1:length(testNames)
         testName = strrep(testNames{i},'.m','');
-        command = sprintf('%s; LD_LIBRARY_PATH= %s --build . --target %s%s -- -j%i',...
+        command = sprintf('%s; LD_LIBRARY_PATH= "%s" --build . --target %s%s -- -j%i',...
             command,cmakebin,testsTargetsPrefix,testName,concurrentJobs);
     end
 end

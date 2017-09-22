@@ -48,6 +48,15 @@ classdef jsonable < handle
             end
         end
         
+        % Horizontal concatenation creates cell array
+        function cell = horzcat(varargin)
+            cell = varargin;
+        end
+
+        % Vertical concatenation creates cell array
+        function cell = vertcat(varargin)
+            cell = varargin;
+        end
         
         % Make methods inherited from handle Hidden
         
