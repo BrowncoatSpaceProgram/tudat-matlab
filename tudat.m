@@ -1,6 +1,7 @@
 classdef tudat
     properties (Constant, Hidden)
         rootdir = fileparts(mfilename('fullpath'))
+        srcdir = fullfile(tudat.rootdir,'src')
         testsdir = fullfile(tudat.rootdir,'tests')
         settingsfile = fullfile(tudat.rootdir,'settings.mat')
         
@@ -11,7 +12,7 @@ classdef tudat
         
         defaultBundlePath = fileparts(tudat.rootdir);
         defaultInBundleBinaryPath = fullfile('tudat','bin','json_interface')
-        defaultInBundleTestsSourcesPath = fullfile('tudat','Tudat','InputOutput','JsonInterface','UnitTests')
+        defaultInBundleTestsSourcesPath = fullfile('tudat','Tudat','JsonInterface','UnitTests')
         defaultInBundleTestsBinariesPath = fullfile('tudat','bin','unit_tests')
         
         defaultBinaryPath = fullfile(tudat.defaultBundlePath,tudat.defaultInBundleBinaryPath)
@@ -24,8 +25,7 @@ classdef tudat
             if nargin < 1
                 forceReload = false;
             end
-            srcdir = fullfile(fileparts(mfilename('fullpath')),'src');
-            dirs = horzcat(srcdir,getNonPackageDirectories(srcdir,true));
+            dirs = horzcat(tudat.srcdir,getNonPackageDirectories(tudat.srcdir,true));
             loadedpaths = regexp(path,pathsep,'split');
             for i = 1:length(dirs)
                 loaded = any(strcmp(dirs{i},loadedpaths));
