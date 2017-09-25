@@ -1,4 +1,4 @@
-function [failCount,testOutput] = simulationInnerSolarSystem
+function [failCount,testOutput] = unitTestSimulationInnerSolarSystem
 
 tudat.load();
 

@@ -1,7 +1,7 @@
 function [failCount,testOutput] = runUnitTest(testName)
 
 failCount = 0;
-testNameFull = ['test_json_' testName];
+testNameFull = strrep(testName,'unitTest',tudat.testsBinariesPrefix);
 [status,testOutput] = system(['LD_LIBRARY_PATH= "' fullfile(tudat.testsBinariesDirectory,testNameFull) '"'],'-echo');
 [~,tok] = regexp(testOutput,'\*\*\* (\d+) failure','match','tokens');
 if ~isempty(tok)

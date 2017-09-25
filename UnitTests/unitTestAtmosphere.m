@@ -1,4 +1,4 @@
-function [failCount,testOutput] = atmosphere
+function [failCount,testOutput] = unitTestAtmosphere
 
 tudat.load();
 

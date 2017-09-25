@@ -1,4 +1,4 @@
-function [failCount,testOutput] = gravityField
+function [failCount,testOutput] = unitTestGravityField
 
 tudat.load();
 

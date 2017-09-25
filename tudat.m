@@ -1,8 +1,8 @@
 classdef tudat
     properties (Constant, Hidden)
         rootdir = fileparts(mfilename('fullpath'))
-        srcdir = fullfile(tudat.rootdir,'src')
-        testsdir = fullfile(tudat.rootdir,'tests')
+        srcdir = fullfile(tudat.rootdir,'MatlabInterface')
+        testsdir = fullfile(tudat.rootdir,'UnitTests')
         settingsfile = fullfile(tudat.rootdir,'settings.mat')
         
         bundlePathKey = 'bundlePath'
@@ -14,6 +14,7 @@ classdef tudat
         defaultInBundleBinaryPath = fullfile('tudat','bin','json_interface')
         defaultInBundleTestsSourcesPath = fullfile('tudat','Tudat','JsonInterface','UnitTests')
         defaultInBundleTestsBinariesPath = fullfile('tudat','bin','unit_tests')
+        testsBinariesPrefix = 'test_JsonInterface'
         
         defaultBinaryPath = fullfile(tudat.defaultBundlePath,tudat.defaultInBundleBinaryPath)
         defaultTestsSourcesPath = fullfile(tudat.defaultBundlePath,tudat.defaultInBundleTestsSourcesPath)
@@ -113,7 +114,7 @@ classdef tudat
             for i = 1:n
                 [~,filename,~] = fileparts(testNames{i});
                 testNames{i} = filename;
-                filenamewidth = max(filenamewidth,length(filename));
+                filenamewidth = max(filenamewidth,length(filename) - 8);
             end
             fprintf([title '\n']);
             separator = repmat('=',1,length(title));
@@ -123,7 +124,8 @@ classdef tudat
             testOutputs = cell(size(testNames));
             for i = 1:n
                 testName = testNames{i};
-                fprintf(sprintf('Test %%%ii/%%i   %%-%is     ',length(sprintf('%i',n)),filenamewidth),i,n,testName);
+                fprintf(sprintf('Test %%%ii/%%i   %%-%is   ',length(sprintf('%i',n)),filenamewidth),i,n,...
+                    strrep(testName,'unitTest',''));
                 try
                     tic;
                     evalc(sprintf('[failures,testOutputs{i}] = %s',testName));
@@ -138,7 +140,7 @@ classdef tudat
                 catch
                     result = sprintf('<strong>%-24s</strong>','*** MATLAB ERROR');
                 end
-                fprintf('%s  [ %.3f s ]\n',result,toc);
+                fprintf('%s  (%.3f s)\n',result,toc);
             end
             fprintf([separator '\n']);
             p = length(passed);
@@ -155,7 +157,7 @@ classdef tudat
                     testName = testNames{i};
                     if ~any(strcmp(testName,passed))
                         testOutput = testOutputs{i};
-                        issueURL = test.getIssueURL(['test_json_' testName],testOutput);
+                        issueURL = test.getIssueURL(strrep(testName,'unitTest',tudat.testsBinariesPrefix),testOutput);
                         fprintf('   * <a href="matlab: open(which(''%s.m''))">%s.m</a>',testName,testName);
                         fprintf(' (<a href="matlab: web(''%s'',''-browser'')">open issue</a>)',issueURL);
                         fprintf('\n');

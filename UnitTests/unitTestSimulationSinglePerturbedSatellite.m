@@ -1,4 +1,4 @@
-function [failCount,testOutput] = simulationSingleSatellite
+function [failCount,testOutput] = unitTestSimulationSinglePerturbedSatellite
 
 tudat.load();
 
@@ -6,7 +6,7 @@ tudat.load();
 % Create input files for tests
 
 % Simulation
-simulation = Simulation(0,3600);
+simulation = Simulation(0,3600,'SSB','J2000');
 
 % Bodies
 asterix = Body('asterix');
@@ -16,14 +16,25 @@ asterix.initialState.inclination = 1.4888;
 asterix.initialState.argumentOfPeriapsis = 4.1137;
 asterix.initialState.longitudeOfAscendingNode = 0.4084;
 asterix.initialState.trueAnomaly = 2.4412;
-simulation.addBodies(Earth,asterix);
-simulation.bodies.Earth.ephemeris = ConstantEphemeris(zeros(6,1));
+asterix.mass = 400;
+asterix.referenceArea = 4;
+asterix.dragCoefficient = 1.2;
+asterix.radiationPressureCoefficient = 1.2;
+asterix.radiationPressure.Sun.occultingBodies = Earth;
+simulation.addBodies(Sun,Earth,Moon,Mars,Venus,asterix);
+
+% Accelerations
+accelerationsOnAsterix.Earth = {SphericalHarmonicGravity(5,5), AerodynamicAcceleration()};
+accelerationsOnAsterix.Sun = {PointMassGravity(), RadiationPressureAcceleration()};
+accelerationsOnAsterix.Moon = {PointMassGravity()};
+accelerationsOnAsterix.Mars = {PointMassGravity()};
+accelerationsOnAsterix.Venus = {PointMassGravity()};
 
 % Propagator
 propagator = TranslationalPropagator();
 propagator.centralBodies = {Earth};
 propagator.bodiesToPropagate = {asterix};
-propagator.accelerations.asterix.Earth = {PointMassGravity()};
+propagator.accelerations.asterix = accelerationsOnAsterix;
 simulation.propagators = {propagator};
 
 % Integrator

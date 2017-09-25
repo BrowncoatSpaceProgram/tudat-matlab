@@ -1,4 +1,4 @@
-function [failCount,testOutput] = rotationModel
+function [failCount,testOutput] = unitTestRotationModel
 
 tudat.load();
 

@@ -1,4 +1,4 @@
-function [failCount,testOutput] = simulationGalileoConstellation
+function [failCount,testOutput] = unitTestSimulationGalileoConstellation
 
 tudat.load();
 

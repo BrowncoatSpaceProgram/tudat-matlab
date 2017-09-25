@@ -1,4 +1,4 @@
-function [failCount,testOutput] = aerodynamics
+function [failCount,testOutput] = unitTestAerodynamics
 
 tudat.load();
 

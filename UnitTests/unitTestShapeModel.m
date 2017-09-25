@@ -1,4 +1,4 @@
-function [failCount,testOutput] = shapeModel
+function [failCount,testOutput] = unitTestShapeModel
 
 tudat.load();
 

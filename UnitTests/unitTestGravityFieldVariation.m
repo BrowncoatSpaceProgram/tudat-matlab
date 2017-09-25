@@ -1,4 +1,4 @@
-function [failCount,testOutput] = gravityFieldVariation
+function [failCount,testOutput] = unitTestGravityFieldVariation
 
 tudat.load();
 

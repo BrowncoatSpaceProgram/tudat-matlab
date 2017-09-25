@@ -1,4 +1,4 @@
-function [failCount,testOutput] = ephemeris
+function [failCount,testOutput] = unitTestEphemeris
 
 tudat.load();
 

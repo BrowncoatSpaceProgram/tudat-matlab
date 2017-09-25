@@ -1,4 +1,4 @@
-function [failCount,testOutput] = simulationThrustAlongVelocityVector
+function [failCount,testOutput] = unitTestSimulationThrustAccelerationFromFile
 
 tudat.load();
 
@@ -6,7 +6,7 @@ tudat.load();
 % Create input files for tests
 
 % Simulation
-simulation = Simulation(0,3600);
+simulation = Simulation(0,4e5,'SSB','J2000');
 simulation.spice.preloadEphemeris = false;
 
 % Bodies
@@ -14,22 +14,21 @@ vehicle = Body('vehicle');
 vehicle.initialState.x = 8e6;
 vehicle.initialState.vy = 7500;
 vehicle.mass = 5000;
-simulation.addBodies(Sun,Earth,Moon,vehicle);
+simulation.addBodies(Earth,vehicle);
+simulation.bodies.Earth.ephemeris = ConstantEphemeris(zeros(1,6));
+simulation.bodies.Earth.ephemeris.frameOrientation = 'J2000';
+simulation.bodies.Earth.gravityField.type = GravityFields.pointMassSpice;
 
 % Gravitational accelerations
 accelerationsOnVehicle.Earth = {PointMassGravity()};
-accelerationsOnVehicle.Sun = {PointMassGravity()};
-accelerationsOnVehicle.Moon = {PointMassGravity()};
 
 % Thrust acceleration
 thrust = Thrust();
-thrust.direction.type = ThrustDirections.colinearWithStateSegment;
-thrust.direction.relativeBody = Earth;
-thrust.direction.colinearWithVelocity = true;
-thrust.direction.towardsRelativeBody = false;
-thrust.magnitude = ConstantThrustMagnitude();
-thrust.magnitude.constantMagnitude = 25;
-thrust.magnitude.specificImpulse = 5000;
+thrust.dataInterpolation.data = FromFileDataMap('thrustValues.txt');
+thrust.dataInterpolation.interpolator.type = Interpolators.linear;
+thrust.specificImpulse = 3000;
+thrust.frame = ThrustFrames.lvlh;
+thrust.centralBody = Earth;
 accelerationsOnVehicle.vehicle = {thrust};
 
 % Translational propagator
@@ -50,8 +49,15 @@ simulation.propagators = {translationalPropagator, massPropagator};
 simulation.integrator.type = Integrators.rungeKutta4;
 simulation.integrator.stepSize = 30;
 
+% Dependent variables
+simulation.addResultsToSave('thrust','vehicle.acceleration@thrust-vehicle');
+simulation.addResultsToSave('rotation','vehicle.lvlhToInertialFrameRotation-Earth');
+
 % Generate input file
 test.createInput(simulation,fullfile(mfilename,'main'));
+
+% Copy auxiliary input files
+test.copyAuxiliaryInputFiles(mfilename('fullpath'));
 
 
 % Run test

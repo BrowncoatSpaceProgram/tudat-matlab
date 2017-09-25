@@ -1,4 +1,4 @@
-function [failCount,testOutput] = radiationPressure
+function [failCount,testOutput] = unitTestRadiationPressure
 
 tudat.load();
 

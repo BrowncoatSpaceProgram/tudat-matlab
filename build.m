@@ -12,7 +12,6 @@ concurrentJobs = 4;
 
 builddir = fullfile(fileparts(tudat.bundle),'build-tudatBundle-matlabInterface');
 target = 'json_interface';
-testsTargetsPrefix = 'test_json_';
 
 cmakebin = '';
 % Default location on make if not installed to path
@@ -50,9 +49,9 @@ if buildUnitTests
     testFiles = dir(fullfile(tudat.testsdir,'*.m'));
     testNames = {testFiles.name};
     for i = 1:length(testNames)
-        testName = strrep(testNames{i},'.m','');
-        command = sprintf('%s; LD_LIBRARY_PATH= "%s" --build . --target %s%s -- -j%i',...
-            command,cmakebin,testsTargetsPrefix,testName,concurrentJobs);
+        testBinName = strrep(strrep(testNames{i},'.m',''),'unitTest',tudat.testsBinariesPrefix);
+        command = sprintf('%s; LD_LIBRARY_PATH= "%s" --build . --target %s -- -j%i',...
+            command,cmakebin,testBinName,concurrentJobs);
     end
 end
 
