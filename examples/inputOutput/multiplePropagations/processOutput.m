@@ -1,7 +1,7 @@
 clc; clear variables;
 tudat.load();
 
-files = dir(fullfile('tmpout','*.txt'));
+files = dir(fullfile('output','*.txt'));
 filenames = {files.name};
 
 figure;
@@ -12,7 +12,7 @@ legendEntries = cell(size(filenames));
 for i = 1:length(filenames)
     [~,tok] = regexp(filenames{i},'mass(.+)\.txt','match','tokens');
     legendEntries{i} = tok{1}{1};
-    outputFile = fullfile('tmpout',filenames{i});
+    outputFile = fullfile('output',filenames{i});
     
     % Load results using import.results with argument 'warn'.
     % This will print a warning in case the propagation failed.
