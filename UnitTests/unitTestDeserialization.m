@@ -60,8 +60,7 @@ simulation.propagators = {'$(propagator.json)'};
 integrator.type = 'rungeKutta4';
 integrator.stepSize = 30;
 test.createInput(integrator,fullfile(mfilename,'modular','rk4'));
-simulation.integrator = json.modular(integrator,'rk4');
-delete(fullfile(fileparts(mfilename('fullpath')),'rk4.json'));
+simulation.integrator = '$(rk4)';
 
 % Define results to export
 % Paths are relative to the main.json file directory
