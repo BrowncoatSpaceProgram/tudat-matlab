@@ -23,9 +23,6 @@ classdef ThrustMagnitude < jsonable
     methods (Hidden)
         function mp = getMandatoryProperties(obj)
             mp = {'type','relativeBody'};
-            if obj.type == ThrustMagnitudes.fromEngineProperties
-                mp{end+1} = 'originID';
-            end
         end
         
     end

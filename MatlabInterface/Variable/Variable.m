@@ -89,6 +89,38 @@ classdef Variable < jsonable
             obj.torqueType = value;
         end
         
+        function bodyName = get.body(obj)
+            if isa(obj.body,'Body')
+                bodyName = obj.body.name;
+            else
+                bodyName = obj.body;
+            end
+        end
+        
+        function bodyName = get.relativeToBody(obj)
+            if isa(obj.relativeToBody,'Body')
+                bodyName = obj.relativeToBody.name;
+            else
+                bodyName = obj.relativeToBody;
+            end
+        end
+        
+        function bodyName = get.bodyExertingAcceleration(obj)
+            if isa(obj.bodyExertingAcceleration,'Body')
+                bodyName = obj.bodyExertingAcceleration.name;
+            else
+                bodyName = obj.bodyExertingAcceleration;
+            end
+        end
+        
+        function bodyName = get.bodyExertingTorque(obj)
+            if isa(obj.bodyExertingTorque,'Body')
+                bodyName = obj.bodyExertingTorque.name;
+            else
+                bodyName = obj.bodyExertingTorque;
+            end
+        end
+        
         function condition = lt(obj1,obj2)
             condition = Condition();
             if isa(obj1,'Variable')

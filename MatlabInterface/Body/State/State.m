@@ -9,7 +9,8 @@ classdef State < jsonable
         vz
         
         % Keplerian
-        centralBody
+        centralBodyGravitationalParameter
+        centralBodyAverageRadius
         semiMajorAxis
         eccentricity
         inclination
@@ -65,14 +66,6 @@ classdef State < jsonable
             type = [];
         end
         
-        function bodyName = get.centralBody(obj)
-            if isa(obj.centralBody,'Body')
-                bodyName = obj.centralBody.name;
-            else
-                bodyName = obj.centralBody;
-            end
-        end
-        
     end
     
     methods (Hidden)
@@ -81,10 +74,10 @@ classdef State < jsonable
         end
         
         function p = keplerianProperties(obj)
-            p = {'centralBody','semiMajorAxis','eccentricity','inclination','argumentOfPeriapsis',...
-                'longitudeOfAscendingNode','trueAnomaly','meanAnomaly','eccentricAnomaly','semiLatusRectum',...
-                'meanMotion','period','radius','altitude','periapsisDistance','apoapsisDistance',...
-                'periapsisAltitude','apoapsisAltitude'};
+            p = {'centralBodyGravitationalParameter','centralBodyAverageRadius','semiMajorAxis',...
+                'eccentricity','inclination','argumentOfPeriapsis','longitudeOfAscendingNode','trueAnomaly',...
+                'meanAnomaly','eccentricAnomaly','semiLatusRectum','meanMotion','period','radius','altitude',...
+                'periapsisDistance','apoapsisDistance','periapsisAltitude','apoapsisAltitude'};
         end
         
         function mp = getMandatoryProperties(obj)
