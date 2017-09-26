@@ -43,58 +43,6 @@ classdef tudat
             tudat.testsBinariesDirectory(fullfile(bundlePath,tudat.defaultInBundleTestsBinariesPath));
         end
         
-        function s = settings
-            s = load(tudat.settingsfile);
-        end
-        
-        function varargout = bundle(path)
-            if nargin == 0  % get
-                try
-                    varargout{1} = tudat.settings.(tudat.bundlePathKey);
-                catch
-                    varargout{1} = tudat.defaultBundlePath;
-                end
-            else  % set
-                updateSetting(tudat.bundlePathKey,path);
-            end
-        end
-        
-        function varargout = binary(path)
-            if nargin == 0  % get
-                try
-                    varargout{1} = tudat.settings.(tudat.binaryPathKey);
-                catch
-                    varargout{1} = tudat.defaultBinaryPath;
-                end
-            else  % set
-                updateSetting(tudat.binaryPathKey,path);
-            end
-        end
-        
-        function varargout = testsSourcesDirectory(path)
-            if nargin == 0  % get
-                try
-                    varargout{1} = tudat.settings.(tudat.testsSourcesDirectoryPathKey);
-                catch
-                    varargout{1} = tudat.defaultTestsSourcesPath;
-                end
-            else  % set
-                updateSetting(tudat.testsSourcesDirectoryPathKey,path);
-            end
-        end
-        
-        function varargout = testsBinariesDirectory(path)
-            if nargin == 0  % get
-                try
-                    varargout{1} = tudat.settings.(tudat.testsBinariesDirectoryPathKey);
-                catch
-                    varargout{1} = tudat.defaultTestsBinariesPath;
-                end
-            else  % set
-                updateSetting(tudat.testsBinariesDirectoryPathKey,path);
-            end
-        end
-        
         function test(varargin)
             t0 = tic;
             clc;
@@ -165,6 +113,61 @@ classdef tudat
                 end
             end
             fprintf('\n');
+        end
+        
+    end
+    
+    methods (Static, Hidden)
+        function s = settings
+            s = load(tudat.settingsfile);
+        end
+        
+        function path = bundle(newPath)
+            if nargin == 0  % get
+                try
+                    path = tudat.settings.(tudat.bundlePathKey);
+                catch
+                    path = tudat.defaultBundlePath;
+                end
+            else  % set
+                updateSetting(tudat.bundlePathKey,newPath);
+            end
+        end
+        
+        function path = binary(newPath)
+            if nargin == 0  % get
+                try
+                    path = tudat.settings.(tudat.binaryPathKey);
+                catch
+                    path = tudat.defaultBinaryPath;
+                end
+            else  % set
+                updateSetting(tudat.binaryPathKey,newPath);
+            end
+        end
+        
+        function path = testsSourcesDirectory(newPath)
+            if nargin == 0  % get
+                try
+                    path = tudat.settings.(tudat.testsSourcesDirectoryPathKey);
+                catch
+                    path = tudat.defaultTestsSourcesPath;
+                end
+            else  % set
+                updateSetting(tudat.testsSourcesDirectoryPathKey,newPath);
+            end
+        end
+        
+        function path = testsBinariesDirectory(newValue)
+            if nargin == 0  % get
+                try
+                    path = tudat.settings.(tudat.testsBinariesDirectoryPathKey);
+                catch
+                    path = tudat.defaultTestsBinariesPath;
+                end
+            else  % set
+                updateSetting(tudat.testsBinariesDirectoryPathKey,newValue);
+            end
         end
         
     end

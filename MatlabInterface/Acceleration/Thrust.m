@@ -24,13 +24,13 @@ classdef Thrust < Acceleration
             end
         end
         
-       function set.frame(obj,value)
+        function set.frame(obj,value)
             if ~isa(value,'ThrustFrames')
                 value = ThrustFrames(value);
             end
             obj.frame = value;
-       end
-       
+        end
+        
     end
     
     methods (Hidden)
@@ -42,7 +42,7 @@ classdef Thrust < Acceleration
                 p = horzcat(p,{'direction','magnitude'});
             end
         end
-
+        
         function mp = getMandatoryProperties(obj)
             mp = getMandatoryProperties@Acceleration(obj);
             if ~isempty(obj.dataInterpolation)
