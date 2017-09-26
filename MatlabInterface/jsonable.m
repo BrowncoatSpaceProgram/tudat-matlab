@@ -2,8 +2,8 @@ classdef jsonable < handle
     methods (Hidden)
         function props = getProperties(obj)
             mc = metaclass(obj);
-            p = { mc.PropertyList.Name };
-            t = { mc.PropertyList.Transient };
+            p = {mc.PropertyList.Name};
+            t = {mc.PropertyList.Transient};
             props = {};
             for i = 1:length(p)
                 if ~t{i}
@@ -39,12 +39,12 @@ classdef jsonable < handle
             empty = true;
         end
         
-        function s = struct(obj)
-            s = [];
+        function j = jsonize(obj)
+            j = [];
             propertyNames = getProperties(obj);
             for i = 1:length(propertyNames)
                 propertyName = propertyNames{i};
-                s = json.update(s,obj,propertyName,isMandatory(obj,propertyName),formatSpec(obj,propertyName));
+                j = json.update(j,obj,propertyName,isMandatory(obj,propertyName),formatSpec(obj,propertyName));
             end
         end
         

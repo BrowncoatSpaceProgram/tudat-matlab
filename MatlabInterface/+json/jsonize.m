@@ -1,4 +1,4 @@
-function s = struct(object)
+function j = jsonize(object)
 
 if isstruct(object) && length(object) > 1
     object = num2cell(object);
@@ -6,29 +6,29 @@ end
 
 if isstruct(object)  % struct -> std::map
     for key = fieldnames(object)'
-        s.(key{1}) = json.struct(object.(key{1}));
+        j.(key{1}) = json.jsonize(object.(key{1}));
     end
 elseif iscell(object)  % cell -> std::vector
-    s = object;
+    j = object;
     for i = 1:length(object)
-        s{i} = json.struct(object{i});
+        j{i} = json.jsonize(object{i});
     end
 elseif isa(object,'containers.Map')  % containers.Map -> std::map
-    s = containers.Map;
+    j = containers.Map;
     keys = object.keys;
     for i = 1:length(keys)
         key = keys{i};
         if ~ischar(key)
             key = sprintf('%g',key);
         end
-        s(key) = json.struct(object(keys{i}));
+        j(key) = json.jsonize(object(keys{i}));
     end
 else
     try  % classdef -> class
-        s = object.struct();
+        j = object.jsonize();
     catch ME
         if isenum(object)  % enum -> std::string
-            s = char(object);
+            j = char(object);
         elseif strcmp(ME.identifier,'MATLAB:structRefFromNonStruct')  % primitive -> int, double, bool, string
             if isnumeric(object)
                 if any(imag(object(:)))  % complex numbers -> "(real,imag")
@@ -45,14 +45,14 @@ else
                     else
                         object = cell(m,1);
                         for i = 1:m
-                            for j = 1:n
-                                object{i}{j} = sprintf('(%g,%g)',real(numobject(i,j)),imag(numobject(i,j)));
+                            for k = 1:n
+                                object{i}{k} = sprintf('(%g,%g)',real(numobject(i,k)),imag(numobject(i,k)));
                             end
                         end
                     end
                 end
             end
-            s = object;
+            j = object;
         else
             rethrow(ME);
         end

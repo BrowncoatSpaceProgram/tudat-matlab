@@ -1,2 +1,2 @@
-tudat_json>=0
+json_interface>=0
 MATLAB>=R2016b

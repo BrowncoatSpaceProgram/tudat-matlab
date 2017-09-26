@@ -1,7 +1,7 @@
 classdef tudat
     properties (Constant, Hidden)
         rootdir = fileparts(mfilename('fullpath'))
-        srcdir = fullfile(tudat.rootdir,'MatlabInterface')
+        sourcedir = fullfile(tudat.rootdir,'MatlabInterface')
         testsdir = fullfile(tudat.rootdir,'UnitTests')
         settingsfile = fullfile(tudat.rootdir,'settings.mat')
         
@@ -26,7 +26,7 @@ classdef tudat
             if nargin < 1
                 forceReload = false;
             end
-            dirs = horzcat(tudat.srcdir,getNonPackageDirectories(tudat.srcdir,true));
+            dirs = horzcat(tudat.sourcedir,getNonPackageDirectories(tudat.sourcedir,true));
             loadedpaths = regexp(path,pathsep,'split');
             for i = 1:length(dirs)
                 loaded = any(strcmp(dirs{i},loadedpaths));

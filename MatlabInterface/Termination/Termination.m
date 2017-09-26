@@ -63,12 +63,12 @@ classdef Termination < jsonable
     end
     
     methods (Hidden)
-        function s = struct(obj)
-            c = json.struct(obj.conditions);
+        function j = jsonize(obj)
+            c = json.jsonize(obj.conditions);
             if obj.meetAll
-                s.allOf = c;
+                j.allOf = c;
             else
-                s.anyOf = c;
+                j.anyOf = c;
             end
         end
         

@@ -1,4 +1,4 @@
-function s = update(s,obj,name,mandatory,formatspec)
+function j = update(j,obj,name,mandatory,formatspec)
 
 value = obj.(name);
 if ~isempty(value)
@@ -11,7 +11,7 @@ if ~isempty(value)
             value = sprintf(formatspec,value);
         end
     end
-    s.(name) =  json.struct(value);
+    j.(name) =  json.jsonize(value);
 elseif mandatory
     error('No value defined for non-optional property %s.%s',class(obj),name);
 end
