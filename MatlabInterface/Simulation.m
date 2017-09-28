@@ -101,7 +101,7 @@ classdef Simulation < jsonable
                 obj.options.fullSettingsFile = Simulation.defaultFullSettingsFileName;
             end
             json.export(obj,mainInputFile);
-            command = ['LD_LIBRARY_PATH= "' tudat.binary '" "' mainInputFile '"'];
+            command = ['"' tudat.binary '" "' mainInputFile '"'];
             if nargout == 0
                 if nargin == 1 || strcmpi(mode,'-echo')
                     status = system(command,'-echo');

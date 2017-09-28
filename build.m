@@ -44,8 +44,8 @@ end
 
 command = [
     sprintf('cd "%s"%s ',builddir,sep)...
-    sprintf('LD_LIBRARY_PATH= "%s" "%s"%s ',cmakebin,fullfile('..','tudatBundle'),sep)...
-    sprintf('LD_LIBRARY_PATH= "%s" --build . --target %s -- -j%i',cmakebin,target,concurrentJobs)
+    sprintf('"%s" "%s"%s ',cmakebin,fullfile('..','tudatBundle'),sep)...
+    sprintf('"%s" --build . --target %s -- -j%i',cmakebin,target,concurrentJobs)
     ];
 
 if buildUnitTests
@@ -53,12 +53,11 @@ if buildUnitTests
     testNames = {testFiles.name};
     for i = 1:length(testNames)
         testBinName = strrep(strrep(testNames{i},'.m',''),'unitTest',tudat.testsBinariesPrefix);
-        command = sprintf('%s%s LD_LIBRARY_PATH= "%s" --build . --target %s -- -j%i',...
+        command = sprintf('%s%s "%s" --build . --target %s -- -j%i',...
             command,sep,cmakebin,testBinName,concurrentJobs);
     end
 end
 
-error(command)
 status = system(command);
 if status ~= 0
     error('There was a problem during compilation. Try to build the targets manually.');
