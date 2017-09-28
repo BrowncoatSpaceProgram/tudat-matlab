@@ -19,7 +19,7 @@ if ~isempty(exportdir)
 end
 
 fid = fopen(file,'w');
-fprintf(fid,json.encode(object,tabsize));
+fprintf(fid,'%s',json.encode(object,tabsize));
 fclose(fid);
 
 end

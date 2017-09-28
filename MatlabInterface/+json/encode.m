@@ -10,8 +10,8 @@ try
 catch
 end
 
-% Fix bug of jsonencode function when combined with sprintf/fprintf for escaped / and "
-jsonText = strrep(strrep(jsonencode(json.jsonize(object)),'\/','/'),'\"','\\"');
+% jsonize first, and do not escape character /
+jsonText = strrep(jsonencode(json.jsonize(object)),'\/','/');
 
 % Add indenting
 if tabsize > 0
