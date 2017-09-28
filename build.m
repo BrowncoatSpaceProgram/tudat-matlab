@@ -18,13 +18,16 @@ cmakebin = '';
 if ismac
     cmakebin = '/Applications/CMake.app/Contents/bin/cmake';
 end
+sep = '';
 if isunix || ismac
+    sep = ' &';
     % Try to get cmake from path (UNIX)
     [status, response] = system('which cmake');
     if status == 0
         cmakebin = strtrim(response);
     end
 elseif ispc
+    sep = ' &';
     % Try for Windows
     [status, response] = system('where cmake');
     if status == 0
@@ -40,8 +43,8 @@ if exist(builddir,'dir') ~= 7
 end
 
 command = [
-    sprintf('cd "%s"; ',builddir)...
-    sprintf('LD_LIBRARY_PATH= "%s" "%s"; ',cmakebin,fullfile('..','tudatBundle'))...
+    sprintf('cd "%s"%s ',builddir,sep)...
+    sprintf('LD_LIBRARY_PATH= "%s" "%s"%s ',cmakebin,fullfile('..','tudatBundle'),sep)...
     sprintf('LD_LIBRARY_PATH= "%s" --build . --target %s -- -j%i',cmakebin,target,concurrentJobs)
     ];
 
@@ -50,11 +53,12 @@ if buildUnitTests
     testNames = {testFiles.name};
     for i = 1:length(testNames)
         testBinName = strrep(strrep(testNames{i},'.m',''),'unitTest',tudat.testsBinariesPrefix);
-        command = sprintf('%s; LD_LIBRARY_PATH= "%s" --build . --target %s -- -j%i',...
-            command,cmakebin,testBinName,concurrentJobs);
+        command = sprintf('%s%s LD_LIBRARY_PATH= "%s" --build . --target %s -- -j%i',...
+            command,sep,cmakebin,testBinName,concurrentJobs);
     end
 end
 
+error(command)
 status = system(command);
 if status ~= 0
     error('There was a problem during compilation. Try to build the targets manually.');
