@@ -20,8 +20,8 @@ simulation.bodies.Earth.ephemeris = ConstantEphemeris(zeros(6,1));
 
 % Propagator
 propagator = TranslationalPropagator();
-propagator.centralBodies = {Earth};
 propagator.bodiesToPropagate = {asterix};
+propagator.centralBodies = {Earth};
 propagator.accelerations.asterix.Earth = {PointMassGravity()};
 simulation.propagators = {propagator};
 

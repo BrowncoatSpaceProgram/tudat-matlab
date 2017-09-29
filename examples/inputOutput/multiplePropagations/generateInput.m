@@ -12,7 +12,7 @@ satellite.initialState.inclination = deg2rad(60);
 satellite.initialState.trueAnomaly = deg2rad(45);
 satellite.dragCoefficient = 1.2;
 satellite.radiationPressureCoefficient = 1.2;
-satellite.radiationPressure.Sun.occultingBodies = Earth;
+satellite.radiationPressure.Sun.occultingBodies = {Earth};
 simulation.addBodies(Earth,Sun,Moon,Mars,Venus,satellite);
 
 % Accelerations

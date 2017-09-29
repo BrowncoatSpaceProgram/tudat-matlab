@@ -10,7 +10,7 @@ satellite.mass = 500;
 satellite.referenceArea = 4;
 satellite.dragCoefficient = 2.5;
 satellite.radiationPressureCoefficient = 1.2;
-satellite.radiationPressure.Sun.occultingBodies = 'Earth';
+satellite.radiationPressure.Sun.occultingBodies = {'Earth'};
 
 % Create Earth body with custom properties (use NRLMSISE00 atmosphere model)
 earth = Earth();

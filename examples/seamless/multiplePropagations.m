@@ -18,7 +18,7 @@ satellite.initialState.inclination = deg2rad(60);
 satellite.initialState.trueAnomaly = deg2rad(45);
 satellite.dragCoefficient = 2.5;
 satellite.radiationPressureCoefficient = 1.2;
-satellite.radiationPressure.Sun.occultingBodies = Earth;
+satellite.radiationPressure.Sun.occultingBodies = {Earth};
 simulation.addBodies(Earth,Sun,Moon,Mars,Venus,satellite);
 
 % Accelerations
@@ -30,8 +30,8 @@ accelerationsOnSatellite.Venus = {PointMassGravity()};
 
 % Propagator
 propagator = TranslationalPropagator();
-propagator.centralBodies = {Earth};
 propagator.bodiesToPropagate = {satellite};
+propagator.centralBodies = {Earth};
 propagator.accelerations.satellite = accelerationsOnSatellite;
 simulation.propagators = {propagator};
 

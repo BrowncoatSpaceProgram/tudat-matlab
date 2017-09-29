@@ -19,15 +19,21 @@ classdef RadiationPressure < jsonable
             obj.type = value;
         end
         
-        function bodyNames = get.occultingBodies(obj)
-            if iscell(obj.occultingBodies)
-                bodyNames = obj.occultingBodies;
+        function bodyName = get.sourceBody(obj)
+            if isa(obj.sourceBody,'Body')
+                bodyName = obj.sourceBody.name;
             else
-                bodyNames = { obj.occultingBodies };
+                bodyName = obj.sourceBody;
             end
-            for i = 1:length(bodyNames)
-                if isa(bodyNames{i},'Body')
-                    bodyNames{i} = bodyNames{i}.name;
+        end
+        
+        function bodyNames = get.occultingBodies(obj)
+            bodyNames = cell(size(obj.occultingBodies));
+            for i = 1:length(obj.occultingBodies)
+                if isa(obj.occultingBodies{i},'Body')
+                    bodyNames{i} = obj.occultingBodies{i}.name;
+                else
+                    bodyNames{i} = obj.occultingBodies{i};
                 end
             end
         end

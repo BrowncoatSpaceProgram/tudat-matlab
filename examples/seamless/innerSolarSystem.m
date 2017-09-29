@@ -26,8 +26,8 @@ end
 
 % Propagator
 propagator = TranslationalPropagator();
-propagator.centralBodies = repmat({'SSB'},size(bodyNames));
 propagator.bodiesToPropagate = bodyNames;
+propagator.centralBodies = repmat({'SSB'},size(bodyNames));
 propagator.accelerations = accelerations;
 simulation.propagators = {propagator};
 

@@ -20,7 +20,7 @@ asterix.mass = 400;
 asterix.referenceArea = 4;
 asterix.dragCoefficient = 1.2;
 asterix.radiationPressureCoefficient = 1.2;
-asterix.radiationPressure.Sun.occultingBodies = Earth;
+asterix.radiationPressure.Sun.occultingBodies = {Earth};
 simulation.addBodies(Sun,Earth,Moon,Mars,Venus,asterix);
 
 % Accelerations
