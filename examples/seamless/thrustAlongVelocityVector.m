@@ -34,8 +34,8 @@ accelerationsOnVehicle.vehicle = {thrust};
 
 % Translational propagator
 translationalPropagator = TranslationalPropagator();
-translationalPropagator.centralBodies = {Earth};
 translationalPropagator.bodiesToPropagate = {vehicle};
+translationalPropagator.centralBodies = {Earth};
 translationalPropagator.accelerations.vehicle = accelerationsOnVehicle;
 
 % Mass propagator

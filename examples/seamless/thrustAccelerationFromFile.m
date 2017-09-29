@@ -32,8 +32,8 @@ accelerationsOnVehicle.vehicle = {thrust};
 
 % Translational propagator
 translationalPropagator = TranslationalPropagator();
-translationalPropagator.centralBodies = {Earth};
 translationalPropagator.bodiesToPropagate = {vehicle};
+translationalPropagator.centralBodies = {Earth};
 translationalPropagator.accelerations.vehicle = accelerationsOnVehicle;
 
 % Mass propagator
@@ -64,15 +64,16 @@ simulation.run();
 
 dates = convert.epochToDate(simulation.results.numericalSolution(:,1));
 h = compute.altitude(simulation.results.numericalSolution(:,2:7),Earth);  % use Earth's average radius
+m = simulation.results.numericalSolution(:,8);
+
 figure;
 grid on;
+hold on;
 
 yyaxis left;
 semilogy(dates,h/1e3);
 ylabel('Altitude [km]');
-hold on;
 
-m = simulation.results.numericalSolution(:,8);
 yyaxis right;
 plot(dates,m);
 ylabel('Mass [kg]');

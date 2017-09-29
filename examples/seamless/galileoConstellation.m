@@ -36,8 +36,8 @@ end
 
 % Propagator
 propagator = TranslationalPropagator();
-propagator.centralBodies = repmat({'Earth'},1,numberOfSatellites);
 propagator.bodiesToPropagate = satelliteNames;
+propagator.centralBodies = repmat({'Earth'},1,numberOfSatellites);
 for i = 1:numberOfSatellites
     propagator.accelerations.(satelliteNames{i}).Earth = {SphericalHarmonicGravity(4,0)};
 end
@@ -52,8 +52,6 @@ for i = 1:numberOfSatellites
     simulation.addResultsToSave(sprintf('r%i',i),sprintf('%s.relativePosition-Earth',satelliteNames{i}));
 end
 
-% simulation.options.defaultValueUsedForMissingKey = 'printWarning';
-
 
 %% RUN
 
@@ -63,13 +61,13 @@ simulation.run();
 %% RESULTS
 
 % 3D plot of orbits
-ccodes = mod(floor(((1:numberOfSatellites)-1)/numberOfSatellitesPerPlane),numberOfPlanes) + 1;
+colorIndices = mod(floor(((1:numberOfSatellites)-1)/numberOfSatellitesPerPlane),numberOfPlanes) + 1;
 colors = get(groot,'DefaultAxesColorOrder');
 figure;
 hold on;
 for i = 1:numberOfSatellitesPerPlane:numberOfSatellites
     r = simulation.results.(sprintf('r%i',i))/1e3;
-    plot3(r(:,1),r(:,2),r(:,3),'Color',colors(ccodes(i),:));
+    plot3(r(:,1),r(:,2),r(:,3),'Color',colors(colorIndices(i),:));
 end
 view(-30,30);
 axis equal;
@@ -86,7 +84,7 @@ surf(x*radius,y*radius,z*radius);
 % Add satellites at final positions
 for i = 1:numberOfSatellites
     r = simulation.results.(sprintf('r%i',i))/1e3;
-    plot3(r(end,1),r(end,2),r(end,3),'.','Color',colors(ccodes(i),:),'MarkerSize',18);
+    plot3(r(end,1),r(end,2),r(end,3),'.','Color',colors(colorIndices(i),:),'MarkerSize',18);
 end
 hold off;
 
