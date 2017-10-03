@@ -2,7 +2,7 @@ function [failCount,testOutput] = runUnitTest(testName)
 
 failCount = 0;
 testNameFull = strrep(testName,'unitTest',tudat.testsBinariesPrefix);
-[status,testOutput] = system(['"' fullfile(tudat.testsBinariesDirectory,testNameFull) '"'],'-echo');
+[status,testOutput] = support.systemCommand(['"' fullfile(tudat.testsBinariesDirectory,testNameFull) '"'],'-echo');
 [~,tok] = regexp(testOutput,'\*\*\* (\d+) failure','match','tokens');
 if ~isempty(tok)
     failCount = str2double(tok{1}{1});

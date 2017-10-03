@@ -5,11 +5,13 @@ classdef tudat
         testsdir = fullfile(tudat.rootdir,'UnitTests')
         settingsfile = fullfile(tudat.rootdir,'settings.mat')
         
+        commandPrefixKey = 'commandPrefix'
         bundlePathKey = 'bundlePath'
         binaryPathKey = 'binaryPath'
         testsSourcesDirectoryPathKey = 'testsSourcesDirectoryPath'
         testsBinariesDirectoryPathKey = 'testsBinariesDirectoryPath'
         
+        defaultCommandPrefix = '';
         defaultBundlePath = fileparts(tudat.rootdir);
         defaultInBundleBinaryPath = fullfile('tudat','bin','json_interface')
         defaultInBundleTestsSourcesPath = fullfile('tudat','Tudat','JsonInterface','UnitTests')
@@ -120,6 +122,18 @@ classdef tudat
     methods (Static, Hidden)
         function s = settings
             s = load(tudat.settingsfile);
+        end
+        
+        function prefix = commandPrefix(prefix)
+            if nargin == 0  % get
+                try
+                    prefix = tudat.settings.(tudat.commandPrefixKey);
+                catch
+                    prefix = tudat.defaultCommandPrefix;
+                end
+            else  % set
+                updateSetting(tudat.commandPrefixKey,prefix);
+            end
         end
         
         function path = bundle(newPath)

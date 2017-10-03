@@ -104,17 +104,17 @@ classdef Simulation < jsonable
             command = ['"' tudat.binary '" "' mainInputFile '"'];
             if nargout == 0
                 if nargin == 1 || strcmpi(mode,'-echo')
-                    status = system(command,'-echo');
+                    status = support.systemCommand(command,'-echo');
                 elseif strcmpi(mode,'-silent')
-                    [status,cmdout] = system(command);
+                    [status,cmdout] = support.systemCommand(command);
                 else
                     error('Unrecognized option: %s',mode);
                 end
             else
                 if nargin == 1 || strcmpi(mode,'-silent')
-                    [status,cmdout] = system(command);
+                    [status,cmdout] = support.systemCommand(command);
                 elseif strcmpi(mode,'-echo')
-                    [status,cmdout] = system(command,'-echo');
+                    [status,cmdout] = support.systemCommand(command,'-echo');
                 else
                     error('Unrecognized option: %s',mode);
                 end

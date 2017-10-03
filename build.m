@@ -20,16 +20,16 @@ if ismac
 end
 sep = '';
 if isunix || ismac
-    sep = ' &';
+    sep = ';';
     % Try to get cmake from path (UNIX)
-    [status, response] = system('which cmake');
+    [status, response] = support.systemCommand('which cmake');
     if status == 0
         cmakebin = strtrim(response);
     end
 elseif ispc
     sep = ' &';
     % Try for Windows
-    [status, response] = system('where cmake');
+    [status, response] = support.systemCommand('where cmake');
     if status == 0
         cmakebin = strtrim(response);
     end
@@ -58,7 +58,7 @@ if buildUnitTests
     end
 end
 
-status = system(command);
+status = support.systemCommand(command);
 if status ~= 0
     error('There was a problem during compilation. Try to build the targets manually.');
 end
