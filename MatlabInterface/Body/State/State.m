@@ -1,6 +1,6 @@
 classdef State < jsonable
     properties
-        % Cartesian
+        %%% Cartesian
         x
         y
         z
@@ -8,7 +8,7 @@ classdef State < jsonable
         vy
         vz
         
-        % Keplerian
+        %%% Keplerian
         centralBodyGravitationalParameter
         centralBodyAverageRadius
         semiMajorAxis
@@ -28,6 +28,17 @@ classdef State < jsonable
         apoapsisDistance
         periapsisAltitude
         apoapsisAltitude
+        
+        %%% Spherical
+        % centralBodyAverageRadius
+        epoch
+        % radius
+        % altitude
+        latitude
+        longitude
+        speed
+        flightPathAngle
+        headingAngle
     end
     properties (Dependent)
         type
@@ -47,39 +58,72 @@ classdef State < jsonable
         end
         
         function type = get.type(obj)
-            cartesianProperties = obj.cartesianProperties();
-            for i = 1:length(cartesianProperties)
-                if ~isempty(obj.(cartesianProperties{i}))
-                    type = States.cartesian;
-                    return;
+            % Get all possible properties (except type)
+            properties = getProperties(obj);
+            properties = properties(~strcmp(properties,'type'));
+            
+            % Determine whether all the defined properties are all
+            % Cartesian, all Keplerian or all Spherical
+            somethingDefined = false;
+            allCartesian = true;
+            allKeplerian = true;
+            allSpherical = true;
+            for i = 1:length(properties)
+                property = properties{i};
+                if ~isempty(obj.(property))
+                    somethingDefined = true;
+                    if ~State.isCartesianProperty(property)
+                        allCartesian = false;
+                    end
+                    if ~State.isKeplerianProperty(property)
+                        allKeplerian = false;
+                    end
+                    if ~State.isSphericalProperty(property)
+                        allSpherical = false;
+                    end
                 end
             end
             
-            keplerianProperties = obj.keplerianProperties();
-            for i = 1:length(keplerianProperties)
-                if ~isempty(obj.(keplerianProperties{i}))
-                    type = States.keplerian;
-                    return;
-                end
+            if ~somethingDefined
+                type = [];
+                return;
             end
             
-            type = [];
+            if allCartesian && ~allKeplerian && ~allSpherical
+                type = States.cartesian;
+            elseif ~allCartesian && allKeplerian && ~allSpherical
+                type = States.keplerian;
+            elseif ~allCartesian && ~allKeplerian && allSpherical
+                type = States.spherical;
+            else
+                error('Impossible to infer state type. Please define more properties.');
+            end
+            
+        end
+        
+    end
+    
+    methods (Static,Hidden)
+        function icp = isCartesianProperty(property)
+            icp = any(strcmp(property,{'x','y','z','vx','vy','vz'}));
+        end
+        
+        function ikp = isKeplerianProperty(property)
+            ikp = any(strcmp(property,{'centralBodyGravitationalParameter','centralBodyAverageRadius',...
+                'semiMajorAxis','eccentricity','inclination','argumentOfPeriapsis',...
+                'longitudeOfAscendingNode','trueAnomaly','meanAnomaly','eccentricAnomaly','semiLatusRectum',...
+                'meanMotion','period','radius','altitude','periapsisDistance','apoapsisDistance',...
+                'periapsisAltitude','apoapsisAltitude'}));
+        end
+        
+        function isp = isSphericalProperty(property)
+            isp = any(strcmp(property,{'centralBodyAverageRadius','radius','altitude','epoch','latitude',...
+                'longitude','speed','flightPathAngle','headingAngle'}));
         end
         
     end
     
     methods (Hidden)
-        function p = cartesianProperties(obj)
-            p = {'x','y','z','vx','vy','vz'};
-        end
-        
-        function p = keplerianProperties(obj)
-            p = {'centralBodyGravitationalParameter','centralBodyAverageRadius','semiMajorAxis',...
-                'eccentricity','inclination','argumentOfPeriapsis','longitudeOfAscendingNode','trueAnomaly',...
-                'meanAnomaly','eccentricAnomaly','semiLatusRectum','meanMotion','period','radius','altitude',...
-                'periapsisDistance','apoapsisDistance','periapsisAltitude','apoapsisAltitude'};
-        end
-        
         function mp = getMandatoryProperties(obj)
             mp = {''};
         end

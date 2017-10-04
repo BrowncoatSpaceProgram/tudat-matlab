@@ -24,8 +24,8 @@ accelerationsOnSatellite.Venus = {PointMassGravity()};
 
 % Propagator
 propagator = TranslationalPropagator();
-propagator.centralBodies = {Earth};
 propagator.bodiesToPropagate = {satellite};
+propagator.centralBodies = {Earth};
 propagator.accelerations.satellite = accelerationsOnSatellite;
 simulation.propagators = {propagator};
 
@@ -77,7 +77,7 @@ end
 mdir = fileparts(mfilename('fullpath'));
 fprintf('In Terminal, run:\n\n');
 for i = 1:length(masses)
-    fprintf('%s %s\n',tudat.binary,fullfile(mdir,'input',sprintf('mass%i.json',masses(i))));
+    fprintf('"%s" "%s"\n',tudat.binary,fullfile(mdir,'input',sprintf('mass%i.json',masses(i))));
 end
 fprintf('\nor, if you have <a href="matlab: web(''https://www.gnu.org/software/parallel/'',''-browser'')">GNU Parallel</a> installed:\n\n')
-fprintf('parallel %s ::: %s\n\n',tudat.binary,fullfile(mdir,'input','mass*.json'));
+fprintf('parallel "%s" ::: %s\n\n',tudat.binary,fullfile(strrep(mdir,' ','\ '),'input','mass*.json'));

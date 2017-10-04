@@ -5,8 +5,14 @@ classdef OblateSphericalShapeModel < ShapeModel
     end
     
     methods
-        function obj = OblateSphericalShapeModel()
+        function obj = OblateSphericalShapeModel(equatorialRadius,flattening)
             obj@ShapeModel(ShapeModels.oblateSpheroid);
+            if nargin >= 1
+                obj.equatorialRadius = equatorialRadius;
+                if nargin >= 2
+                    obj.flattening = flattening;
+                end
+            end
         end
         
     end

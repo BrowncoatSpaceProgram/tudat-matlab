@@ -1,16 +1,19 @@
 function [status,result] = systemCommand(varargin)
 
-if ~isempty(tudat.PATH)
-    currentPath = getenv('PATH');
-    if isempty(strfind(currentPath,tudat.PATH))
-        if isunix
-            sep = ':';
-        else
-            sep = ';';
-        end
-        setenv('PATH',[currentPath sep tudat.PATH]);
+paths = split(strrep(tudat.PATH,';',':'),':');
+if isunix
+    sep = ':';
+else
+    sep = ';';
+end
+newPath = getenv('PATH');
+for i = 1:length(paths)
+    path = paths{i};
+    if ~isempty(path) && isempty(strfind(newPath,path))
+        newPath = sprintf('%s%s%s',newPath,sep,path);
     end
 end
+setenv('PATH',newPath);
 
 if ~isempty(tudat.commandPrefix)
     if isunix
@@ -20,6 +23,7 @@ if ~isempty(tudat.commandPrefix)
     end
     varargin{1} = [tudat.commandPrefix sep varargin{1}];
 end
+
 [status,result] = system(varargin{:});
 
 end

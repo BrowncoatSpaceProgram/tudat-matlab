@@ -106,6 +106,28 @@ kep.centralBodyGravitationalParameter = mu;
 test.createInput(kep,fullfile(mfilename,'keplerian9'));
 
 
+% Test 5: Spherical state
+sph = State();
+sph.epoch = 666;
+sph.radius = 2;
+sph.latitude = 0.5;
+sph.longitude = -1.4;
+sph.speed = 5;
+sph.flightPathAngle = 0.08;
+test.createInput(sph,fullfile(mfilename,'spherical'));
+
+sph = State();
+sph.epoch = -8e5;
+sph.centralBodyAverageRadius = R;
+sph.altitude = 2 - R;
+sph.latitude = 0.5;
+sph.longitude = -1.4;
+sph.speed = 5;
+sph.flightPathAngle = 0.08;
+sph.headingAngle = -0.12;
+test.createInput(sph,fullfile(mfilename,'spherical_altitude'));
+
+
 % Run tests
 
 [failCount,testOutput] = test.runUnitTest(mfilename);

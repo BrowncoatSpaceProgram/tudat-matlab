@@ -8,6 +8,9 @@ classdef Variable < jsonable
         torqueType
         bodyExertingAcceleration
         bodyExertingTorque
+        baseFrame
+        targetFrame
+        angle
         componentIndex
     end
     

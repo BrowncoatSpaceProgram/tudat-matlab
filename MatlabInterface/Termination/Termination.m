@@ -13,9 +13,11 @@ classdef Termination < jsonable
         function termination = and(obj1,obj2)
             if isa(obj1,'Termination') && isa(obj2,'Termination')
                 if obj1.meetAll && obj2.meetAll
-                    combinedConditions = horzcat(obj1.conditions,obj2.conditions);
+                    combinedConditions = horzcat(obj1.conditions{:},obj2.conditions{:});
+                elseif obj1.meetAll
+                    combinedConditions = horzcat(obj1.conditions{:},obj2);
                 else
-                    combinedConditions = { obj1, obj2 };
+                    combinedConditions = horzcat(obj1,obj2);
                 end
             else
                 if isa(obj1,'Termination')
@@ -29,7 +31,7 @@ classdef Termination < jsonable
                     combinedConditions = tobj.conditions;
                     combinedConditions{end+1} = cobj;
                 else
-                    combinedConditions = { tobj, cobj };
+                    combinedConditions = horzcat(tobj,cobj);
                 end
             end
             termination = Termination(true,combinedConditions{:});
@@ -38,9 +40,11 @@ classdef Termination < jsonable
         function termination = or(obj1,obj2)
             if isa(obj1,'Termination') && isa(obj2,'Termination')
                 if ~obj1.meetAll && ~obj2.meetAll
-                    combinedConditions = horzcat(obj1.conditions,obj2.conditions);
+                    combinedConditions = horzcat(obj1.conditions{:},obj2.conditions{:});
+                elseif ~obj1.meetAll
+                    combinedConditions = horzcat(obj1.conditions{:},obj2);
                 else
-                    combinedConditions = { obj1, obj2 };
+                    combinedConditions = horzcat(obj1,obj2);
                 end
             else
                 if isa(obj1,'Termination')
@@ -54,7 +58,7 @@ classdef Termination < jsonable
                     combinedConditions = tobj.conditions;
                     combinedConditions{end+1} = cobj;
                 else
-                    combinedConditions = { tobj, cobj };
+                    combinedConditions = horzcat(tobj,cobj);
                 end
             end
             termination = Termination(false,combinedConditions{:});

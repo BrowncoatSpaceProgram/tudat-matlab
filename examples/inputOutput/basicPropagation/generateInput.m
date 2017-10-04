@@ -18,8 +18,8 @@ simulation.bodies.Earth.ephemeris = ConstantEphemeris(zeros(6,1));
 
 % Propagator
 propagator = TranslationalPropagator();
-propagator.centralBodies = {Earth};
 propagator.bodiesToPropagate = {asterix};
+propagator.centralBodies = {Earth};
 propagator.accelerations.asterix.Earth = {PointMassGravity()};
 simulation.propagators = {propagator};
 
@@ -43,7 +43,7 @@ json.export(simulation,inputFile);
 % Don't include this part in your scripts
 mdir = fileparts(mfilename('fullpath'));
 fprintf('In Terminal, run any of these commands (all equivalent):\n\n');
-fprintf('%s %s\n',tudat.binary,fullfile(mdir,'input'));
-fprintf('%s %s\n',tudat.binary,fullfile(mdir,'input','main'));
-fprintf('%s %s\n\n',tudat.binary,fullfile(mdir,'input','main.json'));
+fprintf('"%s" "%s"\n',tudat.binary,fullfile(mdir,'input'));
+fprintf('"%s" "%s"\n',tudat.binary,fullfile(mdir,'input','main'));
+fprintf('"%s" "%s"\n\n',tudat.binary,fullfile(mdir,'input','main.json'));
 

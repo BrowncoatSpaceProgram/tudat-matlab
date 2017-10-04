@@ -19,7 +19,7 @@ classdef tudat
         defaultInBundleTestsSourcesPath = fullfile('tudat','Tudat','JsonInterface','UnitTests')
         defaultInBundleTestsBinariesPath = fullfile('tudat','bin','unit_tests')
         testsBinariesPrefix = 'test_JsonInterface'
-        
+
         defaultBinaryPath = fullfile(tudat.defaultBundlePath,tudat.defaultInBundleBinaryPath)
         defaultTestsSourcesPath = fullfile(tudat.defaultBundlePath,tudat.defaultInBundleTestsSourcesPath)
         defaultTestsBinariesPath = fullfile(tudat.defaultBundlePath,tudat.defaultInBundleTestsBinariesPath)

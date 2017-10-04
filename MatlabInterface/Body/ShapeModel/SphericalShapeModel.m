@@ -4,8 +4,11 @@ classdef SphericalShapeModel < ShapeModel
     end
     
     methods
-        function obj = SphericalShapeModel()
+        function obj = SphericalShapeModel(radius)
             obj@ShapeModel(ShapeModels.spherical);
+            if nargin >= 1
+                obj.radius = radius;
+            end
         end
         
     end

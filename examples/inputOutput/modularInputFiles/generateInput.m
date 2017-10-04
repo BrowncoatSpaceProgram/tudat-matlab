@@ -29,8 +29,8 @@ accelerationsOnSatellite.Moon = {SphericalHarmonicGravity(4,4)};
 
 % Define the propagator to use
 propagator = TranslationalPropagator();
-propagator.centralBodies = {Earth};
 propagator.bodiesToPropagate = {satellite};
+propagator.centralBodies = {Earth};
 propagator.accelerations.satellite = accelerationsOnSatellite;
 
 % Define the itegrator to use
@@ -64,10 +64,6 @@ simulation.propagators = {json.modular(propagator,'translationalPropagator.json'
 % Export integrator to a file called rk4.json, and define simulation.integrator to point to that file
 simulation.integrator = json.modular(integrator,'rk4.json');
 
-% Path of the main JSON file that will be provided as input to the tudat binary
-% Recall that the working directory has been changed to /
-mainFile = 'main.json';
-
 % Define results to export
 % Paths are relative to the main.json file directory
 simulation.addResultsToExport(fullfile('..','output','epochs.txt'),t);
@@ -81,7 +77,7 @@ simulation.options.fullSettingsFile = 'fullSettings.json';
 simulation.options.printInterval = convert.toSI(1,'d');
 
 % Export the simulation object to the main file
-json.export(simulation,mainFile);
+json.export(simulation,'main.json');
 
 % Switch back to the original working directory
 cd(originalWorkingDirectory);
@@ -89,7 +85,7 @@ cd(originalWorkingDirectory);
 % Don't include this part in your scripts
 mdir = fileparts(mfilename('fullpath'));
 fprintf('In Terminal, run any of these commands (all equivalent):\n\n');
-fprintf('%s %s\n',tudat.binary,fullfile(mdir,'input'));
-fprintf('%s %s\n',tudat.binary,fullfile(mdir,'input','main'));
-fprintf('%s %s\n\n',tudat.binary,fullfile(mdir,'input','main.json'));
+fprintf('"%s" "%s"\n',tudat.binary,fullfile(mdir,'input'));
+fprintf('"%s" "%s"\n',tudat.binary,fullfile(mdir,'input','main'));
+fprintf('"%s" "%s"\n\n',tudat.binary,fullfile(mdir,'input','main.json'));
 
