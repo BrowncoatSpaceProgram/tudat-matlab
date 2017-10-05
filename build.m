@@ -60,7 +60,7 @@ if buildUnitTests
     end
 end
 
-status = support.systemCommand(command);
+status = support.systemCommand(command,'-echo');
 if status ~= 0
     error('There was a problem during compilation. Try to build the targets manually.');
 end
