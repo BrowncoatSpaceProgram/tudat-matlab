@@ -15,6 +15,8 @@ for i = 1:length(paths)
 end
 setenv('PATH',newPath);
 
+setenv('LD_LIBRARYl_PATH','');
+
 if ~isempty(tudat.commandPrefix)
     if isunix
         sep = '; ';

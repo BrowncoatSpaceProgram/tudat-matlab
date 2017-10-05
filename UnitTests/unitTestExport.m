@@ -7,7 +7,7 @@ tudat.load();
 
 % Test 1: full result
 result = Result('independent','body.altitude-Earth');
-result.header = 'Foo';
+result.header = ['Foo' char(10)];
 result.epochsInFirstColumn = false;
 exp = Export('full.txt',result);
 test.createInput(exp,fullfile(mfilename,'fullResult'));
