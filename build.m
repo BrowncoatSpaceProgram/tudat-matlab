@@ -10,6 +10,8 @@ concurrentJobs = 4;
 %%% Do not edit beyond this line %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+tudat.load();
+
 builddir = fullfile(fileparts(tudat.bundle),'build-tudatBundle-matlabInterface');
 target = 'json_interface';
 
